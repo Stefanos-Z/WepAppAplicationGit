@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="template :: header">
+        <title>Inspired Gaming Survey</title>
+    </head>
+    <body>
+        <form method="post">
+            <h3>1. Are you happy with your salary?</h3><br/>
+            <input type="radio" name="q1" value="145"> Yes</input>
+            <input type="radio" name="q1" value="146"> No</input>
+            <h3>2. Are you happy with your free tea?</h3><br/>
+            <input type="radio" name="q2" value="147"> Extremely unhappy</input>
+            <input type="radio" name="q2" value="148"> Fairly unhappy</input>
+            <input type="radio" name="q2" value="149"> Indifferent</input>
+            <input type="radio" name="q2" value="150"> Fairly happy</input>
+            <input type="radio" name="q2" value="151"> Extremely happy</input>
+            <h3>3. Are you happy with your supervisor?</h3><br/>
+            <input type="radio" name="q3" value="152"> Extremely unhappy</input>
+            <input type="radio" name="q3" value="153"> Fairly unhappy</input>
+            <input type="radio" name="q3" value="154"> Indifferent</input>
+            <input type="radio" name="q3" value="155"> Fairly happy</input>
+            <input type="radio" name="q3" value="156"> Extremely happy</input>
+            <h3>4. Are you happy with your coworkers?</h3><br/>
+            <input type="radio" name="q4" value="157"> Extremely unhappy</input>
+            <input type="radio" name="q4" value="158"> Fairly unhappy</input>
+            <input type="radio" name="q4" value="159"> Indifferent</input>
+            <input type="radio" name="q4" value="160"> Fairly happy</input>
+            <input type="radio" name="q4" value="161"> Extremely happy</input>
+            <h3>5. Are you happy with your admin service?</h3><br/>
+            <input type="radio" name="q5" value="162"> Extremely unhappy</input>
+            <input type="radio" name="q5" value="163"> Fairly unhappy</input>
+            <input type="radio" name="q5" value="164"> Indifferent</input>
+            <input type="radio" name="q5" value="165"> Fairly happy</input>
+            <input type="radio" name="q5" value="166"> Extremely happy</input>
+            <h3>6. Are you happy with your company benefits?</h3><br/>
+            <input type="radio" name="q6" value="167"> Extremely unhappy</input>
+            <input type="radio" name="q6" value="168"> Fairly unhappy</input>
+            <input type="radio" name="q6" value="169"> Indifferent</input>
+            <input type="radio" name="q6" value="170"> Fairly happy</input>
+            <input type="radio" name="q6" value="171"> Extremely happy</input>
+            <h3>7. Are you happy with your pension??</h3><br/>
+            <input type="radio" name="q7" value="172"> Extremely unhappy</input>
+            <input type="radio" name="q7" value="173"> Fairly unhappy</input>
+            <input type="radio" name="q7" value="174"> Indifferent</input>
+            <input type="radio" name="q7" value="175"> Fairly happy</input>
+            <input type="radio" name="q7" value="176"> Extremely happy</input>
+            <br/>
+            <h3>8. Are you happy with your HR Department?</h3><br/>
+            <input type="radio" name="q8" value="172"> Extremely unhappy</input>
+            <input type="radio" name="q8" value="173"> Fairly unhappy</input>
+            <input type="radio" name="q8" value="174"> Indifferent</input>
+            <input type="radio" name="q8" value="175"> Fairly happy</input>
+            <input type="radio" name="q8" value="176"> Extremely happy</input>
+            <br/>
+            <h3>9. Please add any additional feedback below:</h3><br/>
+            <input type="text" name="q9"></input>
+            <br/>
+            <button type="submit">submit survey</button>
+        </form>
+    </body>
+    
+    <div th:replace="template :: footer"></div>
+</html>
