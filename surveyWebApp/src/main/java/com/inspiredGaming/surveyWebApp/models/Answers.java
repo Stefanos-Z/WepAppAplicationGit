@@ -87,8 +87,6 @@ public class Answers {
 
     public void setAnswerWeight(Integer answerWeight) {
         this.answerWeight = answerWeight;
-    }
-    
-    
+    }    
     
 }

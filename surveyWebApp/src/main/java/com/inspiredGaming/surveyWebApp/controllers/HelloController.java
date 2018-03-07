@@ -5,11 +5,16 @@
  */
 package com.inspiredGaming.surveyWebApp.controllers;
 
+import com.inspiredGaming.surveyWebApp.HtmlBuilder;
+import com.inspiredGaming.surveyWebApp.models.Answers;
 import com.inspiredGaming.surveyWebApp.models.HelloLog;
 import com.inspiredGaming.surveyWebApp.models.HelloMessage;
+import com.inspiredGaming.surveyWebApp.models.Questions;
 import com.inspiredGaming.surveyWebApp.models.RespondentAnswers;
 import com.inspiredGaming.surveyWebApp.models.Respondents;
+import com.inspiredGaming.surveyWebApp.models.dao.AnswersDao;
 import com.inspiredGaming.surveyWebApp.models.dao.HelloLogDao;
+import com.inspiredGaming.surveyWebApp.models.dao.QuestionsDao;
 import com.inspiredGaming.surveyWebApp.models.dao.RespondentAnswersDao;
 import com.inspiredGaming.surveyWebApp.models.dao.RespondentsDao;
 import java.util.ArrayList;
@@ -38,6 +43,12 @@ public class HelloController {
     
     @Autowired
     private RespondentAnswersDao respondentAnswerDao;
+    
+    @Autowired
+    private QuestionsDao questionsDao;
+    
+    @Autowired
+    private AnswersDao answerDao;
     
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String helloForm()
@@ -161,14 +172,53 @@ public class HelloController {
         model.addAttribute("form", testHtml);
         model.addAttribute("title","Helooo Spring");
         
-        List<Respondents> test = respondentDao.findAll();
         
-        for(int i = 0;i<test.size();i++)
+        
+        
+        return "hello";
+    }
+    
+    @RequestMapping(value = "/survey", method = RequestMethod.GET)
+    //@ResponseBody //just for passing a string instead of a template
+    public String survey(HttpServletRequest request, Model model)
+    {
+        String surveyId = request.getParameter("survey");//?survey=2
+        
+        //queries database for a list of all rows in Questions
+        List<Questions> questionList = questionsDao.findBySurveyId(Integer.parseInt(surveyId));
+        
+        String testHtml = "";
+        
+        HtmlBuilder htmlDoc = new HtmlBuilder();
+        
+        //generates html <h1> tags for each row
+        for(int i = 0;i<questionList.size();i++)
         {
-            System.out.println(test.get(i).getRespondentId());
+                List<Answers> answerList = answerDao.findByQuestionId(questionList.get(i).getQuestionId());
+                
+                //add question to html
+                htmlDoc.addQuestion(questionList.get(i), answerList);
         }
         
-        return "hello";//"<h1>"+HelloMessage.getMessage(name)+"</h1>";
+        /*
+        //generates html <h1> tags for each row
+        for(int i = 0;i<questionList.size();i++)
+        {
+                testHtml = testHtml+"<h3>"+questionList.get(i).getQuestion()+"<h3><br></br>";
+                List<Answers> answerList = answerDao.findByQuestionId(questionList.get(i).getQuestionId());
+                for(int j = 0;j<answerList.size();j++)
+                {
+                    testHtml = testHtml+"<input type=\"radio\" name=\"q6\" value=\"167\">"+answerList.get(j).getAnswer()+"</input>";
+                }
+                testHtml+= "<br></br>";
+        }*/
+        
+        System.out.println(htmlDoc.getSurveyHTML());
+        
+        model.addAttribute("surveyName", "Survey :"+surveyId);
+        model.addAttribute("form", htmlDoc.getSurveyHTML());
+        
+        return "hello";
     }
         
 }

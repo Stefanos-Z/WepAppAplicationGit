@@ -22,4 +22,6 @@ public interface AnswersDao extends CrudRepository<Answers, Integer>{
     public List<Answers> findAll();
     
     public Answers findByAnswerId(Integer answerId);
+    
+    public List<Answers> findByQuestionId(Integer questionId);
 }
