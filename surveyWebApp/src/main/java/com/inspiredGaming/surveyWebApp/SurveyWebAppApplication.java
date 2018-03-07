@@ -9,9 +9,7 @@ public class SurveyWebAppApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SurveyWebAppApplication.class, args);
                 System.out.println("hello");
-                System.out.println("Please if write your name");
-                System.out.println("hello");
-                System.out.println("dffdffd");
-                
+                //http://localhost:8080/respondent
+            
 	}
 }
