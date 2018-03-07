@@ -13,6 +13,8 @@ import com.inspiredGaming.surveyWebApp.models.dao.HelloLogDao;
 import com.inspiredGaming.surveyWebApp.models.dao.RespondentAnswersDao;
 import com.inspiredGaming.surveyWebApp.models.dao.RespondentsDao;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -112,8 +114,59 @@ public class HelloController {
             respondentAnswerDao.save(answerLog);
         }        
         
+        //test form
+        String testHtml = "<input type=\"radio\" name=\"q8\" value=\"177\">Extremely unhappy</input>"
+        +"<input type=\"radio\" name=\"q8\" value=\"178\">Fairly unhappy</input>"
+        +"<input type=\"radio\" name=\"q8\" value=\"179\">Indifferent</input>"
+        +"<input type=\"radio\" name=\"q8\" value=\"180\">Fairly happy</input>"
+        +"<input type=\"radio\" name=\"q8\" value=\"181\">Extremely happy</input>"
+        +"<input type=\"radio\" name=\"q9\" value=\"182\">Extremely unhappy</input>"
+        +"<input type=\"radio\" name=\"q9\" value=\"183\">Fairly unhappy</input>"
+        +"<input type=\"radio\" name=\"q9\" value=\"184\">Indifferent</input>"
+        +"<input type=\"radio\" name=\"q9\" value=\"185\">Fairly happy</input>"
+        +"<input type=\"radio\" name=\"q9\" value=\"186\">Extremely happy</input>"
+        +"<input type=\"radio\" name=\"q10\" value=\"187\">Extremely unhappy</input>"
+        +"<input type=\"radio\" name=\"q10\" value=\"188\">Fairly unhappy</input>"
+        +"<input type=\"radio\" name=\"q10\" value=\"189\">Indifferent</input>"
+        +"<input type=\"radio\" name=\"q10\" value=\"190\">Fairly happy</input>"
+        +"<input type=\"radio\" name=\"q10\" value=\"191\">Extremely happy</input>"
+        +"<input type=\"radio\" name=\"q11\" value=\"192\">Extremely unhappy</input>"
+        +"<input type=\"radio\" name=\"q11\" value=\"193\">Fairly unhappy</input>"
+        +"<input type=\"radio\" name=\"q11\" value=\"194\">Indifferent</input>"
+        +"<input type=\"radio\" name=\"q11\" value=\"195\">Fairly happy</input>"
+        +"<input type=\"radio\" name=\"q11\" value=\"196\">Extremely happy</input>"
+        +"<input type=\"radio\" name=\"q12\" value=\"197\">Extremely unhappy</input>"
+        +"<input type=\"radio\" name=\"q12\" value=\"198\">Fairly unhappy</input>"
+        +"<input type=\"radio\" name=\"q12\" value=\"199\">Indifferent</input>"
+        +"<input type=\"radio\" name=\"q12\" value=\"200\">Fairly happy</input>"
+        +"<input type=\"radio\" name=\"q12\" value=\"201\">Extremely happy</input>"
+        +"<input type=\"radio\" name=\"q13\" value=\"202\">Extremely unhappy</input>"
+        +"<input type=\"radio\" name=\"q13\" value=\"203\">Fairly unhappy</input>"
+        +"<input type=\"radio\" name=\"q13\" value=\"204\">Indifferent</input>"
+        +"<input type=\"radio\" name=\"q13\" value=\"205\">Fairly happy</input>"
+        +"<input type=\"radio\" name=\"q13\" value=\"206\">Extremely happy</input>"
+        +"<input type=\"radio\" name=\"q14\" value=\"207\">Extremely unhappy</input>"
+        +"<input type=\"radio\" name=\"q14\" value=\"208\">Fairly unhappy</input>"
+        +"<input type=\"radio\" name=\"q14\" value=\"209\">Indifferent</input>"
+        +"<input type=\"radio\" name=\"q14\" value=\"210\">Fairly happy</input>"
+        +"<input type=\"radio\" name=\"q14\" value=\"211\">Extremely happy</input>"
+        +"<input type=\"radio\" name=\"q15\" value=\"212\">Extremely unhappy</input>"
+        +"<input type=\"radio\" name=\"q15\" value=\"213\">Fairly unhappy</input>"
+        +"<input type=\"radio\" name=\"q15\" value=\"214\">Indifferent</input>"
+        +"<input type=\"radio\" name=\"q15\" value=\"215\">Fairly happy</input>"
+        +"<input type=\"radio\" name=\"q15\" value=\"216\">Extremely happy</input>"
+        +"<input type=\"radio\" name=\"q16\" value=\"217\">Enter Text</input>";
+        
         model.addAttribute("message", HelloMessage.getMessage(answers.get(0)+answers.get(1)));
+        model.addAttribute("form", testHtml);
         model.addAttribute("title","Helooo Spring");
+        
+        List<Respondents> test = respondentDao.findAll();
+        
+        for(int i = 0;i<test.size();i++)
+        {
+            System.out.println(test.get(i).getRespondentId());
+        }
         
         return "hello";//"<h1>"+HelloMessage.getMessage(name)+"</h1>";
     }

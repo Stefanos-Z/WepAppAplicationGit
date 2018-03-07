@@ -5,6 +5,9 @@
     </head>
     <body>
         <h1 th:text="${message}">DEFAULT MESSAGE</h1>
+        <form id="myForm" method="post" th:utext="${form}">
+            
+        </form>
     </body>
     
     <div th:replace="template :: footer"></div>
