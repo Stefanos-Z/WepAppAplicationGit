@@ -68,15 +68,12 @@ public class Answers {
         return answer;
     }
 
-    @Id
-    @GeneratedValue //means hibernate will generate the value
     @NotNull
     @Column(name="questionId")
     public int getQuestionId() {
         return questionId;
     }
 
-    @Id
     @NotNull
     @Column(name="answerWeight")
     public int getAnswerWeight() {
