@@ -53,7 +53,7 @@ public class Questions {
     
     
     @NotNull
-    @Column(name="questionId")
+    @Column(name="question")
     public String getQuestion()
     {
         return question;
