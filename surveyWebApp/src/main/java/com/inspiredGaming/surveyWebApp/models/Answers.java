@@ -25,16 +25,13 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "answers")
 public class Answers {
-
-//    private Date surveyDate;
-//    private int respondentId;
     
     private int answerId;
     private String answer;
     private int questionId;
-    private int answerWeight;
+    private Integer answerWeight;
 
-    public Answers(int answerId, String answer, int questionId, int answerWeight) {
+    public Answers(int answerId, String answer, int questionId, Integer answerWeight) {
         this.answerId = answerId;
         this.answer = answer;
         this.questionId = questionId;
@@ -47,9 +44,6 @@ public class Answers {
     {
         
     }
-    
-
-    
         
     @Id
     @GeneratedValue //means hibernate will generate the value
@@ -74,9 +68,8 @@ public class Answers {
         return questionId;
     }
 
-    @NotNull
     @Column(name="answerWeight")
-    public int getAnswerWeight() {
+    public Integer getAnswerWeight() {
         return answerWeight;
     }
 
@@ -92,7 +85,7 @@ public class Answers {
         this.questionId = questionId;
     }
 
-    public void setAnswerWeight(int answerWeight) {
+    public void setAnswerWeight(Integer answerWeight) {
         this.answerWeight = answerWeight;
     }
     
