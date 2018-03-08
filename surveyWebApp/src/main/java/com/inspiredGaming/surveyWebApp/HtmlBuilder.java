@@ -38,6 +38,7 @@ public class HtmlBuilder {
             
             //build form xml
             form = doc.createElement("form");
+            
             doc.appendChild(form);
         } catch (ParserConfigurationException ex) {
             Logger.getLogger(HtmlBuilder.class.getName()).log(Level.SEVERE, null, ex);
@@ -54,8 +55,17 @@ public class HtmlBuilder {
         //create answer options
         for (int i =0; i<answers.size();i++)
         {
+            String questionType = getInputAttribute(question.getQuestionTypeId());
             Element input = doc.createElement("input");
-            input.setAttribute("type", getInputAttribute(question.getQuestionTypeId()));
+            input.setAttribute("type", questionType);
+            input.setAttribute("name", ""+question.getQuestionId());
+            
+            //find answer
+            if(!questionType.equals("text"))
+            {
+                input.setAttribute("value", ""+answers.get(i).getAnswerId());
+            }
+            
             input.appendChild(doc.createTextNode(answers.get(i).getAnswer()));
             form.appendChild(input);
         }
@@ -87,12 +97,18 @@ public class HtmlBuilder {
 
     public String getSurveyHTML()
     {
+        //append submit Button
+        form.appendChild(doc.createElement("br"));
+        Element submitButton = doc.createElement("button");
+        submitButton.setAttribute("type", "submit");
+        submitButton.appendChild(doc.createTextNode("Submit Survey"));
+        form.appendChild(submitButton);
+            
         //configure serialisation
         DOMImplementation impl = doc.getImplementation();
         DOMImplementationLS implLS = (DOMImplementationLS) impl.getFeature("LS", "3.0");
         LSSerializer ser = implLS.createLSSerializer();
         
-        //
         String htmlText = ser.writeToString(doc);
         
         return htmlText;

@@ -20,6 +20,7 @@ import com.inspiredGaming.surveyWebApp.models.dao.RespondentsDao;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,7 +49,7 @@ public class HelloController {
     private QuestionsDao questionsDao;
     
     @Autowired
-    private AnswersDao answerDao;
+    private AnswersDao answersDao;
     
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String helloForm()
@@ -187,36 +188,63 @@ public class HelloController {
         //queries database for a list of all rows in Questions
         List<Questions> questionList = questionsDao.findBySurveyId(Integer.parseInt(surveyId));
         
-        String testHtml = "";
-        
+        //build html for survey
         HtmlBuilder htmlDoc = new HtmlBuilder();
         
         //generates html <h1> tags for each row
         for(int i = 0;i<questionList.size();i++)
         {
-                List<Answers> answerList = answerDao.findByQuestionId(questionList.get(i).getQuestionId());
+                //get answers for all questions
+                List<Answers> answerList = answersDao.findByQuestionId(questionList.get(i).getQuestionId());
                 
-                //add question to html
+                //add question & answers to html
                 htmlDoc.addQuestion(questionList.get(i), answerList);
-        }
-        
-        /*
-        //generates html <h1> tags for each row
-        for(int i = 0;i<questionList.size();i++)
-        {
-                testHtml = testHtml+"<h3>"+questionList.get(i).getQuestion()+"<h3><br></br>";
-                List<Answers> answerList = answerDao.findByQuestionId(questionList.get(i).getQuestionId());
-                for(int j = 0;j<answerList.size();j++)
-                {
-                    testHtml = testHtml+"<input type=\"radio\" name=\"q6\" value=\"167\">"+answerList.get(j).getAnswer()+"</input>";
-                }
-                testHtml+= "<br></br>";
-        }*/
-        
-        System.out.println(htmlDoc.getSurveyHTML());
+        }       
         
         model.addAttribute("surveyName", "Survey :"+surveyId);
         model.addAttribute("form", htmlDoc.getSurveyHTML());
+        
+        return "hello";
+    }
+    
+    @RequestMapping(value = "/survey", method = RequestMethod.POST)
+    public String surveySubmit(HttpServletRequest request, Model model)
+    {
+        //get survey id
+        String surveyId = request.getParameter("survey");
+        
+        //get list of expected questions
+        List<Questions> questionList = questionsDao.findBySurveyId(Integer.parseInt(surveyId));
+        
+        //get all parameter values
+        Map<String, String[]> map = request.getParameterMap();
+        
+        //add respondent to table
+        Respondents log = new Respondents();
+        respondentDao.save(log);
+        
+        //add answers to database
+        for(int i = 0; i<questionList.size();i++)
+        {
+            //check type of question
+            int questionTypeId = questionList.get(i).getQuestionTypeId();
+            
+            //if question is text, need to search for answerId & insert value param into answerText field
+            if(questionTypeId==4)
+            {
+                List<Answers> textAnswer = answersDao.findByQuestionId(questionList.get(i).getQuestionId());
+                int answerId = textAnswer.get(0).getAnswerId();                
+                
+                RespondentAnswers answerLog = new RespondentAnswers(answerId,log.getRespondentId(),map.get(""+questionList.get(i).getQuestionId())[0]);
+                respondentAnswerDao.save(answerLog);
+            }
+            else
+            {
+                RespondentAnswers answerLog = new RespondentAnswers(Integer.parseInt(map.get(""+questionList.get(i).getQuestionId())[0]),log.getRespondentId(),"");
+                respondentAnswerDao.save(answerLog);
+            }
+            
+        }
         
         return "hello";
     }
