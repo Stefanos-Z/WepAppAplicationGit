@@ -14,8 +14,10 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- *
+ *  DATA ACCESS OBJECT
  * @author Levi
+ *  interface is used on the back end by hibernate, so it
+ *  doesn't need to be manually implemented anywhere
  */
 @Repository
 @Transactional

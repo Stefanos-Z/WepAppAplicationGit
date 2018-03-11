@@ -15,13 +15,12 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
- *
+ *  Database entity Questions
  * @author Levi
  */
 
 @Entity
 @Table(name = "questions")
-
 public class Questions {
 
     private int questionId;
@@ -39,12 +38,12 @@ public class Questions {
     
     public Questions()
     {
-        //needs to be empty for hibernate to work?
+        //needs to be empty for hibernate to work
     }
     
         
     @Id
-    @GeneratedValue
+    @GeneratedValue 
     @NotNull
     @Column(name="questionId", unique = true)
     public int getQuestionId()
