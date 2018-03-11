@@ -36,21 +36,33 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class HelloController {
     
+    //Dependancy injection used by Spring
+    //Needed because the interface instance is not manually coded
     @Autowired
     private HelloLogDao helloLogDao;
     
+    //Dependancy injection used by Spring
+    //Needed because the interface instance is not manually coded
     @Autowired
     private RespondentsDao respondentDao;
     
+    //Dependancy injection used by Spring
+    //Needed because the interface instance is not manually coded
     @Autowired
     private RespondentAnswersDao respondentAnswerDao;
     
+    //Dependancy injection used by Spring
+    //Needed because the interface instance is not manually coded
     @Autowired
     private QuestionsDao questionsDao;
     
+    //Dependancy injection used by Spring
+    //Needed because the interface instance is not manually coded
     @Autowired
     private AnswersDao answersDao;
     
+    //Dependancy injection used by Spring
+    //Needed because the interface instance is not manually coded
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String helloForm()
     {
@@ -76,7 +88,7 @@ public class HelloController {
         }
         
         HelloLog log = new HelloLog(name);
-        helloLogDao.save(log);
+        helloLogDao.save(log);//saves to database
         
         model.addAttribute("message", HelloMessage.getMessage(name));
         model.addAttribute("title","Helooo Spring");
@@ -117,13 +129,13 @@ public class HelloController {
         }
         
         Respondents log = new Respondents();
-        respondentDao.save(log);
+        respondentDao.save(log);//saves to database
         
         //add all answers to database:
         for(int i = 0 ; i<answers.size();i++)
         {
             RespondentAnswers answerLog = new RespondentAnswers(Integer.parseInt(answers.get(i)),log.getRespondentId(),"");
-            respondentAnswerDao.save(answerLog);
+            respondentAnswerDao.save(answerLog);//saves to database
         }        
         
         //test form
@@ -221,7 +233,7 @@ public class HelloController {
         
         //add respondent to table
         Respondents log = new Respondents();
-        respondentDao.save(log);
+        respondentDao.save(log);//saves to database
         
         //add answers to database
         for(int i = 0; i<questionList.size();i++)
@@ -236,12 +248,12 @@ public class HelloController {
                 int answerId = textAnswer.get(0).getAnswerId();                
                 
                 RespondentAnswers answerLog = new RespondentAnswers(answerId,log.getRespondentId(),map.get(""+questionList.get(i).getQuestionId())[0]);
-                respondentAnswerDao.save(answerLog);
+                respondentAnswerDao.save(answerLog);//saves to database
             }
             else
             {
                 RespondentAnswers answerLog = new RespondentAnswers(Integer.parseInt(map.get(""+questionList.get(i).getQuestionId())[0]),log.getRespondentId(),"");
-                respondentAnswerDao.save(answerLog);
+                respondentAnswerDao.save(answerLog);//saves to database
             }
             
         }
