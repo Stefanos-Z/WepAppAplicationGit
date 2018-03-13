@@ -114,14 +114,6 @@ public class HelloController {
         return "hello";//"<h1>"+HelloMessage.getMessage(name)+"</h1>";
     }
     
-    @RequestMapping(value = "/surveyBuilder", method = RequestMethod.GET)
-    public String surveyBuilder(HttpServletRequest request, Model model)
-    {
-        String lll = "<h3>hello guys</h3>";
-        model.addAttribute("h3", lll);
-        return "ourSurveyBuilder";
-    }
-    
     
     
     @RequestMapping(value = "/respondent", method = RequestMethod.POST)
