@@ -1,4 +1,61 @@
 p {
 	margin-bottom:2%;
-	color:#c12222;
+	color:blue;
+}
+
+html{
+	
+	font-family : Arial;
+}
+
+body{
+	
+	font-size  : 20px;
+	text-align : center; 
+	
+}
+
+header, footer {
+	
+	background-color: black;
+    padding: 10px;
+}
+
+#menu{ /* Edit the Menu in the Header */
+	
+	color : red; 
+}
+
+
+#header_footer_title{
+	
+	font-size : 45px; /* Change font Size */
+	color : #12abcd; /* (Light Blue) Color from Inspired Gaming Website */ 
+	text-align : center; /* Set Text Allignment to the center */
+	text-decoration-line: underline; /* Underline Text */
+    text-decoration-style: solid; /* Solid Text */
+}
+
+
+#footer_element{
+	
+	display : inline-block;
+	width : 33%
+}
+
+#plain_text{
+	
+	color : white;
+	
+}
+
+.questions{
+	background-color : yellow;
+    font-size: 35px;
+    margin-bottom: 150px;
+}
+
+h3{
+	
+	color : red;
 }
