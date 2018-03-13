@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="template :: header">
+        <title>Dallos Survey Manager</title>
+    </head>
+    <body>
+        <h1> Email Uploader</h1>
+        <form id="myForm" name="emailForm" method="post">
+            <h1> Enter each email on a separate line below </h1>
+            <textarea rows="25" cols="50" name="emails" form="myForm"></textarea>
+            <br></br>
+            <input type="submit"></input>
+        </form>
+        
+    </body>
+    
+    <div th:replace="template :: footer"></div>
+</html>
