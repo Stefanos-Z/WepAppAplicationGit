@@ -63,16 +63,34 @@ public class HelloController {
     
     //Dependancy injection used by Spring
     //Needed because the interface instance is not manually coded
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public String helloForm()
-    {
-        return "helloform";
-    }
+    
     
     @RequestMapping(value = "/respondent", method = RequestMethod.GET)
     public String respondentForm()
     {
         return "survey";
+    }
+    
+    @RequestMapping(value = "/surveyBuilder", method = RequestMethod.POST)
+    //@ResponseBody //just for passing a string instead of a template
+    public String surveyBuilderForm(HttpServletRequest request, Model model)
+    {
+        
+        
+        return "";
+    }
+    
+    
+    @RequestMapping(value = "/surveyBuilder", method = RequestMethod.GET)
+    public String surveyBuilder(HttpServletRequest request, Model model)
+    {
+
+        return "ourSurveyBuilder";
+    }
+    @RequestMapping(value = "/hello", method = RequestMethod.GET)
+    public String helloForm()
+    {
+        return "helloform";
     }
     
     @RequestMapping(value = "/hello", method = RequestMethod.POST)
@@ -95,6 +113,16 @@ public class HelloController {
         
         return "hello";//"<h1>"+HelloMessage.getMessage(name)+"</h1>";
     }
+    
+    @RequestMapping(value = "/surveyBuilder", method = RequestMethod.GET)
+    public String surveyBuilder(HttpServletRequest request, Model model)
+    {
+        String lll = "<h3>hello guys</h3>";
+        model.addAttribute("h3", lll);
+        return "ourSurveyBuilder";
+    }
+    
+    
     
     @RequestMapping(value = "/respondent", method = RequestMethod.POST)
     //@ResponseBody //just for passing a string instead of a template
