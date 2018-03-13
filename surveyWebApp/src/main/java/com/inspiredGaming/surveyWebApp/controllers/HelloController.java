@@ -6,6 +6,7 @@
 package com.inspiredGaming.surveyWebApp.controllers;
 
 import com.inspiredGaming.surveyWebApp.HtmlBuilder;
+import com.inspiredGaming.surveyWebApp.XMLParser.QuestionsParser;
 import com.inspiredGaming.surveyWebApp.models.Answers;
 import com.inspiredGaming.surveyWebApp.models.HelloLog;
 import com.inspiredGaming.surveyWebApp.models.HelloMessage;
@@ -17,17 +18,24 @@ import com.inspiredGaming.surveyWebApp.models.dao.HelloLogDao;
 import com.inspiredGaming.surveyWebApp.models.dao.QuestionsDao;
 import com.inspiredGaming.surveyWebApp.models.dao.RespondentAnswersDao;
 import com.inspiredGaming.surveyWebApp.models.dao.RespondentsDao;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -65,28 +73,42 @@ public class HelloController {
     //Needed because the interface instance is not manually coded
     
     
-    @RequestMapping(value = "/respondent", method = RequestMethod.GET)
-    public String respondentForm()
-    {
-        return "survey";
-    }
-    
-    @RequestMapping(value = "/surveyBuilder", method = RequestMethod.POST)
-    //@ResponseBody //just for passing a string instead of a template
-    public String surveyBuilderForm(HttpServletRequest request, Model model)
-    {
-        
-        
-        return "";
-    }
     
     
     @RequestMapping(value = "/surveyBuilder", method = RequestMethod.GET)
-    public String surveyBuilder(HttpServletRequest request, Model model)
+    //@ResponseBody //just for passing a string instead of a template
+    public String surveyBuilderForm()
     {
-
+        
         return "ourSurveyBuilder";
     }
+    
+    
+    @RequestMapping(value = "/surveyBuilder", method = RequestMethod.POST)
+    public String surveyBuilder(HttpServletRequest request, Model model)
+    {
+        try {
+            //gets the value from the textbox
+            //System.out.println(request.getParameter("mytextform"));
+            
+            QuestionsParser qp = new QuestionsParser();
+            String ddd = qp.parse("src\\main\\resources\\XML\\questions.xml");
+            System.out.println(ddd);
+            
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SAXException ex) {
+            Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (XPathExpressionException ex) {
+            Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "ourSurveyBuilder";
+    }
+    
+    
+    
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String helloForm()
     {
@@ -115,6 +137,11 @@ public class HelloController {
     }
     
     
+    @RequestMapping(value = "/respondent", method = RequestMethod.GET)
+    public String respondentForm()
+    {
+        return "survey";
+    }
     
     @RequestMapping(value = "/respondent", method = RequestMethod.POST)
     //@ResponseBody //just for passing a string instead of a template
