@@ -127,17 +127,17 @@ function constructString()
 
 function createQuestion()
 {
-	var newQ ='<br><br><form> Question Text:<input id="question'+questionCounter+'"type="text" name="questionText"></form>'
-		newQ +='<select id="dropDown'+questionCounter+'" name="qType">'
-		newQ +='<option value="RadioButtons">Radio Button</option>'
-		newQ +='<option value="MultipleChoice">Multiple Choice</option>'
-		newQ +='<option value="ScoreRange">Score Range</option>'
-		newQ +='<option value="OpenText">Open Text</option>'
-		newQ +='</select><select id="required'+questionCounter+'" name="Required">'
-		newQ +='<option value="yes">Yes</option>'
-		newQ +='<option value="no">No</option>'			
-		newQ +='</select></br>'
-		newQ +='<button onclick="createAnswer('+questionCounter+')" type="button" name="createQ">Create Answer</button>'
+	var newQ ='<br><br><form> Question Text:<input id="question'+questionCounter+'"type="text" name="questionText"></form>';
+		newQ +='<select id="dropDown'+questionCounter+'" name="qType">';
+		newQ +='<option value="RadioButtons">Radio Button</option>';
+		newQ +='<option value="MultipleChoice">Multiple Choice</option>';
+		newQ +='<option value="ScoreRange">Score Range</option>';
+		newQ +='<option value="OpenText">Open Text</option>';
+		newQ +='</select><select id="required'+questionCounter+'" name="Required">';
+		newQ +='<option value="yes">Yes</option>';
+		newQ +='<option value="no">No</option>'	;		
+		newQ +='</select></br>';
+		newQ +='<button onclick="createAnswer('+questionCounter+')" type="button" name="createQ">Create Answer</button>';
 		//newQ +='<button onclick="createQuestionObj('+questionCounter+')" type="button" name="saveQuestion">Save Question</button>'
 		
 		//var newDiv ='<div id="div'+(questionCounter + 1)+'"></div>'
@@ -145,7 +145,7 @@ function createQuestion()
 		newDivE.setAttribute('id', "div"+(questionCounter + 1));
 		
 		document.getElementById("div" + questionCounter).innerHTML = newQ;
-		var body = document.getElementById("body");
+		var body = document.getElementsByTagName("body")[0];
 		body.appendChild(newDivE);
 		
 		questionCounter++;	
