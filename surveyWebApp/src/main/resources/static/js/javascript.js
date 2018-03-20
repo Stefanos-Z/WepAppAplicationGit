@@ -123,6 +123,9 @@ function constructString()
 	temp += '\t\t</questions>\n';
 	temp += '</survey>';
 	console.log(temp);
+
+        var textField = document.getElementById("xmlForm");
+        textField.value = temp;
 }
 
 function createQuestion()
@@ -148,7 +151,7 @@ function createQuestion()
 		var body = document.getElementsByTagName("body")[0];
 		body.appendChild(newDivE);
 		
-		questionCounter++;	
+		questionCounter++;
 }
 
 
