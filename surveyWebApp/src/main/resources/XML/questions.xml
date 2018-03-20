@@ -1,41 +1,45 @@
 <?xml version="1.0"?>
-<survey>
-	<title>Questionair num1</title>
+
+<surveys>
+	<surveyName>Survey1</surveyName>
+	<userId></userId>
 	<questions>
 		<question>
-			<title>How much do you like working here?</title>
+			<questionText>What is the capital of France?</questionText>
+			<questionType>Radio(weighted)</questionType>
 			<answers>
-				<answer>Hate it!</answer>
-				<answer>Don't mind</answer>
-				<answer>Love it</answer> 
+				<answer>
+					<answerText>Paris</answer>
+					<answerWeight></answerWeight>
+				</answer>
+				<answer>
+					<answerText>Berlin</answer>
+					<answerWeight></answerWeight>
+				</answer>
+				<answer>
+					<answerText>London</answer>
+					<answerWeight></answerWeight>
+				</answer>
 			</answers>
-			<type>Radio button</type>
-			<required>Yes</required>
-			<aggregated>Yes</aggregated>
 		</question>
-
 		<question>
-			<title>Who is your favourite moment working here</title>
+			<questionText>What is the capital of Wales?</questionText>
+			<questionType>Radio</questionType>
 			<answers>
-				<answer>emptyString</answer>
+				<answer>
+					<answerText>London</answer>
+					<answerWeight></answerWeight>
+				</answer>
+				<answer>
+					<answerText>Cardiff</answer>
+					<answerWeight></answerWeight>
+				</answer>
+				<answer>
+					<answerText>Dublin</answer>
+					<answerWeight></answerWeight>
+				</answer>
 			</answers>
-			<type>free text</type>
-			<required>Yes</required>
-			<aggregated>No</aggregated>
-		</question>
-
-		<question>
-			<title>This company does a lot for their employees</title>
-			<answers>
-				<answer>Strongly agree</answer>
-				<answer>agree a litle</answer>
-				<answer>neither agree or disagree</answer>
-				<answer>disagree a litle</answer>
-				<answer>Strongly disagree</answer>
-			</answers>
-			<type>text boxes</type>
-			<required>No</required>
-			<aggregated>Yes</aggregated>
 		</question>
 	</questions>
+
 </survey>
