@@ -4,9 +4,12 @@
         <title>Dallos Survey Manager</title>
         <script src="../js/javascript.js"></script>
     </head>
-    <body>
+    <body id="body">
         <h1>Survey Builder</h1>
                 <br></br>
+                <form method="post">XML Box:<input type="text" id="xmlForm" name="mytextform" value=""></input>
+                <button type="submit">get text</button>
+                </form>
 		<form>
 			Survey Name:
                         <input id="surveyName" type="text" name="sName"></input>
@@ -18,9 +21,7 @@
 		
 		<div id="div0"></div>
         
-        <form method="post">Question text:<input type="text" name="mytextform" value="#!Q1 whats is your expectations #!Q2how do you like your salary"></input>
-            <button type="submit">get text</button>
-        </form>
+        
         
     </body>
     
