@@ -24,14 +24,21 @@ import javax.validation.constraints.NotNull;
 public class SurveyKeys {
     private String keyId;
     private boolean expired;
+    private int surveyId;
     
-    public SurveyKeys()
+    public SurveyKeys(int surveyId)
     {
         keyId = UUID.randomUUID().toString();
         expired = false;
+        this.surveyId = surveyId;
     }
     
-    @NotNull
+    public SurveyKeys()
+    {
+        //default
+    }
+    
+    
     @Column(name="expired")
     public boolean getExpired()
     {
@@ -44,6 +51,17 @@ public class SurveyKeys {
     public String getKeyId()
     {
         return keyId;
+    }
+    
+    @NotNull
+    @Column(name="surveyId", unique = true)
+    public int getSurveyId()
+    {
+        return surveyId;
+    }
+
+    public void setSurveyId(int surveyId) {
+        this.surveyId = surveyId;
     }
 
     public void setKeyId(String keyId) {
