@@ -82,7 +82,6 @@ public class HelloController {
     //@ResponseBody //just for passing a string instead of a template
     public String surveyBuilderForm()
     {
-        
         return "ourSurveyBuilder";
     }
     
@@ -95,7 +94,8 @@ public class HelloController {
             //System.out.println(request.getParameter("mytextform"));
             
             QuestionsParser qp = new QuestionsParser();
-            String ddd = qp.parse("src\\main\\resources\\XML\\questions.xml");
+            String ddd = qp.parse(request.getParameter("mytextform"));
+            //String ddd = qp.parse("src\\main\\resources\\XML\\questions.xml");
             System.out.println(ddd);
             
         } catch (ParserConfigurationException ex) {

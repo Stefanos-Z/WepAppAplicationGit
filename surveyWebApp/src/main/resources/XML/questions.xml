@@ -1,45 +1,28 @@
 <?xml version="1.0"?>
 
-<surveys>
-	<surveyName>Survey1</surveyName>
-	<userId></userId>
-	<questions>
-		<question>
-			<questionText>What is the capital of France?</questionText>
-			<questionType>Radio(weighted)</questionType>
-			<answers>
-				<answer>
-					<answerText>Paris</answer>
-					<answerWeight></answerWeight>
-				</answer>
-				<answer>
-					<answerText>Berlin</answer>
-					<answerWeight></answerWeight>
-				</answer>
-				<answer>
-					<answerText>London</answer>
-					<answerWeight></answerWeight>
-				</answer>
-			</answers>
-		</question>
-		<question>
-			<questionText>What is the capital of Wales?</questionText>
-			<questionType>Radio</questionType>
-			<answers>
-				<answer>
-					<answerText>London</answer>
-					<answerWeight></answerWeight>
-				</answer>
-				<answer>
-					<answerText>Cardiff</answer>
-					<answerWeight></answerWeight>
-				</answer>
-				<answer>
-					<answerText>Dublin</answer>
-					<answerWeight></answerWeight>
-				</answer>
-			</answers>
-		</question>
-	</questions>
+<survey>
+    <surveyName>Survey1</surveyName>
+    <userId></userId>
+    <questions>
+        <question>
+            <questionText>What is the capital of France?</questionText>
+            <questionType>Radio(weighted)</questionType>
+            <answers>
+                <answerText>Paris</answerText>
+                <answerText>Berlin</answerText>
+                <answerText>London</answerText>
+            </answers>
+        </question>
+        
+        <question>
+            <questionText>What is the capital of Wales?</questionText>
+            <questionType>Radio</questionType>
+            <answers>
+                <answerText>London</answerText>
+                <answerText>Cardiff</answerText>
+                <answerText>Dublin</answerText>
+            </answers>
+        </question>
+    </questions>
 
 </survey>

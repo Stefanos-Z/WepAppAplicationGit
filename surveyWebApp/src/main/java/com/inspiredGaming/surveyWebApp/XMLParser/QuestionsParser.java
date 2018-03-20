@@ -7,6 +7,7 @@ package com.inspiredGaming.surveyWebApp.XMLParser;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -14,6 +15,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
@@ -35,32 +37,38 @@ public class QuestionsParser {
     
     public String parse(String filename) throws SAXException, IOException, XPathExpressionException
     {
-        Document doc = builder.parse(new File(filename));
-        int questionCount = Integer.parseInt(path.evaluate("count(/survey/questions/question)", doc));
+        
+        //System.out.println(filename);
+        InputSource is = new InputSource(new StringReader(filename));
+        Document doc = builder.parse(is);
+        
         System.out.println("\n\n");
+        String surveyName = path.evaluate("/survey/surveyName" ,doc);
+        String userId = path.evaluate("/survey/userId" ,doc);
+        System.out.println("survey name :"+surveyName);
+        System.out.println("user ID :"+userId);
+        int questionCount = Integer.parseInt(path.evaluate("count(/survey/questions/question)", doc));
         for(int i = 0; i<questionCount;i++)
         {
-            String quesTitle = path.evaluate("/survey/questions/question[" + (i+1) + "]/title",doc);
+            String quesTitle = path.evaluate("/survey/questions/question[" + (i+1) + "]/questionText",doc);
             System.out.println("QuestionTitle: " + quesTitle);
-            int answerCount = Integer.parseInt(path.evaluate("count(/survey/questions/question["+(i+1)+"]/answers/answer)",doc));
+            String quesType = path.evaluate("/survey/questions/question[" + (i+1) + "]/questionType",doc);
+            System.out.println("QuestionType: " + quesType);
+            int answerCount = Integer.parseInt(path.evaluate("count(/survey/questions/question["+(i+1)+"]/answers/answerText)",doc));
             System.out.println("this is the answer count "+answerCount);
             for(int j = 0; j<answerCount;j++)
             {
-                String thisAnswer = path.evaluate("/survey/questions/question["+(i+1)+"]/answers/answer["+(j+1)+"]",doc);
-                System.out.println("Answer"+(j+1)+" "+thisAnswer);
+                String answerText = path.evaluate("/survey/questions/question["+(i+1)+"]/answers/answerText["+(j+1)+"]",doc);
+                System.out.println("Answer"+(j+1)+" text "+answerText);
             }
-            String type = path.evaluate("/survey/questions/question["+(i+1)+"]/type",doc);
-            System.out.println("Type: "+type);
-            String required = path.evaluate("/survey/questions/question["+(i+1)+"]/required",doc);
-            System.out.println("Required "+required);
-            String aggregatted = path.evaluate("/survey/questions/question["+(i+1)+"]/aggregated",doc);
-            System.out.println("Aggregated: "+aggregatted);
+
             System.out.println("\n\n");
             
         }
-        String sss = path.evaluate("/survey/title",doc);
+
         
-        return sss;
+        return surveyName;
+
     }
     
 }
