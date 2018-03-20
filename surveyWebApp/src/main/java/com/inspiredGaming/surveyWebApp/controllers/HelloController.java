@@ -5,6 +5,7 @@
  */
 package com.inspiredGaming.surveyWebApp.controllers;
 
+import com.inspiredGaming.surveyWebApp.Email;
 import com.inspiredGaming.surveyWebApp.HtmlBuilder;
 import com.inspiredGaming.surveyWebApp.XMLParser.QuestionsParser;
 import com.inspiredGaming.surveyWebApp.models.Answers;
@@ -13,11 +14,16 @@ import com.inspiredGaming.surveyWebApp.models.HelloMessage;
 import com.inspiredGaming.surveyWebApp.models.Questions;
 import com.inspiredGaming.surveyWebApp.models.RespondentAnswers;
 import com.inspiredGaming.surveyWebApp.models.Respondents;
+import com.inspiredGaming.surveyWebApp.models.StaffEmails;
+import com.inspiredGaming.surveyWebApp.models.SurveyKeys;
 import com.inspiredGaming.surveyWebApp.models.dao.AnswersDao;
 import com.inspiredGaming.surveyWebApp.models.dao.HelloLogDao;
 import com.inspiredGaming.surveyWebApp.models.dao.QuestionsDao;
 import com.inspiredGaming.surveyWebApp.models.dao.RespondentAnswersDao;
 import com.inspiredGaming.surveyWebApp.models.dao.RespondentsDao;
+import com.inspiredGaming.surveyWebApp.models.dao.StaffEmailsDao;
+import com.inspiredGaming.surveyWebApp.models.dao.SurveyKeysDao;
+import com.inspiredGaming.surveyWebApp.models.dao.SurveysDao;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
@@ -44,35 +51,31 @@ import org.xml.sax.SAXException;
 @Controller
 public class HelloController {
     
-    //Dependancy injection used by Spring
-    //Needed because the interface instance is not manually coded
     @Autowired
     private HelloLogDao helloLogDao;
     
-    //Dependancy injection used by Spring
-    //Needed because the interface instance is not manually coded
     @Autowired
     private RespondentsDao respondentDao;
     
-    //Dependancy injection used by Spring
-    //Needed because the interface instance is not manually coded
     @Autowired
     private RespondentAnswersDao respondentAnswerDao;
     
-    //Dependancy injection used by Spring
-    //Needed because the interface instance is not manually coded
     @Autowired
     private QuestionsDao questionsDao;
     
-    //Dependancy injection used by Spring
-    //Needed because the interface instance is not manually coded
     @Autowired
     private AnswersDao answersDao;
     
+    @Autowired
+    private StaffEmailsDao staffEmailsDao;
+    
+    @Autowired
+    private SurveyKeysDao surveyKeysDao;
+    
+    @Autowired
+    private SurveysDao surveysDao;
     //Dependancy injection used by Spring
-    //Needed because the interface instance is not manually coded
-    
-    
+    //Needed because the interface instance is not manually coded   
     
     
     @RequestMapping(value = "/surveyBuilder", method = RequestMethod.GET)
@@ -115,6 +118,18 @@ public class HelloController {
         return "helloform";
     }
     
+    @RequestMapping(value = "/respondent", method = RequestMethod.GET)
+    public String respondentForm()
+    {
+        return "survey";
+    }
+    
+    @RequestMapping(value = "/uploademails", method = RequestMethod.GET)
+    public String uploademailsForm()
+    {
+        return "uploademails";
+    }
+    
     @RequestMapping(value = "/hello", method = RequestMethod.POST)
     //@ResponseBody //just for passing a string instead of a template
     public String hello(HttpServletRequest request, Model model)
@@ -128,7 +143,7 @@ public class HelloController {
         }
         
         HelloLog log = new HelloLog(name);
-        helloLogDao.save(log);//saves to database
+        helloLogDao.save(log);
         
         model.addAttribute("message", HelloMessage.getMessage(name));
         model.addAttribute("title","Helooo Spring");
@@ -137,11 +152,6 @@ public class HelloController {
     }
     
     
-    @RequestMapping(value = "/respondent", method = RequestMethod.GET)
-    public String respondentForm()
-    {
-        return "survey";
-    }
     
     @RequestMapping(value = "/respondent", method = RequestMethod.POST)
     //@ResponseBody //just for passing a string instead of a template
@@ -176,13 +186,13 @@ public class HelloController {
         }
         
         Respondents log = new Respondents();
-        respondentDao.save(log);//saves to database
+        respondentDao.save(log);
         
         //add all answers to database:
         for(int i = 0 ; i<answers.size();i++)
         {
             RespondentAnswers answerLog = new RespondentAnswers(Integer.parseInt(answers.get(i)),log.getRespondentId(),"");
-            respondentAnswerDao.save(answerLog);//saves to database
+            respondentAnswerDao.save(answerLog);
         }        
         
         //test form
@@ -238,32 +248,60 @@ public class HelloController {
         return "hello";
     }
     
+    @RequestMapping(value = "/checkboxtest", method = RequestMethod.GET)
+    //@ResponseBody //just for passing a string instead of a template
+    public String checkboxtest(HttpServletRequest request, Model model)
+    {
+        return "checkboxtest";
+    }
+    
+    @RequestMapping(value = "/checkboxtest", method = RequestMethod.POST)
+    //@ResponseBody //just for passing a string instead of a template
+    public String checkboxtestSubmit(HttpServletRequest request, Model model)
+    {
+        System.out.println(request.getParameterValues("vehicle")[1]);
+        
+        return "checkboxtest";
+    }
+    
     @RequestMapping(value = "/survey", method = RequestMethod.GET)
     //@ResponseBody //just for passing a string instead of a template
     public String survey(HttpServletRequest request, Model model)
     {
-        String surveyId = request.getParameter("survey");//?survey=2
+        //String surveyId = request.getParameter("survey");
         
-        //queries database for a list of all rows in Questions
-        List<Questions> questionList = questionsDao.findBySurveyId(Integer.parseInt(surveyId));
+        int surveyId = surveyKeysDao.findByKeyId(request.getParameter("key")).getSurveyId();
         
-        //build html for survey
-        HtmlBuilder htmlDoc = new HtmlBuilder();
+        //check key to see if survey has been completed
+        boolean expired = surveyKeysDao.findByKeyId(request.getParameter("key")).getExpired();
         
-        //generates html <h1> tags for each row
-        for(int i = 0;i<questionList.size();i++)
+        if(!expired)
         {
-                //get answers for all questions
-                List<Answers> answerList = answersDao.findByQuestionId(questionList.get(i).getQuestionId());
-                
-                //add question & answers to html
-                htmlDoc.addQuestion(questionList.get(i), answerList);
-        }       
-        
-        model.addAttribute("surveyName", "Survey :"+surveyId);
-        model.addAttribute("form", htmlDoc.getSurveyHTML());
-        
-        return "hello";
+            //queries database for a list of all rows in Questions
+            List<Questions> questionList = questionsDao.findBySurveyId(surveyId);
+
+            //build html for survey
+            HtmlBuilder htmlDoc = new HtmlBuilder();
+
+            //generates html <h1> tags for each row
+            for(int i = 0;i<questionList.size();i++)
+            {
+                    //get answers for all questions
+                    List<Answers> answerList = answersDao.findByQuestionId(questionList.get(i).getQuestionId());
+
+                    //add question & answers to html
+                    htmlDoc.addQuestion(questionList.get(i), answerList);
+            }       
+
+            model.addAttribute("surveyName", "Survey :"+surveyId);
+            model.addAttribute("form", htmlDoc.getSurveyHTML());
+
+            return "hello";
+        }
+        else
+        {
+            return "surveycompleted";
+        }
     }
     
     @RequestMapping(value = "/survey", method = RequestMethod.POST)
@@ -280,7 +318,7 @@ public class HelloController {
         
         //add respondent to table
         Respondents log = new Respondents();
-        respondentDao.save(log);//saves to database
+        respondentDao.save(log);
         
         //add answers to database
         for(int i = 0; i<questionList.size();i++)
@@ -295,17 +333,53 @@ public class HelloController {
                 int answerId = textAnswer.get(0).getAnswerId();                
                 
                 RespondentAnswers answerLog = new RespondentAnswers(answerId,log.getRespondentId(),map.get(""+questionList.get(i).getQuestionId())[0]);
-                respondentAnswerDao.save(answerLog);//saves to database
+                respondentAnswerDao.save(answerLog);
             }
             else
             {
                 RespondentAnswers answerLog = new RespondentAnswers(Integer.parseInt(map.get(""+questionList.get(i).getQuestionId())[0]),log.getRespondentId(),"");
-                respondentAnswerDao.save(answerLog);//saves to database
+                respondentAnswerDao.save(answerLog);
             }
             
         }
         
+        //make survey expired
+        SurveyKeys key = surveyKeysDao.findByKeyId(request.getParameter("key"));
+        key.setExpired(true);
+        surveyKeysDao.save(key);
+        
         return "hello";
+    }
+    
+    @RequestMapping(value = "/uploademails", method = RequestMethod.POST)
+    public String uploademailsSubmit(HttpServletRequest request, Model model)
+    {
+        //get survey id
+        String emails = request.getParameter("emails");
+        
+        String[] emailList = emails.split("\n");
+        
+        //save all new emails
+        for(int i = 0; i<emailList.length; i++)
+        {
+            emailList[i] = emailList[i].replaceAll("[\r|\n|\\s]","");
+            StaffEmails email = new StaffEmails(emailList[i]);
+            
+            //test - send survey to listed emails and record unique key
+            try {
+                System.out.println("gets here");
+                SurveyKeys key = new SurveyKeys(1);
+                surveyKeysDao.save(key);
+                Email emailObj = new Email(emailList[i],"http://localhost:8080/survey?key="+key.getKeyId());
+                emailObj.send();
+            } catch (MessagingException ex) {
+                Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            staffEmailsDao.save(email);
+        }
+        
+        return "uploademails";
     }
         
 }

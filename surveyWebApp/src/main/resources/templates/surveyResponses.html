@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="template :: header">
+        <title>Dallos Survey Manager</title>
+    </head>
+    <body>
+        <h1>Dallos Survey Manager</h1>
+        <h2 th:text="${surveyName}">DEFAULT MESSAGE</h2>
+        <h1 th:text="${message}">DEFAULT MESSAGE</h1>
+        <table id="myTable" th:utext="${table}">
+            
+        </table>
+    </body>
+    
+    <div th:replace="template :: footer"></div>
+</html>
