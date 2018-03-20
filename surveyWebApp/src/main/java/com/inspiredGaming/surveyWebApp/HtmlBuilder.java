@@ -7,6 +7,7 @@ package com.inspiredGaming.surveyWebApp;
 
 import com.inspiredGaming.surveyWebApp.models.Answers;
 import com.inspiredGaming.surveyWebApp.models.Questions;
+import com.inspiredGaming.surveyWebApp.models.Surveys;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.logging.Level;
@@ -111,6 +112,49 @@ public class HtmlBuilder {
         
         String htmlText = ser.writeToString(doc);
         
+        return htmlText;
+    }
+    
+    /**
+     * Generates a HTML for a select box, containing surveys.
+     * @param surveys
+     * @return 
+     */
+    public String getSurveysSelect(List<Surveys> surveys)
+    {
+        String htmlText = "";
+        
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.newDocument();
+            
+            //build form xml
+            Element selectList = doc.createElement("select");
+            
+            doc.appendChild(form);
+            
+            //add all surveys to the form
+            for(int i = 0;i<surveys.size();i++)
+            {
+                Element option = doc.createElement("option");
+                option.setAttribute("value", ""+surveys.get(i).getSurveyId());
+                option.appendChild(doc.createTextNode(surveys.get(i).getSurveyName()));
+                selectList.appendChild(option);
+            }
+            
+            //configure serialisation
+            DOMImplementation impl = doc.getImplementation();
+            DOMImplementationLS implLS = (DOMImplementationLS) impl.getFeature("LS", "3.0");
+            LSSerializer ser = implLS.createLSSerializer();
+            
+            htmlText = ser.writeToString(doc);
+            
+            System.out.println(htmlText);
+            
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(HtmlBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return htmlText;
     }
     

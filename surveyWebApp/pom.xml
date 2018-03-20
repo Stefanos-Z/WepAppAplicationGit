@@ -56,19 +56,19 @@
 	  <version>1.4.0.RELEASE</version>
 	 </dependency>
 	 <dependency>
-	  <groupId>javax.mail</groupId>
-	  <artifactId>javax.mail-api</artifactId>
-	  <version>1.4.4</version>
+	  <groupId>com.sun.mail</groupId>
+	  <artifactId>javax.mail</artifactId>
+	  <version>1.6.1</version>
 	 </dependency>
 	</dependencies>
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
+            </plugins>
 	</build>
         
         <profiles>       
@@ -80,6 +80,11 @@
                         <artifactId>mysql-connector-java</artifactId>
                         <version>5.1.45</version>
                     </dependency>
+                    <dependency>
+                        <groupId>com.sun.mail</groupId>
+                        <artifactId>javax.mail</artifactId>
+                        <version>1.6.1</version>
+                    </dependency>
                 </dependencies>
                 <properties>
                     <jdbc.url>jdbc:mysql://den1.mysql3.gear.host/inspireddallos</jdbc.url>
@@ -89,6 +94,4 @@
                 </properties>
             </profile>
         </profiles>
-
-
 </project>

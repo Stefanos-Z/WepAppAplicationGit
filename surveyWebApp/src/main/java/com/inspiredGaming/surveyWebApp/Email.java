@@ -57,7 +57,7 @@ public class Email {
         Message message=new MimeMessage(session);
         //message.setFrom(new InternetAddress("levroque@gmail.com"));
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailAddress));
-        message.setSubject("Visitor Alert");
+        message.setSubject("Dallos Survey");
 
         // Set the text of the email message text.
         MimeBodyPart messagePart = new MimeBodyPart();

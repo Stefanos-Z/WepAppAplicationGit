@@ -37,7 +37,9 @@ public class QuestionsParser {
     {
         Document doc = builder.parse(new File(filename));
         int questionCount = Integer.parseInt(path.evaluate("count(/survey/questions/question)", doc));
+        
         System.out.println("\n\n");
+        
         for(int i = 0; i<questionCount;i++)
         {
             String quesTitle = path.evaluate("/survey/questions/question[" + (i+1) + "]/title",doc);
