@@ -31,8 +31,7 @@ public class Answers {
     private int questionId;
     private Integer answerWeight;
 
-    public Answers(int answerId, String answer, int questionId, Integer answerWeight) {
-        this.answerId = answerId;
+    public Answers(String answer, int questionId, Integer answerWeight) {
         this.answer = answer;
         this.questionId = questionId;
         this.answerWeight = answerWeight;

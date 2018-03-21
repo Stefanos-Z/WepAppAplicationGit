@@ -28,11 +28,11 @@ public class Surveys {
     private int userId;
     private Date creationDate;
     
-    public Surveys(String surveyName, int userId, Date creationDate)
+    public Surveys(String surveyName, int userId)
     {
         this.surveyName = surveyName;
         this.userId = userId;
-        this.creationDate = creationDate;
+        this.creationDate = new Date();;
     }
     
     public Surveys()

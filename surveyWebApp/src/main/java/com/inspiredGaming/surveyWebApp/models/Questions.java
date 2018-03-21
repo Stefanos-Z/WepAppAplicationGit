@@ -28,9 +28,8 @@ public class Questions {
     private int questionTypeId;
     private int surveyId;
     
-    public Questions(int questionId, String question, int questionTypeId, int surveyId)
+    public Questions(String question, int questionTypeId, int surveyId)
     {
-        this.questionId = questionId;
         this.question = question;
         this.questionTypeId = questionTypeId;
         this.surveyId = surveyId;

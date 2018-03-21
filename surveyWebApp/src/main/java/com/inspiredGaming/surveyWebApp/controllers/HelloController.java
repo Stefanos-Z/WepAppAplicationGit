@@ -26,6 +26,7 @@ import com.inspiredGaming.surveyWebApp.models.dao.StaffEmailsDao;
 import com.inspiredGaming.surveyWebApp.models.dao.SurveyKeysDao;
 import com.inspiredGaming.surveyWebApp.models.dao.SurveysDao;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -35,14 +36,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
@@ -83,7 +91,6 @@ public class HelloController {
     //@ResponseBody //just for passing a string instead of a template
     public String surveyBuilderForm()
     {
-        
         return "ourSurveyBuilder";
     }
     
@@ -94,10 +101,58 @@ public class HelloController {
         try {
             //gets the value from the textbox
             //System.out.println(request.getParameter("mytextform"));
+            DocumentBuilder builder;
+            XPath path;
             
-            QuestionsParser qp = new QuestionsParser();
-            String ddd = qp.parse("src\\main\\resources\\XML\\questions.xml");
-            System.out.println(ddd);
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            builder = dbFactory.newDocumentBuilder();
+
+            XPathFactory xpfactory = XPathFactory.newInstance();
+            path = xpfactory.newXPath();
+            
+            //System.out.println(filename);
+            InputSource is = new InputSource(new StringReader(request.getParameter("mytextform")));
+            Document doc = builder.parse(is);
+
+            //get name of survey
+            String surveyName = path.evaluate("/survey/surveyName" ,doc);
+
+            //save survey to the database
+            Surveys survey  = new Surveys(surveyName,1);
+            surveysDao.save(survey);
+
+            for(int i = 0; i<doc.getElementsByTagName("question").getLength();i++)
+            {
+                //retrieve current question from doc model
+                Element qE = (Element)doc.getElementsByTagName("question").item(i);
+
+                //extract appropriae variables
+                String questionText = qE.getElementsByTagName("questionText").item(0).getTextContent();
+                String questionType = qE.getElementsByTagName("questionType").item(0).getTextContent();
+
+                int questionTypeId =2; //radio button (with values) by default
+
+                if(questionType.equals("Open Text"))
+                {
+                    questionTypeId = 4;
+                }
+
+                //add question to the db
+                Questions question = new Questions(questionText,questionTypeId,survey.getSurveyId());
+                questionsDao.save(question);
+                
+                //add answers for the question
+                for(int j = 0; j<qE.getElementsByTagName("answerText").getLength();j++)
+                {
+                    Element aE = (Element) qE.getElementsByTagName("answerText").item(j);
+                    
+                    String answerText = aE.getTextContent();
+                    //String answerWeight = aE.getElementsByTagName("answerWeight").item(0).getTextContent();
+                    
+                    Answers answer = new Answers(answerText,question.getQuestionId(),0);
+                    answersDao.save(answer);
+                }
+        }
             
         } catch (ParserConfigurationException ex) {
             Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
