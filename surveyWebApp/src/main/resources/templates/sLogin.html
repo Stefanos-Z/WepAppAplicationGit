@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="template :: header">
+        <title>Hello Spring</title>
+    </head>
+    <body>
+
+
+    <form method="POST">
+        <h2>Log in</h2>
+
+            <input name="username" type="text" class="form-control" placeholder="Username"
+                   autofocus="true"/>
+            <input name="password" type="password" class="form-control" placeholder="Password"/>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
+
+    </form>
+
+    </body>
+    
+    <div th:replace="template :: footer"></div>
+</html>

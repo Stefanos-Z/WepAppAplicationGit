@@ -17,6 +17,7 @@ import com.inspiredGaming.surveyWebApp.models.Respondents;
 import com.inspiredGaming.surveyWebApp.models.StaffEmails;
 import com.inspiredGaming.surveyWebApp.models.SurveyKeys;
 import com.inspiredGaming.surveyWebApp.models.Surveys;
+import com.inspiredGaming.surveyWebApp.models.Users;
 import com.inspiredGaming.surveyWebApp.models.dao.AnswersDao;
 import com.inspiredGaming.surveyWebApp.models.dao.HelloLogDao;
 import com.inspiredGaming.surveyWebApp.models.dao.QuestionsDao;
@@ -25,6 +26,7 @@ import com.inspiredGaming.surveyWebApp.models.dao.RespondentsDao;
 import com.inspiredGaming.surveyWebApp.models.dao.StaffEmailsDao;
 import com.inspiredGaming.surveyWebApp.models.dao.SurveyKeysDao;
 import com.inspiredGaming.surveyWebApp.models.dao.SurveysDao;
+import com.inspiredGaming.surveyWebApp.models.dao.UsersDao;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -61,6 +63,9 @@ import org.xml.sax.SAXException;
 public class HelloController {
     
     @Autowired
+    private UsersDao usersDao;
+    
+    @Autowired
     private HelloLogDao helloLogDao;
     
     @Autowired
@@ -85,6 +90,49 @@ public class HelloController {
     private SurveysDao surveysDao;
     //Dependancy injection used by Spring
     //Needed because the interface instance is not manually coded   
+    
+    
+    
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    //@ResponseBody //just for passing a string instead of a template
+    public String loginPage()
+    {
+        
+        return "sLogin";
+    }
+    
+    
+    
+    
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String loginPage(HttpServletRequest request, Model model)
+    {
+        
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        
+        //Users newUser = new Users(username, password, "anemail@email.com", "0998789733");
+        //usersDao.save(newUser); //saves login details to the database
+        Users user = usersDao.findByUsername(username);
+        String databasePassword = "";
+
+        
+        if (user!=null)
+        {
+            databasePassword = user.getUserPassword();
+            if(databasePassword.equals(password))
+            {
+                return "ourSurveyBuilder";
+            }
+        }
+        
+        
+
+
+
+        
+        return "sLogin";
+    }
     
     
     @RequestMapping(value = "/surveyBuilder", method = RequestMethod.GET)

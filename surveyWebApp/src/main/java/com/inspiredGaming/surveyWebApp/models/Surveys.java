@@ -32,7 +32,7 @@ public class Surveys {
     {
         this.surveyName = surveyName;
         this.userId = userId;
-        this.creationDate = new Date();;
+        this.creationDate = new Date();
     }
     
     public Surveys()
