@@ -46,29 +46,46 @@ public class HtmlBuilder {
         }
     }
     
-    public void addQuestion(Questions question, List<Answers> answers)
+    public void addQuestion(Questions question, List<Answers> answers,int questionNumber)
     {
-        //create header tag
-        Element header = doc.createElement("h2");
-        header.appendChild(doc.createTextNode(question.getQuestion()));
-        form.appendChild(header);
+        //create div for new question
+        Element div = doc.createElement("div");
+        div.setAttribute("id", "question");
+        
+        //create header
+        Element header = doc.createElement("h3");
+        header.setAttribute("id", "question_text");
+        header.appendChild(doc.createTextNode(""+questionNumber+") "+question.getQuestion()));
+        div.appendChild(header);
+        form.appendChild(div);
         
         //create answer options
         for (int i =0; i<answers.size();i++)
         {
             String questionType = getInputAttribute(question.getQuestionTypeId());
-            Element input = doc.createElement("input");
-            input.setAttribute("type", questionType);
-            input.setAttribute("name", ""+question.getQuestionId());
             
-            //find answer
-            if(!questionType.equals("text"))
+            Element ans=null;
+            
+            //append textarea
+            if(questionType.equals("textarea"))
             {
-                input.setAttribute("value", ""+answers.get(i).getAnswerId());
+                ans = doc.createElement("textarea");
+                ans.setAttribute("name", ""+question.getQuestionId());
+                ans.setAttribute("cols", "40");
+                ans.setAttribute("rows", "5");
+                ans.setAttribute("value", ""+answers.get(i).getAnswerId());
+            }
+            //append radio buttons
+            else
+            {
+                ans = doc.createElement("input");
+                ans.setAttribute("type", questionType);
+                ans.setAttribute("name", ""+question.getQuestionId());
+                ans.setAttribute("value", ""+answers.get(i).getAnswerId());
             }
             
-            input.appendChild(doc.createTextNode(answers.get(i).getAnswer()));
-            form.appendChild(input);
+            ans.appendChild(doc.createTextNode(answers.get(i).getAnswer()));
+            form.appendChild(ans);
         }
         
     }
@@ -90,7 +107,7 @@ public class HtmlBuilder {
         }
         else if (questionType ==4)
         {
-            inputType = "text";
+            inputType = "textarea";
         }
         
         return inputType;
