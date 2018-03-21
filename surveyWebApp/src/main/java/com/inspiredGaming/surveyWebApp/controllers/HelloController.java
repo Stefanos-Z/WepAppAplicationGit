@@ -132,7 +132,9 @@ public class HelloController {
 
                 int questionTypeId =2; //radio button (with values) by default
 
-                if(questionType.equals("Open Text"))
+                System.out.println("question type is"+questionType);
+                
+                if(questionType.equals("OpenText"))
                 {
                     questionTypeId = 4;
                 }
@@ -142,15 +144,23 @@ public class HelloController {
                 questionsDao.save(question);
                 
                 //add answers for the question
-                for(int j = 0; j<qE.getElementsByTagName("answerText").getLength();j++)
+                if(questionTypeId==4)
                 {
-                    Element aE = (Element) qE.getElementsByTagName("answerText").item(j);
-                    
-                    String answerText = aE.getTextContent();
-                    //String answerWeight = aE.getElementsByTagName("answerWeight").item(0).getTextContent();
-                    
-                    Answers answer = new Answers(answerText,question.getQuestionId(),0);
+                    Answers answer = new Answers("",question.getQuestionId(),0);
                     answersDao.save(answer);
+                }
+                else
+                {
+                    for(int j = 0; j<qE.getElementsByTagName("answerText").getLength();j++)
+                    {
+                        Element aE = (Element) qE.getElementsByTagName("answerText").item(j);
+
+                        String answerText = aE.getTextContent();
+                        //String answerWeight = aE.getElementsByTagName("answerWeight").item(0).getTextContent();
+
+                        Answers answer = new Answers(answerText,question.getQuestionId(),0);
+                        answersDao.save(answer);
+                    }
                 }
         }
             
@@ -249,7 +259,7 @@ public class HelloController {
                     List<Answers> answerList = answersDao.findByQuestionId(questionList.get(i).getQuestionId());
 
                     //add question & answers to html
-                    htmlDoc.addQuestion(questionList.get(i), answerList);
+                    htmlDoc.addQuestion(questionList.get(i), answerList,i+1);
             }       
 
             model.addAttribute("surveyName", "Survey :"+surveyId);
@@ -266,11 +276,10 @@ public class HelloController {
     @RequestMapping(value = "/survey", method = RequestMethod.POST)
     public String surveySubmit(HttpServletRequest request, Model model)
     {
-        //get survey id
-        String surveyId = request.getParameter("survey");
-        
+        int surveyId = surveyKeysDao.findByKeyId(request.getParameter("key")).getSurveyId();
+                
         //get list of expected questions
-        List<Questions> questionList = questionsDao.findBySurveyId(Integer.parseInt(surveyId));
+        List<Questions> questionList = questionsDao.findBySurveyId(surveyId);
         
         //get all parameter values
         Map<String, String[]> map = request.getParameterMap();

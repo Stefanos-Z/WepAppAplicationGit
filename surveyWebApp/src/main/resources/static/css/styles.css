@@ -1,9 +1,138 @@
-html {
-    font-family: Arial;
+html{
+	
+	font-family : Arial; /* Same font Type for every page */
+	font-size  : 20px; /* Set a default page*/
+	text-align : center; 
+}
+
+#menu{ /* Edit the Menu in the Header */
+	
+	color : white; 
+}
+
+#menuIcon{
+	
+	width : 25%;
+	height: 25%;
+}
+
+#menuButton{
+	
+	width : 5%;
+}
+
+#header_title{
+	
+	font-size : 75px; /* Change font Size */
+	font-weight : bold; /* Set Bold Text */
+	letter-spacing: 5px; 
+	line-height: 1;
+	color : black; /* (Light Blue) Color */ 
+	text-align : center; /* Set Text Allignment to the center */
+	text-decoration-line: underline; /* Underline Text */
+    text-decoration-style: solid; /* Solid Text */
+}
+
+#header_banner, .questions {
+	
+	/* Add Shadow to the selected elements */
+	opacity : 0.95;
+        /*
+	-webkit-box-shadow: 9px 7px 300px 41px rgba(18,171,205,1);
+	-moz-box-shadow: 9px 7px 300px 41px rgba(18,171,205,1);
+	box-shadow: 9px 7px 300px 41px rgba(18,171,205,1);
+        */
+        
+	border: 10px solid #12abcd; 
+	border-radius: 150px 30px;
+	background-color: white;
 }
 
 body{
+	
+	/* The image used */
+    background-image: url("../css/background_image.jpg");
+	/* background-color : #13233d; 	Light Silver Background Color */
     
-    
-    font-size: 30px;
+	/* Full height */
+    height: 100%; 
+	
+    /* Center and scale the image nicely */
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+
+#q_description{
+	font-size : 30px; /* Change font Size */
+	color : #12abcd; /* (Light Blue) Color */ 
+}
+
+.questions{
+	
+	margin: auto;
+	width : 65%;
+	margin-top : 75px;
+	background-color : white;
+	font-size: 20px;
+	color : gray;
+	border: 10px solid #12abcd;
+	border-radius: 50px;
+}
+
+#question{
+	
+	color : white;
+	background-color : black;
+    margin-bottom: 50px;
+	
+}
+
+#question_text{
+	
+	color : white;
+        margin-top: 50px;
+}
+
+
+
+#question_answers{
+	
+	font-size : 65px;
+}
+
+footer{
+
+	    opacity: 0.95;
+	/* Add Shadow to the selected elements */
+	-webkit-box-shadow: 3px -22px 100px 20px rgba(255,255,255,1);
+	-moz-box-shadow: 3px -22px 100px 20px rgba(255,255,255,1);
+	box-shadow: 3px -22px 100px 20px rgba(255,255,255,1);
+
+	border: 10px solid #12abcd; 
+	border-radius: 150px 30px;
+	background-color: white;
+	
+	/* Add footer at the very bottom 
+	position: fixed;
+    left: 0;
+    bottom: 0;
+	width : 95%;*/
+}
+
+#footer_element{
+	
+	display : inline-block;
+	width : 33%
+}
+
+input{
+	
+    width: 2em;
+    height: 2em;
+}
+
+h3 {
+    font-size: 25px !important;
 }
