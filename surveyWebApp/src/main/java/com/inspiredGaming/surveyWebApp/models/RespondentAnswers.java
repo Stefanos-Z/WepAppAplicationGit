@@ -8,8 +8,11 @@ package com.inspiredGaming.surveyWebApp.models;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -20,17 +23,20 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "respondent_answers")
-
 public class RespondentAnswers {
 
     private int respondentAnswerId;
-    private int answerId;
+    //private int answerId;
     private int respondentId;
     private String answerText;
     
-    public RespondentAnswers(int answerId, int respondentId, String answerText)
+   
+    
+    private Answers answers;
+    
+    public RespondentAnswers(Answers answers, int respondentId, String answerText)
     {
-        this.answerId = answerId;
+        this.answers = answers;
         this.respondentId = respondentId;
         this.answerText = answerText;
     }
@@ -52,11 +58,12 @@ public class RespondentAnswers {
     }
     
     
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
-    @Column(name="answerId")
-    public int getAnswerId()
+    @JoinColumn(name = "answerId", nullable = false)
+    public Answers getAnswers()
     {
-        return answerId;
+        return answers;
     }
     
     @NotNull
@@ -78,9 +85,9 @@ public class RespondentAnswers {
         this.respondentAnswerId=respondentAnswerId;
     } 
     
-    public void setAnswerId(int answerId)
+    public void setAnswers(Answers answers)
     {
-        this.answerId = answerId;
+        this.answers = answers;
     }
     
     public void setRespondentId(int respondentId)

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title th:text="${title}">Dallos Survey Manager</title>
+        <link href="../../css/styles.css" th:href="@{../../css/styles.css}" rel="stylesheet"/>
+        <script type="text/javascript" th:inline="javascript" src="../js/javascript.js" th:src="@{../js/javascript.js}"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        
+    </head>
+    <body>
+        <div id = "header_banner"><h1 id="header_title">Inspired Gaming Surveys</h1></div>
+        <h2 id="q_description" th:text="${message}">DEFAULT MESSAGE</h2>
+        
+        <div class="questions" th:utext="${surveyTable}">
+
+        </div>
+            
+    </body>
+    
+    <div th:replace="template :: footer"></div>
+</html>

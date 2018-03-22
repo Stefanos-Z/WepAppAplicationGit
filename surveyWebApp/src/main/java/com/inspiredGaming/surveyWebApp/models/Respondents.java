@@ -25,18 +25,20 @@ public class Respondents {
 
     private Date surveyDate;
     private int respondentId;
+    private int surveyId;
     
-    public Respondents()
+    public Respondents(int surveyId)
     {
         //this.name = name;
         surveyDate = new Date();
+        this.surveyId = surveyId;
     }
     
-    /*
+    
     public Respondents()
     {
         //needs to be empty for hibernate to work?
-    }*/
+    }
     
         
     @Id
@@ -53,6 +55,16 @@ public class Respondents {
     public Date getSurveyDate()
     {
         return surveyDate;
+    }
+
+    @NotNull
+    @Column(name="surveyId")
+    public int getSurveyId() {
+        return surveyId;
+    }
+
+    public void setSurveyId(int surveyId) {
+        this.surveyId = surveyId;
     }
     
        

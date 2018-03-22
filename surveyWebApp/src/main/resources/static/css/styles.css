@@ -1,6 +1,6 @@
 html{
 	
-	font-family : Arial; /* Same font Type for every page */
+	font-family: "Open Sans", Arial, Tahoma, sans-serif;/* Same font Type for every page */
 	font-size  : 20px; /* Set a default page*/
 	text-align : center; 
 }
@@ -78,7 +78,7 @@ body{
 	font-size: 20px;
 	color : gray;
 	border: 10px solid #12abcd;
-	border-radius: 50px;
+	border-radius: 0px;
 }
 
 #question{
@@ -135,4 +135,25 @@ input{
 
 h3 {
     font-size: 25px !important;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+th{
+     background-color: grey;
+     color : white;
+}
+
+tr:nth-child(even) {
+    background-color:#e3e3e3;
 }
