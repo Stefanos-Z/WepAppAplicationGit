@@ -4,22 +4,25 @@
         <title>Dallos Survey Manager</title>
         <script src="../js/javascript.js"></script>
     </head>
-    <body id="body">
-        <h1>Survey Builder</h1>
-                <br></br>
-                <form method="post">XML Box:<input type="text" id="xmlForm" name="mytextform" value=""></input>
-                <button type="submit">get text</button>
-                </form>
-		<form>
-			Survey Name:
-                        <input id="surveyName" type="text" name="sName"></input>
-		</form>
-	
+    <body id="body">      
+        <div class="questions">
+            <h1>Survey Builder</h1>
+            <br></br>
+            <form method="post">XML Box:<input type="text" id="xmlForm" name="mytextform" value=""></input>
+            <button type="submit">get text</button>
+            </form>
+            <form>
+                    Survey Name:
+                    <input id="surveyName" type="text" name="sName" class="textbox"></input>
+            </form>
+
+
+            <button onclick="createQuestion()" type="button" name="createQ">Create Question</button>
+            <button onclick="constructString()" type="button" name="createQ">Create XML</button>
+
+        </div>
 		
-		<button onclick="createQuestion()" type="button" name="createQ">Create Question</button>
-		<button onclick="constructString()" type="button" name="createQ">Create XML</button>
-		
-		<div id="div0"></div>
+	<div id="div0" class="questions"></div>
         
         
         
