@@ -51,7 +51,7 @@ html{
 body{
 	
 	/* The image used */
-    background-image: url("../css/background_image.jpg");
+    /*background-image: url("../css/background_image.jpg");*/
 	/* background-color : #13233d; 	Light Silver Background Color */
     
 	/* Full height */
@@ -83,12 +83,19 @@ body{
 
 .textbox{
     width: 300px;
+    margin-bottom: 2.5%;
+     margin-top: 2.5%;
+}
+
+button {
+    margin-bottom: 2.5%;
+    margin-top: 2.5%;
 }
 
 #question{
 	
-	color : white;
-	background-color : black;
+    color : white;
+    background-color : black;
     margin-bottom: 50px;
 	
 }
