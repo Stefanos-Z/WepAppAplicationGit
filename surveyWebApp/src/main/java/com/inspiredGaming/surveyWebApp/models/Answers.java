@@ -43,7 +43,7 @@ public class Answers {
     //private Set<Answers> answers = new HashSet<>();
 
     
-    public Answers(String answer, Questions question, Integer answerWeight) {
+    public Answers(String answer, Questions questions, Integer answerWeight) {
         this.answer = answer;
         this.questions = questions;
         this.answerWeight = answerWeight;
