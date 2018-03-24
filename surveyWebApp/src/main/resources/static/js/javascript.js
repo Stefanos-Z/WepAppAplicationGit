@@ -22,6 +22,7 @@ function createAnswer(question)
 			ans.setAttribute('type',"text");
 			ans.setAttribute('name', "answer"+question);	
 			ans.setAttribute('id', "ans"+question);
+                        ans.setAttribute("class","textbox");
 			var div = document.getElementById("div"+question);
                         
                         var br = document.createElement("br");          
@@ -137,7 +138,7 @@ function constructString()
 
 function createQuestion()
 {
-	var newQ ='<br><br><form> Question Text:<input id="question'+questionCounter+'"type="text" name="questionText"></form>';
+	var newQ ='<br><br><form> Question Text:<input id="question'+questionCounter+'"type="text" name="questionText" class="textbox"></form>';
 		newQ +='<select id="dropDown'+questionCounter+'" name="qType">';
 		newQ +='<option value="RadioButtons">Radio Button</option>';
 		//newQ +='<option value="MultipleChoice">Multiple Choice</option>';
