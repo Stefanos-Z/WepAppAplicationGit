@@ -81,6 +81,10 @@ body{
 	border-radius: 0px;
 }
 
+.textbox{
+    width: 300px;
+}
+
 #question{
 	
 	color : white;
