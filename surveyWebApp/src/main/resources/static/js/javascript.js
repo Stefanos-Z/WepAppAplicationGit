@@ -11,22 +11,24 @@ function createAnswer(question)
 	switch(answerType) 
 	{
 		case 'ScoreRange':
-			//console.log("Score Range Selected");
-			
-					
+                //delete all previous answer fields
+			//console.log("Score Range Selected");					
 			break;
 		case 'RadioButtons':
+                //create new answer field
 			//console.log("Radio Buttons Selected");
 			var title = document.createTextNode("Answer: ");	
 			var ans = document.createElement("input");
 			ans.setAttribute('type',"text");
 			ans.setAttribute('name', "answer"+question);	
 			ans.setAttribute('id', "ans"+question);
-			var div = document.getElementById("div"+question);	
+			var div = document.getElementById("div"+question);
+                        
 			div.appendChild(title);
 			div.appendChild(ans);
 			break;
-		case 'MultipleChoice':
+		/*case 'MultipleChoice':
+                
 			//console.log("Multiple Choice Selected");
 			var title = document.createTextNode("Answer: ");	
 			var ans = document.createElement("input");
@@ -35,16 +37,17 @@ function createAnswer(question)
 			var div = document.getElementById("div"+question);	
 			div.appendChild(title);
 			div.appendChild(ans);
-			break;
+			break;*/
 		case 'OpenText':
+                //delete all answer fields
 			//console.log("Open Text Selected");
-			var title = document.createTextNode("Limit: ");	
+			/*var title = document.createTextNode("Limit: ");	
 			var ans = document.createElement("input");
 			ans.setAttribute('type',"text");
 			ans.setAttribute('name', "answer");
 			var div = document.getElementById("div"+question);			
 			div.appendChild(title);
-			div.appendChild(ans);
+			div.appendChild(ans);*/
 			break;		
 	}	
 	answerCounter++;	
@@ -133,7 +136,7 @@ function createQuestion()
 	var newQ ='<br><br><form> Question Text:<input id="question'+questionCounter+'"type="text" name="questionText"></form>';
 		newQ +='<select id="dropDown'+questionCounter+'" name="qType">';
 		newQ +='<option value="RadioButtons">Radio Button</option>';
-		newQ +='<option value="MultipleChoice">Multiple Choice</option>';
+		//newQ +='<option value="MultipleChoice">Multiple Choice</option>';
 		newQ +='<option value="ScoreRange">Score Range</option>';
 		newQ +='<option value="OpenText">Open Text</option>';
 		newQ +='</select><select id="required'+questionCounter+'" name="Required">';
