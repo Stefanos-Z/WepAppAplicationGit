@@ -24,8 +24,12 @@ function createAnswer(question)
 			ans.setAttribute('id', "ans"+question);
 			var div = document.getElementById("div"+question);
                         
+                        var br = document.createElement("br");          
+                       
+                        div.appendChild(br);
 			div.appendChild(title);
 			div.appendChild(ans);
+                        
 			break;
 		/*case 'MultipleChoice':
                 
@@ -149,6 +153,7 @@ function createQuestion()
 		//var newDiv ='<div id="div'+(questionCounter + 1)+'"></div>'
 		var newDivE = document.createElement("div");
 		newDivE.setAttribute('id', "div"+(questionCounter + 1));
+                newDivE.setAttribute("class","questions");
 		
 		document.getElementById("div" + questionCounter).innerHTML = newQ;
 		var body = document.getElementsByTagName("body")[0];
