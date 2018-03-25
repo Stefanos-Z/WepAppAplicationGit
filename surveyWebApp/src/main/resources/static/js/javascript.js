@@ -134,7 +134,11 @@ function constructString()
 
         var textField = document.getElementById("xmlForm");
         textField.value = temp;
+        
+        return true;  //Placeholder- can be used to prevent bad xml from being submitted.
 }
+
+
 
 function createQuestion()
 {

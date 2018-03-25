@@ -1,8 +1,10 @@
 html{
 	
-	font-family: "Open Sans", Arial, Tahoma, sans-serif;/* Same font Type for every page */
-	font-size  : 20px; /* Set a default page*/
-	text-align : center; 
+font-family: "Open Sans", Arial, Tahoma, sans-serif;/* Same font Type for every page */
+	
+font-size  : 20px; /* Set a default page*/
+	
+text-align : center;
 }
 
 #menu{ /* Edit the Menu in the Header */
@@ -53,6 +55,7 @@ body{
 	
 	/* The image used */
     /*background-image: url("../css/background_image.jpg");*/
+    background-image: url("../css/inspbckgr.png");
 	/* background-color : #13233d; 	Light Silver Background Color */
     
 	/* Full height */
@@ -71,26 +74,28 @@ body{
 }
 
 .questions{
-	
+        z-index: 1;
 	margin: auto;
-	width : 65%;
-	margin-top : 75px;
-	background-color : white;
+	width : 85%;
+	background-color: whitesmoke;
 	font-size: 20px;
 	color : gray;
-	border: 10px solid black;
-	border-radius: 0px;
+	border: 5px solid grey;
+	border-radius: 10px;
+	margin-top: 4%;
 }
 
 .textbox{
     width: 300px;
     margin-bottom: 2.5%;
-     margin-top: 2.5%;
+    margin-top: 2.5%;
 }
 
 button {
     margin-bottom: 2.5%;
     margin-top: 2.5%;
+    margin-right:  0.6%;
+    margin-left:  0.6%;
 }
 
 #question{
@@ -172,7 +177,7 @@ table {
 
 td, th {
     text-align: center;
-    padding: 8px;
+    padding: 8px !important;
 }
 
 th{
@@ -182,4 +187,39 @@ th{
 
 tr:nth-child(even) {
     background-color:#e3e3e3;
+}
+
+button {
+    background-color: grey; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: lightgray;
+}
+
+.sbuilderheader
+{
+    z-index: 1;
+    top:0;
+    position:fixed;
+    width:100%;
+    display: block;
+    overflow: hidden;
+    color:white;
+    background-color:black;
+}
+
+#div0{
+    margin-top: 15%;
+}
+
+#submitForm {
+    display:inline;
 }
