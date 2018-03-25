@@ -23,14 +23,15 @@ html{
 
 #header_title{
 	
-	font-size : 75px; /* Change font Size */
+	font-size : 50px; /* Change font Size */
 	font-weight : bold; /* Set Bold Text */
 	letter-spacing: 5px; 
 	line-height: 1;
-	color : black; /* (Light Blue) Color */ 
+	color : white; /* (Light Blue) Color */ 
 	text-align : center; /* Set Text Allignment to the center */
-	text-decoration-line: underline; /* Underline Text */
-    text-decoration-style: solid; /* Solid Text */
+        text-decoration-style: solid; /* Solid Text */
+        margin-bottom: 50px;
+        margin-top: 50px;
 }
 
 #header_banner, .questions {
@@ -43,9 +44,9 @@ html{
 	box-shadow: 9px 7px 300px 41px rgba(18,171,205,1);
         */
         
-	border: 10px solid #12abcd; 
-	border-radius: 150px 30px;
-	background-color: white;
+	border: 10px solid #000000; 
+	/*border-radius: 150px 30px;*/
+	background-color: black;
 }
 
 body{
@@ -77,7 +78,7 @@ body{
 	background-color : white;
 	font-size: 20px;
 	color : gray;
-	border: 10px solid #12abcd;
+	border: 10px solid black;
 	border-radius: 0px;
 }
 
@@ -141,7 +142,13 @@ footer{
 input{
 	
     width: 2em;
-    height: 2em;
+    height: 2.58em;
+}
+
+select{
+	
+    width: 10em;
+    height: 3em;
 }
 
 h3 {
@@ -154,14 +161,22 @@ table {
     width: 100%;
 }
 
+.firstColumn{
+    text-align: left !important;
+}
+
+.columns
+{
+    text-align: center !important;
+}
+
 td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
+    text-align: center;
     padding: 8px;
 }
 
 th{
-     background-color: grey;
+     background-color: black;
      color : white;
 }
 

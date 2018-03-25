@@ -10,6 +10,7 @@ import com.inspiredGaming.surveyWebApp.models.Questions;
 import com.inspiredGaming.surveyWebApp.models.RespondentAnswers;
 import com.inspiredGaming.surveyWebApp.models.Respondents;
 import com.inspiredGaming.surveyWebApp.models.Surveys;
+import com.inspiredGaming.surveyWebApp.models.dao.RespondentsDao;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.logging.Level;
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -28,10 +30,13 @@ import org.w3c.dom.ls.LSSerializer;
  * @author Levi
  */
 public class HtmlBuilderTable {
-    
+        
     private Document doc;
     private Element table;
     
+    /**
+     * Constructor for class. Instantiates a doc object.
+     */
     public HtmlBuilderTable()
     {
         try {
@@ -54,24 +59,33 @@ public class HtmlBuilderTable {
      * @param surveys
      * @return 
      */
-    public String buildSurveyTable(List<Surveys> surveys)
+    public String buildSurveyTable(List<Surveys> surveys, RespondentsDao respondentDao)
     {
         //add header row
         Element headerRow = doc.createElement("tr");
 
         //add surveyname
         Element surveyNameHeader = doc.createElement("th");
+        surveyNameHeader.setAttribute("class", "firstColumn");
         surveyNameHeader.appendChild(doc.createTextNode("Survey Name"));
         headerRow.appendChild(surveyNameHeader);
 
         //add userid
         Element userIdHeader = doc.createElement("th");
-        userIdHeader.appendChild(doc.createTextNode("user Id"));
+        userIdHeader.setAttribute("class", "columns");
+        userIdHeader.appendChild(doc.createTextNode("Created By"));
         headerRow.appendChild(userIdHeader);
 
+        //add responses
+        Element responsesHeader = doc.createElement("th");
+        responsesHeader.setAttribute("class", "columns");
+        responsesHeader.appendChild(doc.createTextNode("Responses"));
+        headerRow.appendChild(responsesHeader);
+        
         //add creation date
         Element creationDateHeader = doc.createElement("th");
-        creationDateHeader.appendChild(doc.createTextNode("Creation Date"));
+        creationDateHeader.setAttribute("class", "columns");
+        creationDateHeader.appendChild(doc.createTextNode("Statistics"));
         headerRow.appendChild(creationDateHeader);
 
         table.appendChild(headerRow);
@@ -83,21 +97,33 @@ public class HtmlBuilderTable {
             
             //add surveyname
             Element surveyName = doc.createElement("td");
-            Element link = doc.createElement("a");
-            link.setAttribute("href", "http://localhost:8080/survey_results/responses?survey="+surveys.get(i).getSurveyId());
-            link.appendChild(doc.createTextNode(surveys.get(i).getSurveyName()));
-            surveyName.appendChild(link);
+            surveyName.setAttribute("class", "firstColumn");
+            surveyName.appendChild(doc.createTextNode(surveys.get(i).getSurveyName()));
             row.appendChild(surveyName);
             
             //add userid
             Element userId = doc.createElement("td");
-            userId.appendChild(doc.createTextNode(""+surveys.get(i).getSurveyId()));
+            userId.appendChild(doc.createTextNode(""+surveys.get(i).getUsers().getUsername()));
             row.appendChild(userId);
             
+            //add userid
+            Element responses = doc.createElement("td");
+            //count number of responses
+            int numberOfResponses = respondentDao.findBySurveyId(surveys.get(i).getSurveyId()).size();
+            Element link = doc.createElement("a");
+            link.appendChild(doc.createTextNode(""+numberOfResponses));
+            surveyName.appendChild(link);
+            link.setAttribute("href", "http://localhost:8080/survey_results/responses?survey="+surveys.get(i).getSurveyId());
+            responses.appendChild(link);
+            row.appendChild(responses);
+            
             //add creation date
-            Element creationDate = doc.createElement("td");
-            creationDate.appendChild(doc.createTextNode(""+surveys.get(i).getCreationDate()));
-            row.appendChild(creationDate);
+            Element statsBreakdown = doc.createElement("td");
+            Element icon = doc.createElement("span");
+            icon.setAttribute("class", "glyphicon glyphicon-stats");
+            //<span class="glyphicon glyphicon-stats"></span>
+            statsBreakdown.appendChild(icon);
+            row.appendChild(statsBreakdown);
             
             table.appendChild(row);
         }

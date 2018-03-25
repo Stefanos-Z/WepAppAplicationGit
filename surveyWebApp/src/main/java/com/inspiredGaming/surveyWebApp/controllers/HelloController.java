@@ -167,7 +167,7 @@ public class HelloController {
             String surveyName = path.evaluate("/survey/surveyName" ,doc);
 
             //save survey to the database
-            Surveys survey  = new Surveys(surveyName,1);
+            Surveys survey  = new Surveys(surveyName,usersDao.findByUserId(1));
             surveysDao.save(survey);
 
             for(int i = 0; i<doc.getElementsByTagName("question").getLength();i++)
@@ -409,7 +409,7 @@ public class HelloController {
         
         HtmlBuilderTable tableBuilder = new HtmlBuilderTable();
         
-        String tableXML = tableBuilder.buildSurveyTable(surveyList);
+        String tableXML = tableBuilder.buildSurveyTable(surveyList,respondentDao);
         
          model.addAttribute("surveyTable", tableXML);
         
