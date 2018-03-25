@@ -138,7 +138,7 @@ function constructString()
 
 function createQuestion()
 {
-	var newQ ='<br><br><form> Q'+(questionCounter+1)+': <input id="question'+questionCounter+'"type="text" name="questionText" class="textbox">';
+	var newQ ='<br><form> Q'+(questionCounter+1)+': <input id="question'+questionCounter+'"type="text" name="questionText" class="textbox">';
 		newQ +='<select id="dropDown'+questionCounter+'" name="qType">';
 		newQ +='<option value="RadioButtons">Radio Button</option>';
 		//newQ +='<option value="MultipleChoice">Multiple Choice</option>';
@@ -147,7 +147,7 @@ function createQuestion()
 		newQ +='</select><select id="required'+questionCounter+'" name="Required">';
 		newQ +='<option value="yes">Yes</option>';
 		newQ +='<option value="no">No</option>'	;		
-		newQ +='</select></form></br>';
+		newQ +='</select></form>';
 		newQ +='<button onclick="createAnswer('+questionCounter+')" type="button" name="createQ">Create Answer</button>';
 		//newQ +='<button onclick="createQuestionObj('+questionCounter+')" type="button" name="saveQuestion">Save Question</button>'
 		
@@ -155,8 +155,12 @@ function createQuestion()
 		var newDivE = document.createElement("div");
 		newDivE.setAttribute('id', "div"+(questionCounter + 1));
                 newDivE.setAttribute("class","questions");
+                newDivE.setAttribute("style","display:none");
 		
-		document.getElementById("div" + questionCounter).innerHTML = newQ;
+                //insert html into empty div
+                var nextDiv = document.getElementById("div" + questionCounter)
+		nextDiv.innerHTML = newQ;
+                nextDiv.removeAttribute("style");
 		var body = document.getElementsByTagName("body")[0];
 		body.appendChild(newDivE);
 		
