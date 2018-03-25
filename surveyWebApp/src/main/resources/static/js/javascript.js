@@ -138,7 +138,7 @@ function constructString()
 
 function createQuestion()
 {
-	var newQ ='<br><br><form> Question Text:<input id="question'+questionCounter+'"type="text" name="questionText" class="textbox"></form>';
+	var newQ ='<br><br><form> Q'+(questionCounter+1)+': <input id="question'+questionCounter+'"type="text" name="questionText" class="textbox">';
 		newQ +='<select id="dropDown'+questionCounter+'" name="qType">';
 		newQ +='<option value="RadioButtons">Radio Button</option>';
 		//newQ +='<option value="MultipleChoice">Multiple Choice</option>';
@@ -147,7 +147,7 @@ function createQuestion()
 		newQ +='</select><select id="required'+questionCounter+'" name="Required">';
 		newQ +='<option value="yes">Yes</option>';
 		newQ +='<option value="no">No</option>'	;		
-		newQ +='</select></br>';
+		newQ +='</select></form></br>';
 		newQ +='<button onclick="createAnswer('+questionCounter+')" type="button" name="createQ">Create Answer</button>';
 		//newQ +='<button onclick="createQuestionObj('+questionCounter+')" type="button" name="saveQuestion">Save Question</button>'
 		
