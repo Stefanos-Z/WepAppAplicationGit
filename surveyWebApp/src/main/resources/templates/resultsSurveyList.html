@@ -6,6 +6,7 @@
         <script type="text/javascript" th:inline="javascript" src="../js/javascript.js" th:src="@{../js/javascript.js}"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
     <body>
         <div id = "header_banner"><h1 id="header_title">Inspired Gaming Surveys</h1></div>
@@ -14,7 +15,25 @@
         <div class="questions" th:utext="${surveyTable}">
 
         </div>
-            
+        <!-- Modal: Based on design from w3 tutorials. -->
+        <div class="modal fade" id="myModal" role="dialog" style="display: none;">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title">Deletion Warning</h4>
+              </div>
+              <div class="modal-body">
+                <p>Are you sure you want to permanently delete [surveyname]? This includes all questions and response data.</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+              </div>
+            </div>
+          </div>
+        </div>
     </body>
     
     <div th:replace="template :: footer"></div>

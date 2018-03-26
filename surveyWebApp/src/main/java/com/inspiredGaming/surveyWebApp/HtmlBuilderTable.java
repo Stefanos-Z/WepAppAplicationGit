@@ -82,11 +82,17 @@ public class HtmlBuilderTable {
         responsesHeader.appendChild(doc.createTextNode("Responses"));
         headerRow.appendChild(responsesHeader);
         
-        //add creation date
-        Element creationDateHeader = doc.createElement("th");
-        creationDateHeader.setAttribute("class", "columns");
-        creationDateHeader.appendChild(doc.createTextNode("Statistics"));
-        headerRow.appendChild(creationDateHeader);
+        //add stats header
+        Element statsHeader = doc.createElement("th");
+        statsHeader.setAttribute("class", "columns");
+        statsHeader.appendChild(doc.createTextNode("Statistics"));
+        headerRow.appendChild(statsHeader);
+        
+        //add actions header
+        Element actionsHeader = doc.createElement("th");
+        actionsHeader.setAttribute("class", "columns");
+        actionsHeader.appendChild(doc.createTextNode("Actions"));
+        headerRow.appendChild(actionsHeader);
 
         table.appendChild(headerRow);
         
@@ -119,11 +125,21 @@ public class HtmlBuilderTable {
             
             //add creation date
             Element statsBreakdown = doc.createElement("td");
-            Element icon = doc.createElement("span");
-            icon.setAttribute("class", "glyphicon glyphicon-stats");
-            //<span class="glyphicon glyphicon-stats"></span>
-            statsBreakdown.appendChild(icon);
+            Element statsIcon = doc.createElement("span");
+            statsIcon.setAttribute("class", "glyphicon glyphicon-stats");
+            statsBreakdown.appendChild(statsIcon);
             row.appendChild(statsBreakdown);
+            
+            //add actions cell
+            Element actionsCell = doc.createElement("td");
+            Element deleteIcon = doc.createElement("span");
+            deleteIcon.setAttribute("class", "glyphicon glyphicon-remove-sign");
+            Element deleteButton = doc.createElement("button");
+            deleteButton.setAttribute("data-toggle", "modal");
+            deleteButton.setAttribute("data-target", "#myModal");
+            deleteButton.appendChild(deleteIcon);
+            actionsCell.appendChild(deleteButton);
+            row.appendChild(actionsCell);
             
             table.appendChild(row);
         }

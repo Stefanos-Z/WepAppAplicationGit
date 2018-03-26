@@ -85,6 +85,11 @@ body{
 	margin-top: 4%;
 }
 
+a>.glyphicon
+{
+    color:crimson;
+}
+
 .textbox{
     width: 300px;
     margin-bottom: 2.5%;
@@ -222,4 +227,23 @@ button:hover {
 
 #submitForm {
     display:inline;
+}
+
+td > button
+{
+    padding: 0;
+    font-size: 25px;
+    color:crimson;
+    background-color:rgba(0, 0, 0, 0);
+}
+
+button:hover {
+	color:red;
+    background-color:rgba(0, 0, 0, 0);
+    border: 0px solid rgba(0, 0, 0, 0) !important;
+}
+
+.modal-header{
+    background-color: crimson;
+    color: white;
 }

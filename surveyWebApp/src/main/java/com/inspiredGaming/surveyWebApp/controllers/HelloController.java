@@ -449,5 +449,22 @@ public class HelloController {
         
         return "resultsSurveyList";
     }
+    
+    @RequestMapping(value = "/survey_results/delete", method = RequestMethod.GET)
+    //@ResponseBody //just for passing a string instead of a template
+    public void surveyDelete(HttpServletRequest request, Model model)
+    {
+        //find the corresponding survey
+        int surveysId = Integer.parseInt(request.getParameter("surveyId"));
+        System.out.println(request.getParameter("surveyId"));
+        
+        Surveys s = surveysDao.findBySurveyId(surveysId);
+        System.out.println(s.getSurveyName());
+        
+        surveysDao.delete(s);
+        
+        surveyResults(request,model);
+        
+    }
         
 }
