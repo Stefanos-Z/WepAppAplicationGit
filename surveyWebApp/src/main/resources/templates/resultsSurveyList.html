@@ -7,6 +7,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script type="text/javascript" th:inline="javascript" src="../js/surveyResultsDeletion.js" th:src="@{../js/surveyResultsDeletion.js}"></script>
     </head>
     <body>
         <div id = "header_banner"><h1 id="header_title">Inspired Gaming Surveys</h1></div>
@@ -25,7 +26,7 @@
                 <h4 class="modal-title">Deletion Warning</h4>
               </div>
               <div class="modal-body">
-                <p>Are you sure you want to permanently delete [surveyname]? This includes all questions and response data.</p>
+                  <p>Are you sure you want to permanently delete <span id="modalSurvey">surveyname</span>? This includes all questions and response data.</p>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Yes</button>

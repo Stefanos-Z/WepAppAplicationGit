@@ -231,14 +231,15 @@ button:hover {
 
 td > button
 {
+    outline:0;
     padding: 0;
     font-size: 25px;
     color:crimson;
     background-color:rgba(0, 0, 0, 0);
 }
 
-button:hover {
-	color:red;
+td > button:hover {
+    color:red;
     background-color:rgba(0, 0, 0, 0);
     border: 0px solid rgba(0, 0, 0, 0) !important;
 }
@@ -246,4 +247,14 @@ button:hover {
 .modal-header{
     background-color: crimson;
     color: white;
+}
+
+#modalSurvey
+{
+    font-weight: bold;
+    color:#12abcd;
+}
+
+.modal-dialog{
+    padding: 140px 0;
 }

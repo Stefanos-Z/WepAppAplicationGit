@@ -135,6 +135,7 @@ public class HtmlBuilderTable {
             Element deleteIcon = doc.createElement("span");
             deleteIcon.setAttribute("class", "glyphicon glyphicon-remove-sign");
             Element deleteButton = doc.createElement("button");
+            deleteButton.setAttribute("onClick", "updateModal('"+surveys.get(i).getSurveyName()+"','"+surveys.get(i).getSurveyId()+"')");
             deleteButton.setAttribute("data-toggle", "modal");
             deleteButton.setAttribute("data-target", "#myModal");
             deleteButton.appendChild(deleteIcon);
