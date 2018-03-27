@@ -100,6 +100,7 @@ public class HtmlBuilderTable {
         for (int i =0; i<surveys.size();i++)
         {
             Element row = doc.createElement("tr");
+            row.setAttribute("id", "srv"+surveys.get(i).getSurveyId());
             
             //add surveyname
             Element surveyName = doc.createElement("td");

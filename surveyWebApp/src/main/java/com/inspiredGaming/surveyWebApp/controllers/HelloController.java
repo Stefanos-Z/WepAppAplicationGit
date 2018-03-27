@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilder;
@@ -466,5 +467,27 @@ public class HelloController {
         surveyResults(request,model);
         
     }
+    
+    
+    @RequestMapping(value = "/deleteSurvey", method = RequestMethod.POST)
+    public String testSubmit(HttpServletRequest request) throws IOException
+    {
+        //get parameter from request body
+        int surveyId = Integer.parseInt(request.getParameter("surveyid"));
+        System.out.println(request.getParameter("surveyid"));
+        
+        //find corresponding survey
+        Surveys s = surveysDao.findBySurveyId(surveyId);
+        System.out.println(s.getSurveyName());
+        
+        //delete survey from database
+        surveysDao.delete(s);
+        
+        System.out.println("test successful!");
+                
+        //return surveyResults(request,model);
+        return "hello";
+    }
+    
         
 }
