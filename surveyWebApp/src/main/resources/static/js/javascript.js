@@ -16,6 +16,8 @@ function createAnswer(question)
 		case 'RadioButtons':
                 //create new answer field
 			//console.log("Radio Buttons Selected");
+                        var aDiv = document.createElement("div")
+                        aDiv.setAttribute('id', "ansDiv"+answerCounter);
 			var title = document.createTextNode("Answer: ");	
 			var ans = document.createElement("input");
 			ans.setAttribute('type',"text");
@@ -23,12 +25,21 @@ function createAnswer(question)
 			ans.setAttribute('id', "ans"+question);
                         ans.setAttribute("class","textbox");
 			var div = document.getElementById("div"+question);
+                        <span id="deleteIcon">   x</span>
                         
+                        
+                        var aSpan = document.createElement("span");
+                        aSpan.setAttribute('onClick', "deleteAnswer("+answerCounter+")");                        
+                        aSpan.setAttribute('id', "deleteIcon");
                         var br = document.createElement("br");          
                        
-                        div.appendChild(br);
-			div.appendChild(title);
-			div.appendChild(ans);
+                        aDiv.appendChild(br);
+			aDiv.appendChild(title);
+			aDiv.appendChild(ans);
+                        aDiv.appendChild(aSpan);
+                        div.appendChild(aDiv);
+                        
+                        answerCounter++;
                         
 			break;
 		/*case 'MultipleChoice':
@@ -59,6 +70,7 @@ function createAnswer(question)
 
 function createQuestionObj(question)
 {
+    try{
 	var questionText = document.getElementById("question"+question).value;
 	//console.log(questionText);	
 	
@@ -82,8 +94,12 @@ function createQuestionObj(question)
 	
 	var Question = {question: questionText,answers: ansValue, required: required, type: answerType};
 	
-	questionsArray[question] = Question;
-	
+	questionsArray.push(Question);
+        console.log("question added");
+    }catch(e)
+    {
+        console.log("question skipped");
+    }
 	/*for(i = 0; i < questionsArray.length; i++)
 	{
 		console.log(questionsArray[i].question);
@@ -141,7 +157,7 @@ function constructString()
 
 function createQuestion()
 {
-	var newQ ='<br><form> Q'+(questionCounter+1)+': <input id="question'+questionCounter+'"type="text" name="questionText" class="textbox">';
+	var newQ ='<br><form><input id="question'+questionCounter+'"type="text" name="questionText" class="textbox">';
 		newQ +='<select id="dropDown'+questionCounter+'" name="qType">';
 		newQ +='<option value="RadioButtons">Radio Button</option>';
 		//newQ +='<option value="MultipleChoice">Multiple Choice</option>';
@@ -150,7 +166,9 @@ function createQuestion()
 		newQ +='</select><select id="required'+questionCounter+'" name="Required">';
 		newQ +='<option value="yes">Yes</option>';
 		newQ +='<option value="no">No</option>'	;		
-		newQ +='</select></form>';
+		newQ +='</select>';
+                newQ +='<button onclick="deleteQuestion('+questionCounter+')" type="button" name="deleteQ">Delete Question</button>'
+                newQ +='</form>';
 		newQ +='<button onclick="createAnswer('+questionCounter+')" type="button" name="createQ">Create Answer</button>';
 		//newQ +='<button onclick="createQuestionObj('+questionCounter+')" type="button" name="saveQuestion">Save Question</button>'
 		
@@ -170,7 +188,17 @@ function createQuestion()
 		questionCounter++;
 }
 
+function deleteQuestion(questionNum)
+{
+    var questionDiv = document.getElementById("div" + questionNum);
+    questionDiv.parentNode.removeChild(questionDiv);
+}
 
+function deleteAnswer(ansNum)
+{
+    var aDiv = document.getElementById("ansDiv"+ ansNum);
+    aDiv.parentNode.removeChild(aDiv);
+}
 
 class Question
 {	
