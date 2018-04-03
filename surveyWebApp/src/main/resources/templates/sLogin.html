@@ -5,18 +5,19 @@
     </head>
     <body>
 
+    <div class="questions loginForm">
+        <form method="POST">
+            <h2>Log in</h2>
 
-    <form method="POST">
-        <h2>Log in</h2>
+                <input name="username" type="text" class="form-control" placeholder="Username"
+                       autofocus="true"/>
+                <br/>
+                <input name="password" type="password" class="form-control" placeholder="Password"/>
+                <br/>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
 
-            <input name="username" type="text" class="form-control" placeholder="Username"
-                   autofocus="true"/>
-            <input name="password" type="password" class="form-control" placeholder="Password"/>
-
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
-
-    </form>
-
+        </form>
+    </div>
     </body>
     
     <div th:replace="template :: footer"></div>

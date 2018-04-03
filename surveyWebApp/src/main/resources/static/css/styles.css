@@ -337,7 +337,7 @@ td > button:hover {
 }
 
 input, textarea{
-    margin-left: 5% !important;
+    /* margin-left: 5% !important; */
     margin-bottom:4%;
 }
 
@@ -361,4 +361,9 @@ input, textarea{
 	color:#ad1e1e;
 	font-weight: bold;
 	cursor:pointer;
+}
+
+.loginForm input[type=text],.loginForm input[type=password] {
+	width:40%;
+	height:30px;
 }
