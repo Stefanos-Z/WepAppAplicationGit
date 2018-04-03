@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="template :: header">
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    </head>
+    <body>
+        <div class="navbar">
+            <ul>
+                <li><a href="default.asp">Home</a></li>
+                <li><a href="news.asp">News</a></li>
+                <li><a href="contact.asp">Contact</a></li>
+                <li><a href="about.asp">About</a></li>
+            </ul>
+        </div>
+        <div class="TopImagePanel">
+            <div class="imageAndHref">
+                <img class="imageBTN"  src="img/build.jpg" alt="" />
+                <a href="default.asp">Build new Survey</a>
+            </div>
+            <div class="imageAndHref">
+                <img class="imageBTN"  src="img/view.png" alt="" />
+                <a href="default.asp">View old Surveys</a>
+            </div>
+        </div>
+        <br/>
+        <div class="BottomImagePanel">
+            <img class="imageBTN"  src="img/results.png"/>
+            <img class="imageBTN"  src="img/settings.png"/>
+        </div>
+    </body>
+</html>

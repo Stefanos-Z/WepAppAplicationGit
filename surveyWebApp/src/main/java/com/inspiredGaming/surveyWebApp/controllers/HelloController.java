@@ -15,6 +15,7 @@ import com.inspiredGaming.surveyWebApp.models.HelloMessage;
 import com.inspiredGaming.surveyWebApp.models.Questions;
 import com.inspiredGaming.surveyWebApp.models.RespondentAnswers;
 import com.inspiredGaming.surveyWebApp.models.Respondents;
+import com.inspiredGaming.surveyWebApp.models.Sessions;
 import com.inspiredGaming.surveyWebApp.models.StaffEmails;
 import com.inspiredGaming.surveyWebApp.models.SurveyKeys;
 import com.inspiredGaming.surveyWebApp.models.Surveys;
@@ -24,6 +25,7 @@ import com.inspiredGaming.surveyWebApp.models.dao.HelloLogDao;
 import com.inspiredGaming.surveyWebApp.models.dao.QuestionsDao;
 import com.inspiredGaming.surveyWebApp.models.dao.RespondentAnswersDao;
 import com.inspiredGaming.surveyWebApp.models.dao.RespondentsDao;
+import com.inspiredGaming.surveyWebApp.models.dao.SessionsDao;
 import com.inspiredGaming.surveyWebApp.models.dao.StaffEmailsDao;
 import com.inspiredGaming.surveyWebApp.models.dao.SurveyKeysDao;
 import com.inspiredGaming.surveyWebApp.models.dao.SurveysDao;
@@ -94,6 +96,9 @@ public class HelloController {
     private AnswersDao answersDao;
     
     @Autowired
+    private SessionsDao sessionsDao;
+    
+    @Autowired
     private StaffEmailsDao staffEmailsDao;
     
     @Autowired
@@ -121,7 +126,6 @@ public class HelloController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String loginPage(HttpServletResponse responce, HttpServletRequest request, Model model)
     {
-        
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         
@@ -132,17 +136,23 @@ public class HelloController {
         //EncryptPasswordWithPBKDF2WithHmacSHA1 afddas = new EncryptPasswordWithPBKDF2WithHmacSHA1();
         String databasePassword = "";
 
-        Cookie myCookie = new Cookie("myCookie", username);
+        
 
         
-        myCookie.setMaxAge(120);//sets the the lifespan of the cooki in seconds
+        
         
         if (user!=null)
         {
             databasePassword = user.getUserPassword();
             if(databasePassword.equals(password))
             {
+                user.getUserId();
+                Sessions s = new Sessions(user.getUserId());
+                sessionsDao.save(s);
+                Cookie myCookie = new Cookie("myCookie", s.getSessionId());
+                myCookie.setMaxAge(120);//sets the the lifespan of the cooki in seconds
                 responce.addCookie(myCookie);
+                
                 return "ourSurveyBuilder";
             }
         }
@@ -156,9 +166,18 @@ public class HelloController {
     //@ResponseBody //just for passing a string instead of a template
     public String surveyBuilderForm()
     {
+
         return "ourSurveyBuilder";
     }
     
+    
+    @RequestMapping(value = "/landing", method = RequestMethod.GET)
+    //@ResponseBody //just for passing a string instead of a template
+    public String landingForm()
+    {
+
+        return "landingPage";
+    }
     
     @RequestMapping(value = "/surveyBuilder", method = RequestMethod.POST)
     public String surveyBuilder(HttpServletRequest request, Model model)
