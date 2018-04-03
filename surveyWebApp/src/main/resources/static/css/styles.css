@@ -105,7 +105,7 @@ text-align : center;
 
 body{
 	
-	/* The image used */
+    /*The image used */
     /*background-image: url("../css/background_image.jpg");*/
     background-image: url("../css/inspbckgr.png");
 	/* background-color : #13233d; 	Light Silver Background Color */
@@ -121,8 +121,9 @@ body{
 
 
 #q_description{
+	margin-left: 1%;
 	font-size : 30px; /* Change font Size */
-	color : #12abcd; /* (Light Blue) Color */ 
+	color : #12abcd; /* (Light Blue) Color */
 }
 
 .questions{
@@ -137,6 +138,17 @@ body{
 	margin-top: 4%;
 }
 
+.surveyDiv{
+        z-index: 1;
+	margin: auto;
+	width : 85%;
+	background-color: whitesmoke;
+	font-size: 20px;
+	color : gray;
+	margin-top: 7%;
+        text-align:left;
+}
+
 a>.glyphicon
 {
     color:crimson;
@@ -146,6 +158,7 @@ a>.glyphicon
     width: 300px;
     margin-bottom: 2.5%;
     margin-top: 2.5%;
+    height: 2.58em;
 }
 
 button {
@@ -155,12 +168,10 @@ button {
     margin-left:  0.6%;
 }
 
-#question{
-	
+.question{
     color : white;
     background-color : black;
-    margin-bottom: 50px;
-	
+    margin-bottom: 5;
 }
 
 #question_text{
@@ -201,10 +212,12 @@ footer{
 	width : 33%
 }
 
-input{
-	
-    width: 2em;
-    height: 2.58em;
+th:first-child{
+	border-top-left-radius:5px;
+}
+
+th:last-child{
+	border-top-right-radius:5px;
 }
 
 select{
@@ -213,7 +226,18 @@ select{
     height: 3em;
 }
 
+.longselect{	
+    background-color:white;
+    width: 50%;
+    height: 3em;
+}
+
+.comboDiv{
+	margin-top:5%;
+}
+
 h3 {
+    margin-left: 1%;
     font-size: 25px !important;
 }
 
@@ -246,18 +270,19 @@ tr:nth-child(even) {
     background-color:#e3e3e3;
 }
 
-button {
+button,input[type=submit] {
     background-color: grey; /* Green */
     border: none;
     color: white;
     padding: 15px 32px;
-    text-align: center;
+    text-align: right;
+    /* text-align: center; */
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
 }
 
-button:hover {
+button:hover, input[type=submit]:hover {
     background-color: lightgray;
 }
 
@@ -309,4 +334,31 @@ td > button:hover {
 
 .modal-dialog{
     padding: 140px 0;
+}
+
+input, textarea{
+    margin-left: 5% !important;
+    margin-bottom:4%;
+}
+
+#submitButton{
+    margin-top:2%;
+    text-align:center;
+}
+
+#uploadText{
+	width:60%;
+	margin:auto;
+	margin-bottom:2%;
+}
+
+#deleteIcon{
+	color:black;
+	font-weight: bold;
+}
+
+#deleteIcon:hover{
+	color:#ad1e1e;
+	font-weight: bold;
+	cursor:pointer;
 }

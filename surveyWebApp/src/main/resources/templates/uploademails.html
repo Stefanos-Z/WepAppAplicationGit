@@ -4,12 +4,13 @@
         <title>Dallos Survey Manager</title>
     </head>
     <body>
+        <div th:replace="template :: banner"></div>
+        <h1> Email Upload</h1>
+        <p id="uploadText">You can use the form below to determine who is invited to complete a survey. 
+               
+               Enter each email on a <span id="modalSurvey">separate</span> line.</p>
         
-        <h1> Email Uploader</h1>
         <form id="myForm" name="emailForm" method="post">
-            <h1>Select the survey to send</h1>
-            <select name="surveys" th:utext="${selectList}"></select>
-            <h1> Enter each email on a separate line below </h1>
             <textarea rows="25" cols="50" name="emails" form="myForm"></textarea>
             <br></br>
             <input type="submit"></input>

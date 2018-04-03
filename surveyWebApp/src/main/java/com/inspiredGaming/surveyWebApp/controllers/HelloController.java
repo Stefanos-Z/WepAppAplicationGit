@@ -274,25 +274,7 @@ public class HelloController {
         return "survey";
     }
     
-    @RequestMapping(value = "/uploademails", method = RequestMethod.GET)
-    public String uploademailsForm(HttpServletRequest request, Model model)
-    {
-        
-        List<Surveys> surveys = surveysDao.findAll();
-        
-        String selectListHtml = "";
-        
-        //add all surveys to the form
-        for(int i = 0;i<surveys.size();i++)
-        {
-           
-            selectListHtml += "<option value = \""+surveys.get(i).getSurveyId()+"\">"+surveys.get(i).getSurveyName()+"</option>";
-        }
-        
-        model.addAttribute("selectList", selectListHtml);
-        
-        return "uploademails";
-    }
+    
     
     @RequestMapping(value = "/hello", method = RequestMethod.POST)
     //@ResponseBody //just for passing a string instead of a template
@@ -325,6 +307,8 @@ public class HelloController {
         
         int surveyId = surveyKeysDao.findByKeyId(request.getParameter("key")).getSurveyId();
         
+        Surveys s = surveysDao.findBySurveyId(surveyId);
+                
         //check key to see if survey has been completed
         boolean expired = surveyKeysDao.findByKeyId(request.getParameter("key")).getExpired();
         
@@ -346,7 +330,7 @@ public class HelloController {
                     htmlDoc.addQuestion(questionList.get(i), answerList,i+1);
             }       
 
-            model.addAttribute("surveyName", "Survey :"+surveyId);
+            //model.addAttribute("surveyName", "Survey :"+s.getSurveyName()); HEADER- REMOVED TEMPORARILY
             model.addAttribute("form", htmlDoc.getSurveyHTML());
 
             return "hello";
@@ -405,31 +389,28 @@ public class HelloController {
         return "hello";
     }
     
+    @RequestMapping(value = "/uploademails", method = RequestMethod.GET)
+    public String uploademailsForm(HttpServletRequest request, Model model)
+    {       
+        return "uploademails";
+    }
+    
     @RequestMapping(value = "/uploademails", method = RequestMethod.POST)
     public String uploadEmailsSubmit(HttpServletRequest request, Model model)
-    {
+    {        
         //get survey id
         String emails = request.getParameter("emails");
         
         String[] emailList = emails.split("\n");
         
+        //clear database of old emails.
+        staffEmailsDao.deleteAll();
+        
         //save all new emails
         for(int i = 0; i<emailList.length; i++)
         {
             emailList[i] = emailList[i].replaceAll("[\r|\n|\\s]","");
-            StaffEmails email = new StaffEmails(emailList[i]);
-            
-            //test - send survey to listed emails and record unique key
-            try {
-                System.out.println("gets here");
-                SurveyKeys key = new SurveyKeys(Integer.parseInt(request.getParameter("surveys")));
-                surveyKeysDao.save(key);
-                Email emailObj = new Email(emailList[i],"http://localhost:8080/survey?key="+key.getKeyId());
-                emailObj.send();
-            } catch (MessagingException ex) {
-                Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+            StaffEmails email = new StaffEmails(emailList[i]);            
             staffEmailsDao.save(email);
         }
         
@@ -485,24 +466,6 @@ public class HelloController {
         return "resultsSurveyList";
     }
     
-    @RequestMapping(value = "/survey_results/delete", method = RequestMethod.GET)
-    //@ResponseBody //just for passing a string instead of a template
-    public void surveyDelete(HttpServletRequest request, Model model)
-    {
-        //find the corresponding survey
-        int surveysId = Integer.parseInt(request.getParameter("surveyId"));
-        System.out.println(request.getParameter("surveyId"));
-        
-        Surveys s = surveysDao.findBySurveyId(surveysId);
-        System.out.println(s.getSurveyName());
-        
-        surveysDao.delete(s);
-        
-        surveyResults(request,model);
-        
-    }
-    
-    
     @RequestMapping(value = "/deleteSurvey", method = RequestMethod.POST)
     public String testSubmit(HttpServletRequest request) throws IOException
     {
@@ -523,6 +486,50 @@ public class HelloController {
         return "hello";
     }
     
+    @RequestMapping(value = "/sendemails", method = RequestMethod.GET)
+    public String sendemailsForm(HttpServletRequest request, Model model)
+    {
+        
+        List<Surveys> surveys = surveysDao.findAll();
+        
+        String selectListHtml = "";
+        
+        //add all surveys to the form
+        for(int i = 0;i<surveys.size();i++)
+        {
+           
+            selectListHtml += "<option value = \""+surveys.get(i).getSurveyId()+"\">"+surveys.get(i).getSurveyName()+"</option>";
+        }
+        
+        model.addAttribute("selectList", selectListHtml);
+        
+        return "sendemails";
+    }
+    
+    @RequestMapping(value = "/sendemails", method = RequestMethod.POST)
+    public String sendEmailsSubmit(HttpServletRequest request, Model model)
+    {
+        //get survey id
+        List<StaffEmails> emailList = staffEmailsDao.findAll();
+                
+        //save all new emails
+        for(int i = 0; i<emailList.size(); i++)
+        {
+            //test - send survey to listed emails and record unique key
+            try {
+                System.out.println("gets here");
+                SurveyKeys key = new SurveyKeys(Integer.parseInt(request.getParameter("surveys")));
+                surveyKeysDao.save(key);
+                Email emailObj = new Email(emailList.get(i).getEmail(),"http://localhost:8080/survey?key="+key.getKeyId());
+                emailObj.send();
+            } catch (MessagingException ex) {
+                Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        
+        return "sendemails";
+    }
         
     
     

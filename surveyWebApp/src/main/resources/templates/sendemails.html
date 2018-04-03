@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="template :: header">
+        <title>Dallos Survey Manager</title>
+    </head>
+    <body>
+        <div th:replace="template :: banner"></div>
+        <h1>Send a Survey</h1>
+            <p>You can use this page to email a survey to all members of staff.</p>
+            <p>To change the mailing list, please use the <a url="placeholder">upload emails</a> page. </p>
+        <div class="questions">
+            <form id="myForm" name="emailForm" method="post">
+                <div class="comboDiv">
+                    <span>Survey:  </span><select class="longselect" name="surveys" th:utext="${selectList}"></select>
+                </div>
+                <button type="submit">SEND</button>
+            </form>
+        </div>
+        
+    </body>
+    
+    <div th:replace="template :: footer"></div>
+</html>
