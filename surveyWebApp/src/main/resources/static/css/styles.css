@@ -299,3 +299,14 @@ input, textarea{
 	margin:auto;
 	margin-bottom:2%;
 }
+
+#deleteIcon{
+	color:black;
+	font-weight: bold;
+}
+
+#deleteIcon:hover{
+	color:#ad1e1e;
+	font-weight: bold;
+	cursor:pointer;
+}
