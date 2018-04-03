@@ -50,11 +50,11 @@ public class HtmlBuilderSurvey {
     {
         //create div for new question
         Element div = doc.createElement("div");
-        div.setAttribute("id", "question");
+        div.setAttribute("class", "question");
         
         //create header
         Element header = doc.createElement("h3");
-        header.setAttribute("id", "question_text");
+        header.setAttribute("class", "question_text");
         header.appendChild(doc.createTextNode(""+questionNumber+") "+question.getQuestion()));
         div.appendChild(header);
         form.appendChild(div);
@@ -71,7 +71,7 @@ public class HtmlBuilderSurvey {
             {
                 ans = doc.createElement("textarea");
                 ans.setAttribute("name", ""+question.getQuestionId());
-                ans.setAttribute("cols", "40");
+                ans.setAttribute("cols", "100");
                 ans.setAttribute("rows", "5");
                 ans.setAttribute("value", ""+answers.get(i).getAnswerId());
             }
@@ -82,9 +82,11 @@ public class HtmlBuilderSurvey {
                 ans.setAttribute("type", questionType);
                 ans.setAttribute("name", ""+question.getQuestionId());
                 ans.setAttribute("value", ""+answers.get(i).getAnswerId());
+                
             }
             
             ans.appendChild(doc.createTextNode(answers.get(i).getAnswer()));
+            form.appendChild(doc.createElement("br"));   //add carriage return
             form.appendChild(ans);
         }
         
@@ -116,11 +118,14 @@ public class HtmlBuilderSurvey {
     public String getSurveyHTML()
     {
         //append submit Button
+        Element buttonDiv = doc.createElement("div");
+        buttonDiv.setAttribute("id", "submitButton");
         form.appendChild(doc.createElement("br"));
         Element submitButton = doc.createElement("button");
         submitButton.setAttribute("type", "submit");
         submitButton.appendChild(doc.createTextNode("Submit Survey"));
-        form.appendChild(submitButton);
+        buttonDiv.appendChild(submitButton);
+        form.appendChild(buttonDiv);
             
         //configure serialisation
         DOMImplementation impl = doc.getImplementation();

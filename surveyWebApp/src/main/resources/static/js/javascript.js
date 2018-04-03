@@ -209,6 +209,16 @@ class Question
 	
 }
 
+//jquery function to remove text from textarea
+$(document).ready(function() {
+    
+    //code to remove the row from a table
+    $("textarea").click(function() {
+        (this).innerHTML = "";
+    });
+});
+
+
 
 
 

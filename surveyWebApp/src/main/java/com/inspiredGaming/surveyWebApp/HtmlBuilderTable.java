@@ -162,11 +162,13 @@ public class HtmlBuilderTable {
 
         //add surveyname
         Element surveyNameHeader = doc.createElement("th");
+        surveyNameHeader.setAttribute("class", "columns");
         surveyNameHeader.appendChild(doc.createTextNode("Survey Respondent"));
         headerRow.appendChild(surveyNameHeader);
 
         //add creation date
         Element creationDateHeader = doc.createElement("th");
+        creationDateHeader.setAttribute("class", "columns");
         creationDateHeader.appendChild(doc.createTextNode("Response Date"));
         headerRow.appendChild(creationDateHeader);
 
@@ -181,7 +183,7 @@ public class HtmlBuilderTable {
             Element respondentId = doc.createElement("td");
             Element link = doc.createElement("a");
             link.setAttribute("href", "http://localhost:8080/survey_results/responses/user?id="+respondents.get(i).getRespondentId());
-            link.appendChild(doc.createTextNode(""+respondents.get(i).getRespondentId()));
+            link.appendChild(doc.createTextNode(""+(i+1)));
             respondentId.appendChild(link);
             row.appendChild(respondentId);
             
@@ -209,6 +211,7 @@ public class HtmlBuilderTable {
 
         //add surveyname
         Element surveyNameHeader = doc.createElement("th");
+        surveyNameHeader.setAttribute("class", "firstColumn");
         surveyNameHeader.appendChild(doc.createTextNode("Question"));
         headerRow.appendChild(surveyNameHeader);
 
@@ -226,6 +229,7 @@ public class HtmlBuilderTable {
             
             //add question
             Element respondentId = doc.createElement("td");
+            respondentId.setAttribute("class", "firstColumn");
             respondentId.appendChild(doc.createTextNode(answers.get(i).getAnswers().getQuestions().getQuestion()));
             row.appendChild(respondentId);
             
@@ -245,6 +249,7 @@ public class HtmlBuilderTable {
             }
             
             Element answer = doc.createElement("td");
+            answer.setAttribute("class", "firstColumn");
             answer.appendChild(doc.createTextNode(ansString));
             row.appendChild(answer);
             
