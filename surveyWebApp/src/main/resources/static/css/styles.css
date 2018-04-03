@@ -218,7 +218,7 @@ tr:nth-child(even) {
     background-color:#e3e3e3;
 }
 
-button {
+button,input[type=submit] {
     background-color: grey; /* Green */
     border: none;
     color: white;
@@ -230,7 +230,7 @@ button {
     font-size: 16px;
 }
 
-button:hover {
+button:hover, input[type=submit]:hover {
     background-color: lightgray;
 }
 
@@ -294,3 +294,8 @@ input, textarea{
     text-align:center;
 }
 
+#uploadText{
+	width:60%;
+	margin:auto;
+	margin-bottom:2%;
+}

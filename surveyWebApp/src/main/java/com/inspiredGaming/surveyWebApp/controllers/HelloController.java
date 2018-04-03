@@ -255,25 +255,7 @@ public class HelloController {
         return "survey";
     }
     
-    @RequestMapping(value = "/uploademails", method = RequestMethod.GET)
-    public String uploademailsForm(HttpServletRequest request, Model model)
-    {
-        
-        List<Surveys> surveys = surveysDao.findAll();
-        
-        String selectListHtml = "";
-        
-        //add all surveys to the form
-        for(int i = 0;i<surveys.size();i++)
-        {
-           
-            selectListHtml += "<option value = \""+surveys.get(i).getSurveyId()+"\">"+surveys.get(i).getSurveyName()+"</option>";
-        }
-        
-        model.addAttribute("selectList", selectListHtml);
-        
-        return "uploademails";
-    }
+    
     
     @RequestMapping(value = "/hello", method = RequestMethod.POST)
     //@ResponseBody //just for passing a string instead of a template
@@ -388,31 +370,28 @@ public class HelloController {
         return "hello";
     }
     
+    @RequestMapping(value = "/uploademails", method = RequestMethod.GET)
+    public String uploademailsForm(HttpServletRequest request, Model model)
+    {       
+        return "uploademails";
+    }
+    
     @RequestMapping(value = "/uploademails", method = RequestMethod.POST)
     public String uploadEmailsSubmit(HttpServletRequest request, Model model)
-    {
+    {        
         //get survey id
         String emails = request.getParameter("emails");
         
         String[] emailList = emails.split("\n");
         
+        //clear database of old emails.
+        staffEmailsDao.deleteAll();
+        
         //save all new emails
         for(int i = 0; i<emailList.length; i++)
         {
             emailList[i] = emailList[i].replaceAll("[\r|\n|\\s]","");
-            StaffEmails email = new StaffEmails(emailList[i]);
-            
-            //test - send survey to listed emails and record unique key
-            try {
-                System.out.println("gets here");
-                SurveyKeys key = new SurveyKeys(Integer.parseInt(request.getParameter("surveys")));
-                surveyKeysDao.save(key);
-                Email emailObj = new Email(emailList[i],"http://localhost:8080/survey?key="+key.getKeyId());
-                emailObj.send();
-            } catch (MessagingException ex) {
-                Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+            StaffEmails email = new StaffEmails(emailList[i]);            
             staffEmailsDao.save(email);
         }
         
