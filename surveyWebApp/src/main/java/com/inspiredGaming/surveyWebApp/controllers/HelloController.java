@@ -37,7 +37,10 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.MessagingException;
+import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -54,6 +57,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.ui.ModelMap;
+
+
+
+
 
 /**
  *
@@ -92,12 +103,13 @@ public class HelloController {
     //Needed because the interface instance is not manually coded   
     
     
+    ServletContext servletContext;
+    
     
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    //@ResponseBody //just for passing a string instead of a template
-    public String loginPage()
+    public String loginPage(HttpServletResponse responce)
     {
-        
+
         return "sLogin";
     }
     
@@ -105,30 +117,33 @@ public class HelloController {
     
     
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String loginPage(HttpServletRequest request, Model model)
+    public String loginPage(HttpServletResponse responce, HttpServletRequest request, Model model)
     {
         
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         
-        //Users newUser = new Users(username, password, "anemail@email.com", "0998789733");
-        //usersDao.save(newUser); //saves login details to the database
+//        Users newUser = new Users(username, password, "malakas@deryneia.com", "0998789733");
+//        usersDao.save(newUser); //saves login details to the database
         Users user = usersDao.findByUsername(username);
+
+        //EncryptPasswordWithPBKDF2WithHmacSHA1 afddas = new EncryptPasswordWithPBKDF2WithHmacSHA1();
         String databasePassword = "";
 
+        Cookie myCookie = new Cookie("myCookie", username);
+
+        
+        myCookie.setMaxAge(120);//sets the the lifespan of the cooki in seconds
         
         if (user!=null)
         {
             databasePassword = user.getUserPassword();
             if(databasePassword.equals(password))
             {
+                responce.addCookie(myCookie);
                 return "ourSurveyBuilder";
             }
         }
-        
-        
-
-
 
         
         return "sLogin";
@@ -398,4 +413,13 @@ public class HelloController {
         return "uploademails";
     }
         
+    
+    
+    private boolean checkValidation()
+    {
+        
+        
+        return true;
+    }
 }
+    
