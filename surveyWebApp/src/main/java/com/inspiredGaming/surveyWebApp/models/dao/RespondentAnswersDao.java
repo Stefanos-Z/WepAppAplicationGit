@@ -26,4 +26,7 @@ public interface RespondentAnswersDao extends CrudRepository<RespondentAnswers, 
     public List<RespondentAnswers> findAll();
     
     public Respondents findByRespondentAnswerId(Integer respondentAnswerId);
+    
+    public List<RespondentAnswers> findByRespondentId(Integer respondentId);
+    
 }

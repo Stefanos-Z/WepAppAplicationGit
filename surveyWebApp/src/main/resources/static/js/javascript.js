@@ -11,22 +11,29 @@ function createAnswer(question)
 	switch(answerType) 
 	{
 		case 'ScoreRange':
-			//console.log("Score Range Selected");
-			
-					
+                //delete all previous answer fields
+			//console.log("Score Range Selected");					
 			break;
 		case 'RadioButtons':
+                //create new answer field
 			//console.log("Radio Buttons Selected");
 			var title = document.createTextNode("Answer: ");	
 			var ans = document.createElement("input");
 			ans.setAttribute('type',"text");
 			ans.setAttribute('name', "answer"+question);	
 			ans.setAttribute('id', "ans"+question);
-			var div = document.getElementById("div"+question);	
+                        ans.setAttribute("class","textbox");
+			var div = document.getElementById("div"+question);
+                        
+                        var br = document.createElement("br");          
+                       
+                        div.appendChild(br);
 			div.appendChild(title);
 			div.appendChild(ans);
+                        
 			break;
-		case 'MultipleChoice':
+		/*case 'MultipleChoice':
+                
 			//console.log("Multiple Choice Selected");
 			var title = document.createTextNode("Answer: ");	
 			var ans = document.createElement("input");
@@ -35,16 +42,17 @@ function createAnswer(question)
 			var div = document.getElementById("div"+question);	
 			div.appendChild(title);
 			div.appendChild(ans);
-			break;
+			break;*/
 		case 'OpenText':
+                //delete all answer fields
 			//console.log("Open Text Selected");
-			var title = document.createTextNode("Limit: ");	
+			/*var title = document.createTextNode("Limit: ");	
 			var ans = document.createElement("input");
 			ans.setAttribute('type',"text");
 			ans.setAttribute('name', "answer");
 			var div = document.getElementById("div"+question);			
 			div.appendChild(title);
-			div.appendChild(ans);
+			div.appendChild(ans);*/
 			break;		
 	}	
 	answerCounter++;	
@@ -126,28 +134,37 @@ function constructString()
 
         var textField = document.getElementById("xmlForm");
         textField.value = temp;
+        
+        return true;  //Placeholder- can be used to prevent bad xml from being submitted.
 }
+
+
 
 function createQuestion()
 {
-	var newQ ='<br><br><form> Question Text:<input id="question'+questionCounter+'"type="text" name="questionText"></form>';
+	var newQ ='<br><form> Q'+(questionCounter+1)+': <input id="question'+questionCounter+'"type="text" name="questionText" class="textbox">';
 		newQ +='<select id="dropDown'+questionCounter+'" name="qType">';
 		newQ +='<option value="RadioButtons">Radio Button</option>';
-		newQ +='<option value="MultipleChoice">Multiple Choice</option>';
+		//newQ +='<option value="MultipleChoice">Multiple Choice</option>';
 		newQ +='<option value="ScoreRange">Score Range</option>';
 		newQ +='<option value="OpenText">Open Text</option>';
 		newQ +='</select><select id="required'+questionCounter+'" name="Required">';
 		newQ +='<option value="yes">Yes</option>';
 		newQ +='<option value="no">No</option>'	;		
-		newQ +='</select></br>';
+		newQ +='</select></form>';
 		newQ +='<button onclick="createAnswer('+questionCounter+')" type="button" name="createQ">Create Answer</button>';
 		//newQ +='<button onclick="createQuestionObj('+questionCounter+')" type="button" name="saveQuestion">Save Question</button>'
 		
 		//var newDiv ='<div id="div'+(questionCounter + 1)+'"></div>'
 		var newDivE = document.createElement("div");
 		newDivE.setAttribute('id', "div"+(questionCounter + 1));
+                newDivE.setAttribute("class","questions");
+                newDivE.setAttribute("style","display:none");
 		
-		document.getElementById("div" + questionCounter).innerHTML = newQ;
+                //insert html into empty div
+                var nextDiv = document.getElementById("div" + questionCounter)
+		nextDiv.innerHTML = newQ;
+                nextDiv.removeAttribute("style");
 		var body = document.getElementsByTagName("body")[0];
 		body.appendChild(newDivE);
 		

@@ -10,6 +10,7 @@ import com.inspiredGaming.surveyWebApp.models.Surveys;
 import com.inspiredGaming.surveyWebApp.models.dao.AnswersDao;
 import com.inspiredGaming.surveyWebApp.models.dao.QuestionsDao;
 import com.inspiredGaming.surveyWebApp.models.dao.SurveysDao;
+import com.inspiredGaming.surveyWebApp.models.dao.UsersDao;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
@@ -37,6 +38,9 @@ public class QuestionsParser {
     
     @Autowired
     private QuestionsDao questionsDao;
+    
+    @Autowired
+    private UsersDao usersDao;
     
     @Autowired
     private AnswersDao answersDao;
@@ -70,7 +74,7 @@ public class QuestionsParser {
         //test:survey to database
         
         //save survey to the database
-        Surveys survey  = new Surveys(surveyName,1);
+        Surveys survey  = new Surveys(surveyName,usersDao.findByUserId(1));
         surveysDao.save(survey);
         
         for(int i = 0; i<doc.getElementsByTagName("question").getLength();i++)

@@ -1,8 +1,10 @@
 html{
 	
-	font-family : Arial; /* Same font Type for every page */
-	font-size  : 20px; /* Set a default page*/
-	text-align : center; 
+font-family: "Open Sans", Arial, Tahoma, sans-serif;/* Same font Type for every page */
+	
+font-size  : 20px; /* Set a default page*/
+	
+text-align : center;
 }
 
 #menu{ /* Edit the Menu in the Header */
@@ -23,14 +25,15 @@ html{
 
 #header_title{
 	
-	font-size : 75px; /* Change font Size */
+	font-size : 50px; /* Change font Size */
 	font-weight : bold; /* Set Bold Text */
 	letter-spacing: 5px; 
 	line-height: 1;
-	color : black; /* (Light Blue) Color */ 
+	color : white; /* (Light Blue) Color */ 
 	text-align : center; /* Set Text Allignment to the center */
-	text-decoration-line: underline; /* Underline Text */
-    text-decoration-style: solid; /* Solid Text */
+        text-decoration-style: solid; /* Solid Text */
+        margin-bottom: 50px;
+        margin-top: 50px;
 }
 
 #header_banner, .questions {
@@ -43,15 +46,16 @@ html{
 	box-shadow: 9px 7px 300px 41px rgba(18,171,205,1);
         */
         
-	border: 10px solid #12abcd; 
-	border-radius: 150px 30px;
-	background-color: white;
+	border: 10px solid #000000; 
+	/*border-radius: 150px 30px;*/
+	background-color: black;
 }
 
 body{
 	
 	/* The image used */
-    background-image: url("../css/background_image.jpg");
+    /*background-image: url("../css/background_image.jpg");*/
+    background-image: url("../css/inspbckgr.png");
 	/* background-color : #13233d; 	Light Silver Background Color */
     
 	/* Full height */
@@ -70,21 +74,39 @@ body{
 }
 
 .questions{
-	
+        z-index: 1;
 	margin: auto;
-	width : 65%;
-	margin-top : 75px;
-	background-color : white;
+	width : 85%;
+	background-color: whitesmoke;
 	font-size: 20px;
 	color : gray;
-	border: 10px solid #12abcd;
-	border-radius: 50px;
+	border: 5px solid grey;
+	border-radius: 10px;
+	margin-top: 4%;
+}
+
+a>.glyphicon
+{
+    color:crimson;
+}
+
+.textbox{
+    width: 300px;
+    margin-bottom: 2.5%;
+    margin-top: 2.5%;
+}
+
+button {
+    margin-bottom: 2.5%;
+    margin-top: 2.5%;
+    margin-right:  0.6%;
+    margin-left:  0.6%;
 }
 
 #question{
 	
-	color : white;
-	background-color : black;
+    color : white;
+    background-color : black;
     margin-bottom: 50px;
 	
 }
@@ -130,9 +152,109 @@ footer{
 input{
 	
     width: 2em;
-    height: 2em;
+    height: 2.58em;
+}
+
+select{
+	
+    width: 10em;
+    height: 3em;
 }
 
 h3 {
     font-size: 25px !important;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.firstColumn{
+    text-align: left !important;
+}
+
+.columns
+{
+    text-align: center !important;
+}
+
+td, th {
+    text-align: center;
+    padding: 8px !important;
+}
+
+th{
+     background-color: black;
+     color : white;
+}
+
+tr:nth-child(even) {
+    background-color:#e3e3e3;
+}
+
+button {
+    background-color: grey; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: lightgray;
+}
+
+.sbuilderheader
+{
+    z-index: 1;
+    top:0;
+    position:fixed;
+    width:100%;
+    display: block;
+    overflow: hidden;
+    color:white;
+    background-color:black;
+}
+
+#div0{
+    margin-top: 15%;
+}
+
+#submitForm {
+    display:inline;
+}
+
+td > button
+{
+    outline:0;
+    padding: 0;
+    font-size: 25px;
+    color:crimson;
+    background-color:rgba(0, 0, 0, 0);
+}
+
+td > button:hover {
+    color:red;
+    background-color:rgba(0, 0, 0, 0);
+    border: 0px solid rgba(0, 0, 0, 0) !important;
+}
+
+.modal-header{
+    background-color: crimson;
+    color: white;
+}
+
+#modalSurvey
+{
+    font-weight: bold;
+    color:#12abcd;
+}
+
+.modal-dialog{
+    padding: 140px 0;
 }

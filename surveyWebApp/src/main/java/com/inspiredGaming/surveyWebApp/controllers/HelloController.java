@@ -6,7 +6,8 @@
 package com.inspiredGaming.surveyWebApp.controllers;
 
 import com.inspiredGaming.surveyWebApp.Email;
-import com.inspiredGaming.surveyWebApp.HtmlBuilder;
+import com.inspiredGaming.surveyWebApp.HtmlBuilderSurvey;
+import com.inspiredGaming.surveyWebApp.HtmlBuilderTable;
 import com.inspiredGaming.surveyWebApp.XMLParser.QuestionsParser;
 import com.inspiredGaming.surveyWebApp.models.Answers;
 import com.inspiredGaming.surveyWebApp.models.HelloLog;
@@ -36,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
@@ -181,7 +183,7 @@ public class HelloController {
             String surveyName = path.evaluate("/survey/surveyName" ,doc);
 
             //save survey to the database
-            Surveys survey  = new Surveys(surveyName,1);
+            Surveys survey  = new Surveys(surveyName,usersDao.findByUserId(1));
             surveysDao.save(survey);
 
             for(int i = 0; i<doc.getElementsByTagName("question").getLength();i++)
@@ -209,7 +211,7 @@ public class HelloController {
                 //add answers for the question
                 if(questionTypeId==4)
                 {
-                    Answers answer = new Answers("",question.getQuestionId(),0);
+                    Answers answer = new Answers("",question,0);
                     answersDao.save(answer);
                 }
                 else
@@ -221,7 +223,7 @@ public class HelloController {
                         String answerText = aE.getTextContent();
                         //String answerWeight = aE.getElementsByTagName("answerWeight").item(0).getTextContent();
 
-                        Answers answer = new Answers(answerText,question.getQuestionId(),0);
+                        Answers answer = new Answers(answerText,question,0);
                         answersDao.save(answer);
                     }
                 }
@@ -313,13 +315,13 @@ public class HelloController {
             List<Questions> questionList = questionsDao.findBySurveyId(surveyId);
 
             //build html for survey
-            HtmlBuilder htmlDoc = new HtmlBuilder();
+            HtmlBuilderSurvey htmlDoc = new HtmlBuilderSurvey();
 
             //generates html <h1> tags for each row
             for(int i = 0;i<questionList.size();i++)
             {
                     //get answers for all questions
-                    List<Answers> answerList = answersDao.findByQuestionId(questionList.get(i).getQuestionId());
+                    List<Answers> answerList = answersDao.findByQuestions(questionList.get(i));
 
                     //add question & answers to html
                     htmlDoc.addQuestion(questionList.get(i), answerList,i+1);
@@ -348,7 +350,7 @@ public class HelloController {
         Map<String, String[]> map = request.getParameterMap();
         
         //add respondent to table
-        Respondents log = new Respondents();
+        Respondents log = new Respondents(surveyId);
         respondentDao.save(log);
         
         //add answers to database
@@ -360,15 +362,17 @@ public class HelloController {
             //if question is text, need to search for answerId & insert value param into answerText field
             if(questionTypeId==4)
             {
-                List<Answers> textAnswer = answersDao.findByQuestionId(questionList.get(i).getQuestionId());
-                int answerId = textAnswer.get(0).getAnswerId();                
+                List<Answers> textAnswer = answersDao.findByQuestions(questionList.get(i));
+                //Answer answerId = textAnswer.get(0).getAnswerId();                
                 
-                RespondentAnswers answerLog = new RespondentAnswers(answerId,log.getRespondentId(),map.get(""+questionList.get(i).getQuestionId())[0]);
+                RespondentAnswers answerLog = new RespondentAnswers(textAnswer.get(0),log.getRespondentId(),map.get(""+questionList.get(i).getQuestionId())[0]);
                 respondentAnswerDao.save(answerLog);
             }
             else
             {
-                RespondentAnswers answerLog = new RespondentAnswers(Integer.parseInt(map.get(""+questionList.get(i).getQuestionId())[0]),log.getRespondentId(),"");
+                //insert radio buttons answerlog.
+                Answers a = answersDao.findByAnswerId(Integer.parseInt(map.get(""+questionList.get(i).getQuestionId())[0]));
+                RespondentAnswers answerLog = new RespondentAnswers(a,log.getRespondentId(),"");
                 respondentAnswerDao.save(answerLog);
             }
             
@@ -412,6 +416,94 @@ public class HelloController {
         
         return "uploademails";
     }
+    
+    @RequestMapping(value = "/survey_results", method = RequestMethod.GET)
+    //@ResponseBody //just for passing a string instead of a template
+    public String surveyResults(HttpServletRequest request, Model model)
+    {
+        List<Surveys> surveyList = surveysDao.findAll();
+        
+        HtmlBuilderTable tableBuilder = new HtmlBuilderTable();
+        
+        String tableXML = tableBuilder.buildSurveyTable(surveyList,respondentDao);
+        
+         model.addAttribute("surveyTable", tableXML);
+        
+        return "resultsSurveyList";
+    }
+    
+    @RequestMapping(value = "/survey_results/responses", method = RequestMethod.GET)
+    //@ResponseBody //just for passing a string instead of a template
+    public String surveyResponses(HttpServletRequest request, Model model)
+    {
+        int surveyId = Integer.parseInt(request.getParameter("survey"));
+        
+        List<Respondents> respondentList = respondentDao.findBySurveyId(surveyId);
+        
+        HtmlBuilderTable tableBuilder = new HtmlBuilderTable();
+        
+        String tableXML = tableBuilder.buildResponseTable(respondentList);
+        
+         model.addAttribute("surveyTable", tableXML);
+        
+        return "resultsSurveyList";
+    }
+    
+    @RequestMapping(value = "/survey_results/responses/user", method = RequestMethod.GET)
+    //@ResponseBody //just for passing a string instead of a template
+    public String surveyIndividualResponses(HttpServletRequest request, Model model)
+    {
+        int respondentId = Integer.parseInt(request.getParameter("id"));
+        
+        List<RespondentAnswers> answers = respondentAnswerDao.findByRespondentId(respondentId);
+        
+        HtmlBuilderTable tableBuilder = new HtmlBuilderTable();
+        
+        String tableXML = tableBuilder.buildIndividialResponse(answers);
+        
+        model.addAttribute("surveyTable", tableXML);
+        
+        return "resultsSurveyList";
+    }
+    
+    @RequestMapping(value = "/survey_results/delete", method = RequestMethod.GET)
+    //@ResponseBody //just for passing a string instead of a template
+    public void surveyDelete(HttpServletRequest request, Model model)
+    {
+        //find the corresponding survey
+        int surveysId = Integer.parseInt(request.getParameter("surveyId"));
+        System.out.println(request.getParameter("surveyId"));
+        
+        Surveys s = surveysDao.findBySurveyId(surveysId);
+        System.out.println(s.getSurveyName());
+        
+        surveysDao.delete(s);
+        
+        surveyResults(request,model);
+        
+    }
+    
+    
+    @RequestMapping(value = "/deleteSurvey", method = RequestMethod.POST)
+    public String testSubmit(HttpServletRequest request) throws IOException
+    {
+        //get parameter from request body
+        int surveyId = Integer.parseInt(request.getParameter("surveyid"));
+        System.out.println(request.getParameter("surveyid"));
+        
+        //find corresponding survey
+        Surveys s = surveysDao.findBySurveyId(surveyId);
+        System.out.println(s.getSurveyName());
+        
+        //delete survey from database
+        surveysDao.delete(s);
+        
+        System.out.println("test successful!");
+                
+        //return surveyResults(request,model);
+        return "hello";
+    }
+    
         
     
     

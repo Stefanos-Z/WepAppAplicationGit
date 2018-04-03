@@ -24,6 +24,6 @@ public interface SurveysDao extends CrudRepository<Surveys, Integer>{
     
     public List<Surveys> findAll();
     
-    public Questions findBySurveyId(Integer surveyId);
+    public Surveys findBySurveyId(Integer surveyId);
     
 }

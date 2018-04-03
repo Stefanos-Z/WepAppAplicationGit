@@ -6,6 +6,7 @@
 package com.inspiredGaming.surveyWebApp.models.dao;
 
 import com.inspiredGaming.surveyWebApp.models.Answers;
+import com.inspiredGaming.surveyWebApp.models.Questions;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.data.repository.CrudRepository;
@@ -25,5 +26,5 @@ public interface AnswersDao extends CrudRepository<Answers, Integer>{
     
     public Answers findByAnswerId(Integer answerId);
     
-    public List<Answers> findByQuestionId(Integer questionId);
+    public List<Answers> findByQuestions(Questions questions);
 }

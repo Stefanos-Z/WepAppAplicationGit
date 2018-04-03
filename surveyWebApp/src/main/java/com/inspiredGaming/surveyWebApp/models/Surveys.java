@@ -8,9 +8,12 @@ package com.inspiredGaming.surveyWebApp.models;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -25,13 +28,18 @@ public class Surveys {
 
     private int surveyId;
     private String surveyName;
-    private int userId;
+    private Users users;
     private Date creationDate;
     
-    public Surveys(String surveyName, int userId)
+    /**
+     * 
+     * @param surveyName
+     * @param users 
+     */
+    public Surveys(String surveyName, Users users)
     {
         this.surveyName = surveyName;
-        this.userId = userId;
+        this.users = users;
         this.creationDate = new Date();
     }
     
@@ -58,11 +66,12 @@ public class Surveys {
         return surveyName;
     }
     
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
-    @Column(name="userId")
-    public int getUserId()
+    @JoinColumn(name = "userId", nullable = false)
+    public Users getUsers()
     {
-        return userId;
+        return users;
     }
     
     
@@ -80,8 +89,8 @@ public class Surveys {
         this.surveyName = surveyName;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUsers(Users users) {
+        this.users = users;
     }
 
     public void setCreationDate(Date creationDate) {

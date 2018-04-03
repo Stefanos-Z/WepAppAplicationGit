@@ -25,12 +25,12 @@ import org.w3c.dom.ls.LSSerializer;
  *
  * @author Levi
  */
-public class HtmlBuilder {
+public class HtmlBuilderSurvey {
     
     private Document doc;
     private Element form;
     
-    public HtmlBuilder()
+    public HtmlBuilderSurvey()
     {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -42,7 +42,7 @@ public class HtmlBuilder {
             
             doc.appendChild(form);
         } catch (ParserConfigurationException ex) {
-            Logger.getLogger(HtmlBuilder.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HtmlBuilderSurvey.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -170,7 +170,7 @@ public class HtmlBuilder {
             System.out.println(htmlText);
             
         } catch (ParserConfigurationException ex) {
-            Logger.getLogger(HtmlBuilder.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HtmlBuilderSurvey.class.getName()).log(Level.SEVERE, null, ex);
         }
         return htmlText;
     }
