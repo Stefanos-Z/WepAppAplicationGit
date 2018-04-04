@@ -26,13 +26,24 @@ text-align : center;
 {
     float: right;
 }
+#inspiredLogo{
+    float: left;
+    margin-right: 2%;
+}
 
 
-.navbar  li a {
+.navbar  li a{
     display: block;
     color: white;
     text-align: center;
     padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar img {
+    display: block;
+    text-align: center;
+    padding: 11px 16px;
     text-decoration: none;
 }
 
