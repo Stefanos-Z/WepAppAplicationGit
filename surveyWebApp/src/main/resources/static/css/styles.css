@@ -37,7 +37,7 @@ text-align : center;
 }
 
 .navbar li a:hover {
-    background-color: #055;
+    background-color: #ccc;
 }
 
 .imageBTN{
@@ -161,7 +161,7 @@ a>.glyphicon
 .textbox{
     width: 300px;
     margin-bottom: 2.5%;
-    margin-top: 2.5%;
+    /* margin-top: 2.5%; */
     height: 2.58em;
 }
 
@@ -391,7 +391,8 @@ input, textarea{
 	font-weight:bold;
 }
 
-.serviceBar h4:hover{
-	color: #ad1e1e;
-	font-weight:bold;
+.serviceBar h4:hover
+{
+    color: #ad1e1e;
+    font-weight:bold;
 }
