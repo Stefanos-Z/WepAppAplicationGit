@@ -3,8 +3,9 @@
     <head th:replace="template :: header">
         <title>Dallos Survey Manager</title>
         <script src="../js/javascript.js"></script>
+        
     </head>
-    <body id="body">
+    <body id="body" onload="createQuestion()">
         <div th:replace="template :: navbar"/>
         <div class="sbuilderheader">
             <!--<h1>Survey Builder</h1>-->
@@ -14,7 +15,7 @@
             <form id="submitForm" onsubmit="return constructString()" method="post" >
                 <input type="text" id="xmlForm" name="mytextform" value="" style="display:none"></input>
             <button id="saveButton" type="submit">Save Survey</button>
-            <button id="debugButton" type="button">debugger</button>
+            
             </form>
             <br></br>
         </div>
