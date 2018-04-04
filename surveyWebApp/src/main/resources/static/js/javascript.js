@@ -249,12 +249,3 @@ $(document).ready(function() {
         (this).innerHTML = "";
     });
 });
-
-
-
-
-
-
-
-
-	
