@@ -106,6 +106,12 @@ function createQuestionObj(question)
 
 function constructString()
 {
+    var allQuestionsFilled = checkQuestionText();
+    if(!allQuestionsFilled)
+    {
+        alert("Not all question fields completed");
+        return false;
+    }
 	for(m = 0; m < questionCounter; m++)
 	{
 		createQuestionObj(m);
@@ -249,3 +255,22 @@ $(document).ready(function() {
         (this).innerHTML = "";
     });
 });
+
+function checkQuestionText()
+{    
+    for(i = 0; i < questionCounter; i++)
+    {
+        try
+        {
+            var questionText = document.getElementById("question"+i).value;
+            if(questionText === "")
+            {
+                document.getElementById("question"+i).style.borderColor = "red";
+                return false;
+            }
+        }catch(e){
+            console.log("No question")
+        }
+    }
+    return true;    
+}
