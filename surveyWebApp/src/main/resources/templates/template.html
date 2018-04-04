@@ -23,7 +23,7 @@
                 <li><a href="survey_results">View Results</a></li>
                 <li><a href="sendemails">Send a Survey</a></li>
                 <li><a href="uploademails">Upload Emails</a></li>
-                <li id="surveyLogout"><a href="sLogin">logout</a></li>
+                <li id="surveyLogout"><a th:text="${username}" href="sLogin">logout</a></li>
             </ul>
         </div>
         <form method="post">
@@ -32,6 +32,6 @@
         </form>
     </body>
     <p th:fragment="footer">
-        example footer
+        
     </p>
 </html>

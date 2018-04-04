@@ -169,7 +169,6 @@ public class HelloController {
     //@ResponseBody //just for passing a string instead of a template
     public String landingForm()
     {
-
         return "landingPage";
     }
     
