@@ -127,7 +127,7 @@ body{
     
 	/* Full height */
     height: 100%; 
-	
+    margin:0;
     /* Center and scale the image nicely */
     background-repeat: no-repeat;
     background-size: cover;
@@ -256,7 +256,7 @@ h3 {
     font-size: 25px !important;
 }
 
-table {
+table{
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
@@ -384,7 +384,7 @@ input, textarea{
 }
 
 .iconGlyph{
-	font-size: 1000%;
+	font-size: 1250%;
 	margin-top:5%;
 	color:#bdbdbd !important;
 }
@@ -396,6 +396,7 @@ input, textarea{
 .serviceBar{
 	width:60%;
 }
+
 
 .serviceBar h4{
 	color:black;
