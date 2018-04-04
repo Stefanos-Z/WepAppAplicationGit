@@ -7,8 +7,7 @@ function createAnswer(question)
 	var elementID = "dropDown" + question;
 	var answerType = document.getElementById(elementID).value;
 	
-	
-	switch(answerType) 
+	switch(answerType)
 	{
 		case 'ScoreRange':
                 //delete all previous answer fields

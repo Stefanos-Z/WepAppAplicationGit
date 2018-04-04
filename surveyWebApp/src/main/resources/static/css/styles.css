@@ -54,7 +54,7 @@ text-align : center;
     margin: auto;
 }
 .imageAndHref img{
-    height: 80%;
+    height: 40%;
     float:top;
 }
 .imageAndHref a{
@@ -366,4 +366,28 @@ input, textarea{
 .loginForm input[type=text],.loginForm input[type=password] {
 	width:40%;
 	height:30px;
+}
+
+.iconGlyph{
+	font-size: 1000%;
+	margin-top:5%;
+	color:#bdbdbd !important;
+}
+
+.iconGlyph:hover{
+	color:#c34949 !important;
+}
+
+.serviceBar{
+	width:60%;
+}
+
+.serviceBar h4{
+	color:black;
+	font-weight:bold;
+}
+
+.serviceBar h4:hover{
+	color: #ad1e1e;
+	font-weight:bold;
 }

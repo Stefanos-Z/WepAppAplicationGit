@@ -5,7 +5,7 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="template :: header">
+    <head th:replace="template :: bootstrapHeader">
         <title>TODO supply a title</title>
         <meta charset="UTF-8"></meta>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
@@ -19,6 +19,7 @@ and open the template in the editor.
                 <li><a href="about.asp">About</a></li>
             </ul>
         </div>
+        <!--
         <div class="TopImagePanel">
             <div class="imageAndHref">
                 <img class="imageBTN"  src="img/build.jpg" alt="" />
@@ -33,6 +34,46 @@ and open the template in the editor.
         <div class="BottomImagePanel">
             <img class="imageBTN"  src="img/results.png"/>
             <img class="imageBTN"  src="img/settings.png"/>
-        </div>
+        </div>-->
+        <div class="container-fluid text-center serviceBar">
+            
+            <div class="row">
+              <div class="col-sm-6">
+                          <a href="surveyBuilder">
+                            <span class="glyphicon glyphicon-wrench iconGlyph"></span>
+                            <h4>Create a Survey</h4>
+
+                          </a>
+              </div>
+              <div class="col-sm-6">
+                          <a href="survey_results">
+                            <span class="glyphicon glyphicon-signal iconGlyph"></span>
+                            <h4>View Survey Results</h4>
+
+                          </a>
+              </div>
+
+            </div>
+            <br></br>
+            
+            
+            <div class="row">
+              <div class="col-sm-6">
+                  <a href="sendemails">
+                <span class="glyphicon glyphicon-envelope iconGlyph"></span>
+                <h4>Send a survey</h4>
+
+                  </a>
+              </div>
+              <div class="col-sm-6">
+                  <a href="uploademails">
+                <span class="glyphicon glyphicon-upload iconGlyph"></span>
+                <h4>Upload Email Addresses</h4>
+
+                  </a>
+              </div>
+
+            </div>
+            </div>
     </body>
 </html>

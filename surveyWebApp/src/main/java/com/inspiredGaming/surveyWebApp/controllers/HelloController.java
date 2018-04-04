@@ -135,11 +135,6 @@ public class HelloController {
 
         //EncryptPasswordWithPBKDF2WithHmacSHA1 afddas = new EncryptPasswordWithPBKDF2WithHmacSHA1();
         String databasePassword = "";
-
-        
-
-        
-        
         
         if (user!=null)
         {
@@ -153,10 +148,9 @@ public class HelloController {
                 myCookie.setMaxAge(120);//sets the the lifespan of the cooki in seconds
                 responce.addCookie(myCookie);
                 
-                return "ourSurveyBuilder";
+                return "landingPage";
             }
         }
-
         
         return "sLogin";
     }
