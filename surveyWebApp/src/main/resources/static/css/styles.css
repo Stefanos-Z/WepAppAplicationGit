@@ -178,6 +178,7 @@ a>.glyphicon
     margin-bottom: 2.5%;
     /* margin-top: 2.5%; */
     height: 2.58em;
+    border: 3px solid;
 }
 
 button {
