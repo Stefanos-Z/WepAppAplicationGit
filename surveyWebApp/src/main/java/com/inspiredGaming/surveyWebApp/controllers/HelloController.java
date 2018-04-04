@@ -147,8 +147,9 @@ public class HelloController {
                 Cookie myCookie = new Cookie("myCookie", s.getSessionId());
                 myCookie.setMaxAge(120);//sets the the lifespan of the cooki in seconds
                 responce.addCookie(myCookie);
-                
+
                 return "landingPage";
+                //return landingForm();
             }
         }
         
@@ -160,7 +161,7 @@ public class HelloController {
     //@ResponseBody //just for passing a string instead of a template
     public String surveyBuilderForm()
     {
-
+        //checkValidation(request);
         return "ourSurveyBuilder";
     }
     
@@ -169,13 +170,15 @@ public class HelloController {
     //@ResponseBody //just for passing a string instead of a template
     public String landingForm()
     {
-
+        
         return "landingPage";
     }
     
     @RequestMapping(value = "/surveyBuilder", method = RequestMethod.POST)
     public String surveyBuilder(HttpServletRequest request, Model model)
     {
+        System.out.println("hello my world");
+        checkValidation(request);
         try {
             //gets the value from the textbox
             //System.out.println(request.getParameter("mytextform"));
@@ -527,10 +530,19 @@ public class HelloController {
         
     
     
-    private boolean checkValidation()
+    private boolean checkValidation(HttpServletRequest request)
     {
-        
-        
+
+        Cookie[] c = request.getCookies();
+        if(c == null)
+        {
+            System.out.println("no cookies found");
+            return false;
+        }
+        System.out.println(c.length);
+//        Cookie myCookie = c[0];
+//        System.out.println(myCookie.getDomain());
+//        System.out.println(myCookie.getValue());
         return true;
     }
 }
