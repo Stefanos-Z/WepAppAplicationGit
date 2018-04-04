@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -144,8 +145,10 @@ public class HelloController {
                 user.getUserId();
                 Sessions s = new Sessions(user.getUserId());
                 sessionsDao.save(s);
-                Cookie myCookie = new Cookie("myCookie", s.getSessionId());
-                myCookie.setMaxAge(120);//sets the the lifespan of the cooki in seconds
+                Cookie myCookie = new Cookie(user.getUsername(), s.getSessionId());
+                myCookie.setMaxAge(60*60);//sets the the lifespan of the cooki in seconds
+                myCookie.setPath("/");
+                
                 responce.addCookie(myCookie);
 
                 return "landingPage";
@@ -159,26 +162,28 @@ public class HelloController {
     
     @RequestMapping(value = "/surveyBuilder", method = RequestMethod.GET)
     //@ResponseBody //just for passing a string instead of a template
-    public String surveyBuilderForm()
+    public String surveyBuilderForm(HttpServletRequest request)
     {
-        //checkValidation(request);
-        return "ourSurveyBuilder";
+        if(checkValidation(request))
+            return "ourSurveyBuilder";
+        return "sLogin";
     }
     
     
     @RequestMapping(value = "/landing", method = RequestMethod.GET)
     //@ResponseBody //just for passing a string instead of a template
-    public String landingForm()
+    public String landingForm(HttpServletRequest request)
     {
-        
-        return "landingPage";
+        if(checkValidation(request))
+            return "landingPage";
+        return "sLogin";
     }
     
     @RequestMapping(value = "/surveyBuilder", method = RequestMethod.POST)
     public String surveyBuilder(HttpServletRequest request, Model model)
     {
-        System.out.println("hello my world");
-        checkValidation(request);
+        if(!checkValidation(request))
+            return "sLogin";
         try {
             //gets the value from the textbox
             //System.out.println(request.getParameter("mytextform"));
@@ -389,12 +394,16 @@ public class HelloController {
     @RequestMapping(value = "/uploademails", method = RequestMethod.GET)
     public String uploademailsForm(HttpServletRequest request, Model model)
     {       
-        return "uploademails";
+        if (checkValidation(request))
+            return "uploademails";
+        return "sLogin";
     }
     
     @RequestMapping(value = "/uploademails", method = RequestMethod.POST)
     public String uploadEmailsSubmit(HttpServletRequest request, Model model)
     {        
+        if (!checkValidation(request))
+            return "sLogin";
         //get survey id
         String emails = request.getParameter("emails");
         
@@ -418,54 +427,65 @@ public class HelloController {
     //@ResponseBody //just for passing a string instead of a template
     public String surveyResults(HttpServletRequest request, Model model)
     {
-        List<Surveys> surveyList = surveysDao.findAll();
-        
-        HtmlBuilderTable tableBuilder = new HtmlBuilderTable();
-        
-        String tableXML = tableBuilder.buildSurveyTable(surveyList,respondentDao);
-        
-         model.addAttribute("surveyTable", tableXML);
-        
-        return "resultsSurveyList";
+        if(checkValidation(request)){
+            List<Surveys> surveyList = surveysDao.findAll();
+
+            HtmlBuilderTable tableBuilder = new HtmlBuilderTable();
+
+            String tableXML = tableBuilder.buildSurveyTable(surveyList,respondentDao);
+
+             model.addAttribute("surveyTable", tableXML);
+
+            return "resultsSurveyList";
+        }
+        return "sLogin";
     }
     
     @RequestMapping(value = "/survey_results/responses", method = RequestMethod.GET)
     //@ResponseBody //just for passing a string instead of a template
     public String surveyResponses(HttpServletRequest request, Model model)
     {
-        int surveyId = Integer.parseInt(request.getParameter("survey"));
-        
-        List<Respondents> respondentList = respondentDao.findBySurveyId(surveyId);
-        
-        HtmlBuilderTable tableBuilder = new HtmlBuilderTable();
-        
-        String tableXML = tableBuilder.buildResponseTable(respondentList);
-        
-         model.addAttribute("surveyTable", tableXML);
-        
-        return "resultsSurveyList";
+        if(checkValidation(request)){
+            int surveyId = Integer.parseInt(request.getParameter("survey"));
+
+            List<Respondents> respondentList = respondentDao.findBySurveyId(surveyId);
+
+            HtmlBuilderTable tableBuilder = new HtmlBuilderTable();
+
+            String tableXML = tableBuilder.buildResponseTable(respondentList);
+
+             model.addAttribute("surveyTable", tableXML);
+
+            return "resultsSurveyList";
+        }
+        return "sLogin";
     }
     
     @RequestMapping(value = "/survey_results/responses/user", method = RequestMethod.GET)
     //@ResponseBody //just for passing a string instead of a template
     public String surveyIndividualResponses(HttpServletRequest request, Model model)
     {
-        int respondentId = Integer.parseInt(request.getParameter("id"));
-        
-        List<RespondentAnswers> answers = respondentAnswerDao.findByRespondentId(respondentId);
-        
-        HtmlBuilderTable tableBuilder = new HtmlBuilderTable();
-        
-        String tableXML = tableBuilder.buildIndividialResponse(answers);
-        
-        model.addAttribute("surveyTable", tableXML);
-        
-        return "resultsSurveyList";
+        if(checkValidation(request)){
+            int respondentId = Integer.parseInt(request.getParameter("id"));
+
+            List<RespondentAnswers> answers = respondentAnswerDao.findByRespondentId(respondentId);
+
+            HtmlBuilderTable tableBuilder = new HtmlBuilderTable();
+
+            String tableXML = tableBuilder.buildIndividialResponse(answers);
+
+            model.addAttribute("surveyTable", tableXML);
+
+            return "resultsSurveyList";
+        }
+        return "sLogin";
     }
     
     @RequestMapping(value = "/deleteSurvey", method = RequestMethod.POST)
     public String testSubmit(HttpServletRequest request) throws IOException
     {
+        if(!checkValidation(request))
+            return "String Error";
         //get parameter from request body
         int surveyId = Integer.parseInt(request.getParameter("surveyid"));
         System.out.println(request.getParameter("surveyid"));
@@ -486,7 +506,8 @@ public class HelloController {
     @RequestMapping(value = "/sendemails", method = RequestMethod.GET)
     public String sendemailsForm(HttpServletRequest request, Model model)
     {
-        
+        if(!checkValidation(request))
+            return "sLogin";
         List<Surveys> surveys = surveysDao.findAll();
         
         String selectListHtml = "";
@@ -506,6 +527,8 @@ public class HelloController {
     @RequestMapping(value = "/sendemails", method = RequestMethod.POST)
     public String sendEmailsSubmit(HttpServletRequest request, Model model)
     {
+        if(!checkValidation(request))
+            return "sLogin";
         //get survey id
         List<StaffEmails> emailList = staffEmailsDao.findAll();
                 
@@ -539,11 +562,27 @@ public class HelloController {
             System.out.println("no cookies found");
             return false;
         }
+        
+        
         System.out.println(c.length);
-//        Cookie myCookie = c[0];
-//        System.out.println(myCookie.getDomain());
-//        System.out.println(myCookie.getValue());
-        return true;
+        Cookie myCookie = c[0];
+        System.out.println(myCookie.getName());
+        System.out.println(myCookie.getValue());
+        System.out.println(myCookie.getMaxAge());
+        
+        
+        Sessions session = sessionsDao.findBySessionId(myCookie.getValue());
+        System.out.println(session.getExpiryTime());
+        
+        boolean isValid = session.getExpiryTime().after(new Date());
+        
+        //extends the validity of the page
+        if(isValid)
+        {
+            
+        }
+        
+        return isValid;
     }
 }
     

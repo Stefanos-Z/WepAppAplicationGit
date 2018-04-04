@@ -5,6 +5,9 @@
  */
 package com.inspiredGaming.surveyWebApp.models;
 
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,9 +32,16 @@ public class Sessions {
     
     private int userId;
 
+    private Date expiryTime;
     public Sessions(int userId) {
         sessionId = UUID.randomUUID().toString();
         this.userId = userId;
+        
+        expiryTime = new Date();
+        //expiryTime.setHours(expiryTime.getHours()+1);
+        expiryTime.setMinutes(expiryTime.getMinutes()+1);//makes the page valid for use only for 1 min
+        
+        
     }
     
 
@@ -55,6 +65,13 @@ public class Sessions {
     {
         return userId;
     }
+    
+    @NotNull
+    @Column(name="expiryDate")
+    public Date getExpiryTime()
+    {
+        return expiryTime;
+    }
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
@@ -62,6 +79,10 @@ public class Sessions {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public void setExpiryTime(Date expiryTime) {
+        this.expiryTime = expiryTime;
     }
 
     
