@@ -19,9 +19,13 @@ text-align : center;
     overflow: hidden;
     background-color: #111;
 }
+
 .navbar li {
     float: left;
+    font-size: 16px;
+    font-family:arial;
 }
+
 #surveyLogout
 {
     float: right;
@@ -255,7 +259,7 @@ h3 {
     font-size: 25px !important;
 }
 
-table{
+table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
