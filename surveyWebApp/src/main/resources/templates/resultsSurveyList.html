@@ -10,7 +10,7 @@
         <script type="text/javascript" th:inline="javascript" src="../js/surveyResultsDeletion.js" th:src="@{../js/surveyResultsDeletion.js}"></script>
     </head>
     <body>
-        <div id = "header_banner"><h1 id="header_title">Inspired Gaming Surveys</h1></div>
+        <div th:replace="template :: navbar"/>
         <h2 id="q_description" th:text="${message}">DEFAULT MESSAGE</h2>
         
         <div class="questions" th:utext="${surveyTable}">
