@@ -24,13 +24,11 @@ function createAnswer(question)
 			ans.setAttribute('name', "answer"+question);	
 			ans.setAttribute('id', "ans"+question);
                         ans.setAttribute("class","textbox");
-			var div = document.getElementById("div"+question);
-                        <span id="deleteIcon">   x</span>
-                        
-                        
+			var div = document.getElementById("div"+question);                        
                         var aSpan = document.createElement("span");
                         aSpan.setAttribute('onClick', "deleteAnswer("+answerCounter+")");                        
                         aSpan.setAttribute('id', "deleteIcon");
+                        aSpan.innerHTML = "   X";
                         var br = document.createElement("br");          
                        
                         aDiv.appendChild(br);
@@ -124,7 +122,7 @@ function constructString()
 	temp += '\t<userId></userId>\n';
 	temp += '\t\t<questions>\n';
 	for(i = 0; i < questionsArray.length; i++)
-	{		
+	{            
 		temp += '\t\t\t<question>\n';
 		temp += '\t\t\t\t<questionText>' + questionsArray[i].question +'</questionText>\n';
 		temp += '\t\t\t\t<questionType>' + questionsArray[i].type + '</questionType>\n';
@@ -136,7 +134,14 @@ function constructString()
 		else{
 			for(j = 0; j < questionsArray[i].answers.length; j++)
 			{
+                            if(questionsArray[i].answers[j] !== "")
+                            {
 				temp += '\t\t\t\t\t<answerText>' + questionsArray[i].answers[j] + '</answerText>\n';
+                            }
+                            else
+                            {
+                                console.log("Empty Answer Field");
+                            }
 			}
 		}
 		temp += '\t\t\t\t</answers>\n';		
