@@ -131,6 +131,7 @@ body{
     /* Center and scale the image nicely */
     background-repeat: no-repeat;
     background-size: cover;
+    margin-bottom: 7%;
 }
 
 
@@ -172,6 +173,14 @@ a>.glyphicon
 .textbox{
     width: 300px;
     margin-bottom: 2.5%;
+    /* margin-top: 2.5%; */
+    height: 2.58em;
+}
+
+.questiontext{
+    width: 300px;
+    margin-bottom: 2.5%;
+    margin-right: 0.5%;
     /* margin-top: 2.5%; */
     height: 2.58em;
     border: 3px solid;
