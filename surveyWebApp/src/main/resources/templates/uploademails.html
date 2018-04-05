@@ -6,11 +6,18 @@
     <body>
         <div th:replace="template :: navbar"/>
         <h1> Email Upload</h1>
+        
         <p id="uploadText">You can use the form below to determine who is invited to complete a survey. 
                
                Enter each email on a <span id="modalSurvey">separate</span> line.</p>
         
         <form id="myForm" name="emailForm" method="post">
+            
+            <br/>
+            <select id="groupSelect" class="longselect" name="groups" th:utext="${groupSelectList}"></select>
+            <br/>
+            Group Name: <input name="groupName" placeholder="New Group" type="text" autofocus="true"/>
+            <br/>
             <textarea rows="25" cols="50" name="emails" form="myForm"></textarea>
             <br></br>
             <input type="submit"></input>

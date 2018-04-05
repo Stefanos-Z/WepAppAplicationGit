@@ -24,11 +24,14 @@ import javax.validation.constraints.NotNull;
 public class StaffEmails {
     private String email;
     private int staffId;
-    
-    public StaffEmails(String email)
-    {
+    private int groupID;
+
+    public StaffEmails(String email, int groupID) {
         this.email = email;
+        this.groupID = groupID;
     }
+    
+
     
     public StaffEmails()
     {
@@ -49,6 +52,13 @@ public class StaffEmails {
     {
         return staffId;
     }
+    
+    @NotNull
+    @Column(name="groupID")
+    public int getGroupID()
+    {
+        return groupID;
+    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -56,6 +66,10 @@ public class StaffEmails {
 
     public void setStaffId(int staffId) {
         this.staffId = staffId;
+    }
+
+    public void setGroupID(int groupID) {
+        this.groupID = groupID;
     }
     
     
