@@ -9,6 +9,7 @@ import com.inspiredGaming.surveyWebApp.Email;
 import com.inspiredGaming.surveyWebApp.HtmlBuilderSurvey;
 import com.inspiredGaming.surveyWebApp.HtmlBuilderTable;
 import com.inspiredGaming.surveyWebApp.models.Answers;
+import com.inspiredGaming.surveyWebApp.models.EmailGroups;
 import com.inspiredGaming.surveyWebApp.models.HelloLog;
 import com.inspiredGaming.surveyWebApp.models.HelloMessage;
 import com.inspiredGaming.surveyWebApp.models.Questions;
@@ -20,6 +21,7 @@ import com.inspiredGaming.surveyWebApp.models.SurveyKeys;
 import com.inspiredGaming.surveyWebApp.models.Surveys;
 import com.inspiredGaming.surveyWebApp.models.Users;
 import com.inspiredGaming.surveyWebApp.models.dao.AnswersDao;
+import com.inspiredGaming.surveyWebApp.models.dao.EmailGroupsDao;
 import com.inspiredGaming.surveyWebApp.models.dao.HelloLogDao;
 import com.inspiredGaming.surveyWebApp.models.dao.QuestionsDao;
 import com.inspiredGaming.surveyWebApp.models.dao.RespondentAnswersDao;
@@ -52,6 +54,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
@@ -99,6 +102,9 @@ public class HelloController {
     
     @Autowired
     private SurveysDao surveysDao;
+    
+    @Autowired
+    private EmailGroupsDao emailGroupsDao;
     //Dependancy injection used by Spring
     //Needed because the interface instance is not manually coded   
     
@@ -234,7 +240,7 @@ public class HelloController {
 
                 int questionTypeId =2; //radio button (with values) by default
 
-                System.out.println("question type is"+questionType);
+                //System.out.println("question type is"+questionType);
                 
                 if(questionType.equals("OpenText"))
                 {
@@ -407,12 +413,38 @@ public class HelloController {
         return "hello";
     }
     
+    @RequestMapping(value = "/getemails", method = RequestMethod.GET)
+    @ResponseBody
+    public String getEmails(HttpServletRequest request, Model model)
+    { 
+        String emailString = "";
+        List<StaffEmails> e = staffEmailsDao.findAll();
+        for(StaffEmails www: e)
+        {
+            emailString += www.getEmail();
+        }
+        
+        return emailString;
+    }
+    
     @RequestMapping(value = "/uploademails", method = RequestMethod.GET)
     public String uploademailsForm(HttpServletRequest request, Model model)
     {       
-        if (checkValidation(request))
-            return "uploademails";
-        return "sLogin";
+        if (!checkValidation(request))
+            return "sLogin";     
+        List<EmailGroups> groups = emailGroupsDao.findAll();
+        
+        String selectListHtml = "";
+        
+        //add all groups to the form
+        for(int i = 0;i<groups.size();i++)
+        {
+           
+            selectListHtml += "<option value = \""+groups.get(i).getGroupID()+"\">"+groups.get(i).getGroupName()+"</option>";
+        }
+        selectListHtml += "<option value = \""+"New Group"+"\">"+"New Group"+"</option>";
+        model.addAttribute("groupSelectList", selectListHtml);
+        return "uploademails";
     }
     
     @RequestMapping(value = "/uploademails", method = RequestMethod.POST)
@@ -426,13 +458,17 @@ public class HelloController {
         String[] emailList = emails.split("\n");
         
         //clear database of old emails.
-        staffEmailsDao.deleteAll();
+        //staffEmailsDao.deleteAll();
+        
+        String groupName = request.getParameter("groupName");
+        EmailGroups newEmailGroup = new EmailGroups(groupName);
+        emailGroupsDao.save(newEmailGroup);
         
         //save all new emails
         for(int i = 0; i<emailList.length; i++)
         {
             emailList[i] = emailList[i].replaceAll("[\r|\n|\\s]","");
-            StaffEmails email = new StaffEmails(emailList[i]);            
+            StaffEmails email = new StaffEmails(emailList[i], newEmailGroup.getGroupID());            
             staffEmailsDao.save(email);
         }
         
@@ -504,16 +540,16 @@ public class HelloController {
             return "String Error";
         //get parameter from request body
         int surveyId = Integer.parseInt(request.getParameter("surveyid"));
-        System.out.println(request.getParameter("surveyid"));
+        //System.out.println(request.getParameter("surveyid"));
         
         //find corresponding survey
         Surveys s = surveysDao.findBySurveyId(surveyId);
-        System.out.println(s.getSurveyName());
+        //System.out.println(s.getSurveyName());
         
         //delete survey from database
         surveysDao.delete(s);
         
-        System.out.println("test successful!");
+        //System.out.println("test successful!");
                 
         //return surveyResults(request,model);
         return "hello";
@@ -553,7 +589,7 @@ public class HelloController {
         {
             //test - send survey to listed emails and record unique key
             try {
-                System.out.println("gets here");
+                //System.out.println("gets here");
                 SurveyKeys key = new SurveyKeys(Integer.parseInt(request.getParameter("surveys")));
                 surveyKeysDao.save(key);
                 Email emailObj = new Email(emailList.get(i).getEmail(),"http://localhost:8080/survey?key="+key.getKeyId());
@@ -580,15 +616,13 @@ public class HelloController {
         }
         
         
-        System.out.println(c.length);
+        //System.out.println(c.length);
         Cookie myCookie = c[0];
-        System.out.println(myCookie.getName());
-        System.out.println(myCookie.getValue());
-        System.out.println(myCookie.getMaxAge());
+
         
         
         Sessions session = sessionsDao.findBySessionId(myCookie.getValue());
-        System.out.println(session.getExpiryTime());
+        //System.out.println(session.getExpiryTime());
         
         //true if valid
         boolean isValid = session.getExpiryTime().after(new Date());
@@ -615,7 +649,6 @@ public class HelloController {
                 Cookie cookie = new Cookie(thisCookie.getName(), null);
                 cookie.setPath("/");
                 cookie.setMaxAge(0);
-                System.out.println("hello world");
                 
                 response.addCookie(cookie);
             }
