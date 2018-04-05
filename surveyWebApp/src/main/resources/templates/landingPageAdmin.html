@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="template :: bootstrapHeader">
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    </head>
+    <body>
+        <div th:replace="template :: navbarAdmin"/>
+        
+        <div class="container-fluid text-center serviceBar">
+            
+            <div class="row">
+                <a href="user_admin">
+                  <span class="glyphicon glyphicon-user iconGlyph"></span>
+                  <h4>Manage User Accounts</h4>
+                </a>
+            </div>
+            <br></br>
+            
+            </div>
+    </body>
+</html>

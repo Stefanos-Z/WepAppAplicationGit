@@ -26,6 +26,15 @@
                 <li id="surveyLogout"><a href="sLogin">logout</a></li>
             </ul>
         </div>
+        
+        <div th:fragment="navbarAdmin" class="navbar">
+            <ul>
+                <img id="inspiredLogo" src="/img/inspiredLogo.png" />
+                <li><a href="/landingAdmin">Home</a></li>
+                <li><a href="/user_admin">User Admin</a></li>
+                <li id="surveyLogout"><a href="sLogin">logout</a></li>
+            </ul>
+        </div>
         <form method="post">
             <input type="text" name="name"/>
             <button type="submit">say hello!</button>

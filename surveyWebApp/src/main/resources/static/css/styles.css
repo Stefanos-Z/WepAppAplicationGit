@@ -485,8 +485,11 @@ input, textarea{
 }
 
 .addButton{
+	float: left;
 	color:white;
 	background-color:#54a254;
+	margin-left: 10%;
+	border-radius: 5px;
 }
 
 .userModals{

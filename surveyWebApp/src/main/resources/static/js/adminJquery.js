@@ -37,9 +37,12 @@ $(document).ready(function() {
     function saveUserDB(){
 
         // create form data
+        // create form data
         var user = {
                 username : $("#usernameInput").val(),
                 password : $("#passwordInput").val(),
+                email : $("#emailInput").val(),
+                phoneNumber : $("#phoneInput").val(),
                 role : $('#roleInput').val()
         }
 
@@ -48,7 +51,7 @@ $(document).ready(function() {
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
-            url : "/javatechgroupproject/AddUserServlet",
+            url : "/add_user",
             data : user,
             dataType : 'text',
             success : function(response) {
@@ -75,6 +78,8 @@ $(document).ready(function() {
                 userid : userid,
                 username : $("#usernameEdit").val(),
                 password : $("#passwordEdit").val(),
+                email : $("#emailEdit").val(),
+                phoneNumber : $("#phoneEdit").val(),
                 role : $('#roleEdit').val()
         }
 
@@ -83,7 +88,7 @@ $(document).ready(function() {
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
-            url : "/javatechgroupproject/EditUserServlet",
+            url : "/edit_user",
             data : user,
             dataType : 'text',
             success : function(response) {
@@ -115,7 +120,7 @@ $(document).ready(function() {
         $.ajax({
             type : "POST",
             contentType : "application/x-www-form-urlencoded",
-            url : "/javatechgroupproject/DeleteUserServlet",
+            url : "/delete_user",
             data : user,
             dataType : 'text',
             success : function(response) {

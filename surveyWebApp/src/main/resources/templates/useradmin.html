@@ -11,11 +11,12 @@
         <script type="text/javascript" th:inline="javascript" src="../js/surveyResultsDeletion.js" th:src="@{../js/surveyResultsDeletion.js}"></script>
     </head>
     <body>
-        <div th:replace="template :: navbar"/>
+        <div th:replace="template :: navbarAdmin"/>
         <h2 id="q_description" th:text="${message}">DEFAULT MESSAGE</h2>
         
         <button type="button" class="addButton" data-toggle="modal" data-target="#addModal"><span class="glyphicon glyphicon-plus"> </span> New User</button>
-        
+        <br></br>
+        <br></br>
         <div class="modal fade userModals" id="addModal" role="dialog" style="display: none;">
             <div class="modal-dialog">
                 <div class="modal-content">

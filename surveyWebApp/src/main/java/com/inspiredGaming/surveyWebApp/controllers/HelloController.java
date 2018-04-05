@@ -151,7 +151,16 @@ public class HelloController {
                 
                 responce.addCookie(myCookie);
 
-                return "landingPage";
+                //direct user to appropriate site location
+                if(user.getRole().equals("ADMINISTRATOR"))
+                {
+                    return "landingPageAdmin";
+                }
+                else
+                {
+                    return "landingPage";
+                }
+                
                 //return landingForm();
             }
         }
@@ -195,6 +204,15 @@ public class HelloController {
     {
         if(checkValidation(request))
             return "landingPage";
+        return "sLogin";
+    }
+    
+    @RequestMapping(value = "/landingAdmin", method = RequestMethod.GET)
+    //@ResponseBody //just for passing a string instead of a template
+    public String landingFormAdmin(HttpServletRequest request)
+    {
+        if(checkValidation(request))
+            return "landingPageAdmin";
         return "sLogin";
     }
     
@@ -571,7 +589,11 @@ public class HelloController {
     }
         
     
-    
+    /**
+     * A method to validate the credentials of a request.
+     * @param request
+     * @return 
+     */
     private boolean checkValidation(HttpServletRequest request)
     {
 
@@ -602,6 +624,90 @@ public class HelloController {
         }
         
         return isValid;
+    }
+    
+    @RequestMapping(value = "/add_user", method = RequestMethod.POST)
+    @ResponseBody //just for passing a string instead of a template
+    public String addUser(HttpServletRequest request, Model model)
+    {
+        
+        //public Users(String username, String userPassword, String email, String phoneNumber, String role) {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String email = request.getParameter("email");
+        String phoneNumber = request.getParameter("phoneNumber");
+        String role = request.getParameter("role");
+        
+        //create a new user
+        Users u = new Users(username,password,email,phoneNumber,role);
+        
+        usersDao.save(u);
+        
+        HtmlBuilderTable tb = new HtmlBuilderTable();
+        
+        List<Users> userlist = usersDao.findAll();
+        
+        return tb.getUsersTable(userlist);
+    }
+    
+    @RequestMapping(value = "/edit_user", method = RequestMethod.POST)
+    @ResponseBody //just for passing a string instead of a template
+    public String editUser(HttpServletRequest request, Model model)
+    {
+        
+        //public Users(String username, String userPassword, String email, String phoneNumber, String role) {
+        String id = request.getParameter("userid");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String email = request.getParameter("email");
+        String phoneNumber = request.getParameter("phoneNumber");
+        String role = request.getParameter("role");
+        
+        //create a new user
+        Users u = usersDao.findByUserId(Integer.parseInt(id));
+        
+        //update values
+        u.setUsername(username);
+        
+        if(!password.equals("******"))  //only update if password has been changed
+        {
+           u.setUserPassword(password); 
+        }
+        
+        u.setEmail(email);
+        u.setPhoneNumber(phoneNumber);
+        u.setRole(role);
+        
+        usersDao.save(u);
+        
+        //return HTML for updated table
+        HtmlBuilderTable tb = new HtmlBuilderTable();
+        List<Users> userlist = usersDao.findAll();
+        
+        return tb.getUsersTable(userlist);
+    }
+    
+    @RequestMapping(value = "/delete_user", method = RequestMethod.POST)
+    @ResponseBody //just for passing a string instead of a template
+    public String deleteUser(HttpServletRequest request, Model model)
+    {
+        
+        //public Users(String username, String userPassword, String email, String phoneNumber, String role) {
+        String id = request.getParameter("userid");
+                
+        //create a new user
+        Users u = usersDao.findByUserId(Integer.parseInt(id));
+        
+        usersDao.findByUserId(Integer.parseInt(id));
+        
+        //delete the specified user
+        usersDao.delete(u);
+        
+        //return HTML for updated table
+        HtmlBuilderTable tb = new HtmlBuilderTable();
+        List<Users> userlist = usersDao.findAll();
+        
+        return tb.getUsersTable(userlist);
     }
 }
     
