@@ -8,6 +8,8 @@
         <script type="text/javascript" th:inline="javascript" src="../js/groupEmailJavascript.js" th:src="@{../js/groupEmailJavascript.js}"></script>
         <!--<script th:src="@{/js/script.js}"></script>!-->
     </head>
+    
+    <!-- Head with bootstrap-->
     <head th:fragment="bootstrapHeader">
         <title th:text="${title}">Dallos Survey Manager</title>
         <link href="../../css/styles.css" th:href="@{../../css/styles.css}" rel="stylesheet"/>
@@ -15,7 +17,10 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
     <body>
+        <!-- Placeholder banner-->
         <div th:fragment="banner" id = "header_banner"><h1 id="header_title">Inspired Gaming Surveys</h1></div> 
+        
+        <!-- navbar for surveyors-->
         <div th:fragment="navbar" class="navbar">
             <ul>
                 <img id="inspiredLogo" src="img/inspiredLogo.png" />
@@ -24,16 +29,24 @@
                 <li><a href="survey_results">View Results</a></li>
                 <li><a href="sendemails">Send a Survey</a></li>
                 <li><a href="uploademails">Upload Emails</a></li>
-                <li id="surveyLogout"><a href="login">logout</a></li>
+                <li id="surveyLogout"><a href="login">Logout</a></li>
             </ul>
         </div>
         
+        <!-- navbar when logged out-->
+        <div th:fragment="navbarLoggedOut" class="navbar">
+            <ul>
+                <img id="inspiredLogo" src="img/inspiredLogo.png" />
+            </ul>
+        </div>
+        
+        <!-- navbar for administrators-->
         <div th:fragment="navbarAdmin" class="navbar">
             <ul>
                 <img id="inspiredLogo" src="/img/inspiredLogo.png" />
                 <li><a href="/landingAdmin">Home</a></li>
                 <li><a href="/user_admin">User Admin</a></li>
-                <li id="surveyLogout"><a href="sLogin">logout</a></li>
+                <li id="surveyLogout"><a href="login">Logout</a></li>
             </ul>
         </div>
         <form method="post">

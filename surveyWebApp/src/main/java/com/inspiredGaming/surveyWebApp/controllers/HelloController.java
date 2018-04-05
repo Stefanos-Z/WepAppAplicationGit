@@ -149,6 +149,18 @@ public class HelloController {
                 myCookie.setPath("/");
                 
                 responce.addCookie(myCookie);
+                
+                //direct user to appropriate site location
+                if(user.getRole().equals("ADMINISTRATOR"))
+                {
+                    try {
+                    responce.sendRedirect("/landingAdmin");
+                    } catch (IOException ex) {
+                        System.out.println("Error in redirect");
+                    }
+                    return "landingPageAdmin";
+                }
+                
                 try {
                     responce.sendRedirect("/landing");
                 } catch (IOException ex) {
@@ -167,7 +179,7 @@ public class HelloController {
     //@ResponseBody //just for passing a string instead of a template
     public String surveyBuilderForm(HttpServletRequest request)
     {
-        if(checkValidation(request))
+        if(checkValidation(request,"SURVEYOR"))
             return "ourSurveyBuilder";
         return "sLogin";
     }
@@ -176,9 +188,8 @@ public class HelloController {
     //@ResponseBody //just for passing a string instead of a template
     public String userAdmin(HttpServletRequest request, Model model)
     {
-        /*if(!checkValidation(request))
+        if(!checkValidation(request,"ADMINISTRATOR"))
             return "sLogin";
-        */
         
         HtmlBuilderTable h = new HtmlBuilderTable();
         
@@ -196,7 +207,7 @@ public class HelloController {
     //@ResponseBody //just for passing a string instead of a template
     public String landingForm(HttpServletRequest request)
     {
-        if(checkValidation(request))
+        if(checkValidation(request,"SURVEYOR"))
             return "landingPage";
         return "sLogin";
     }
@@ -205,7 +216,7 @@ public class HelloController {
     //@ResponseBody //just for passing a string instead of a template
     public String landingFormAdmin(HttpServletRequest request)
     {
-        if(checkValidation(request))
+        if(checkValidation(request,"ADMINISTRATOR"))
             return "landingPageAdmin";
         return "sLogin";
     }
@@ -213,7 +224,7 @@ public class HelloController {
     @RequestMapping(value = "/surveyBuilder", method = RequestMethod.POST)
     public String surveyBuilder(HttpServletRequest request, Model model)
     {
-        if(!checkValidation(request))
+        if(!checkValidation(request,"SURVEYOR"))
             return "sLogin";
         try {
             //gets the value from the textbox
@@ -422,7 +433,7 @@ public class HelloController {
         return "hello";
     }
     
-    @RequestMapping(value = "/getemails", method = RequestMethod.GET)
+    @RequestMapping(value = "/getemails", method = RequestMethod.POST)
     @ResponseBody
     public String getEmails(HttpServletRequest request, Model model)
     { 
@@ -430,7 +441,7 @@ public class HelloController {
         List<StaffEmails> e = staffEmailsDao.findAll();
         for(StaffEmails www: e)
         {
-            emailString += www.getEmail();
+            emailString += www.getEmail()+"\n";
         }
         
         return emailString;
@@ -439,7 +450,7 @@ public class HelloController {
     @RequestMapping(value = "/uploademails", method = RequestMethod.GET)
     public String uploademailsForm(HttpServletRequest request, Model model)
     {       
-        if (!checkValidation(request))
+        if (!checkValidation(request,"SURVEYOR"))
             return "sLogin";     
         List<EmailGroups> groups = emailGroupsDao.findAll();
         
@@ -459,7 +470,7 @@ public class HelloController {
     @RequestMapping(value = "/uploademails", method = RequestMethod.POST)
     public String uploadEmailsSubmit(HttpServletRequest request, Model model)
     {        
-        if (!checkValidation(request))
+        if (!checkValidation(request,"SURVEYOR"))
             return "sLogin";
         //get survey id
         String emails = request.getParameter("emails");
@@ -488,7 +499,7 @@ public class HelloController {
     //@ResponseBody //just for passing a string instead of a template
     public String surveyResults(HttpServletRequest request, Model model)
     {
-        if(checkValidation(request)){
+        if(checkValidation(request,"SURVEYOR")){
             List<Surveys> surveyList = surveysDao.findAll();
 
             HtmlBuilderTable tableBuilder = new HtmlBuilderTable();
@@ -506,7 +517,7 @@ public class HelloController {
     //@ResponseBody //just for passing a string instead of a template
     public String surveyResponses(HttpServletRequest request, Model model)
     {
-        if(checkValidation(request)){
+        if(checkValidation(request,"SURVEYOR")){
             int surveyId = Integer.parseInt(request.getParameter("survey"));
 
             List<Respondents> respondentList = respondentDao.findBySurveyId(surveyId);
@@ -526,7 +537,7 @@ public class HelloController {
     //@ResponseBody //just for passing a string instead of a template
     public String surveyIndividualResponses(HttpServletRequest request, Model model)
     {
-        if(checkValidation(request)){
+        if(checkValidation(request,"SURVEYOR")){
             int respondentId = Integer.parseInt(request.getParameter("id"));
 
             List<RespondentAnswers> answers = respondentAnswerDao.findByRespondentId(respondentId);
@@ -545,7 +556,7 @@ public class HelloController {
     @RequestMapping(value = "/deleteSurvey", method = RequestMethod.POST)
     public String testSubmit(HttpServletRequest request) throws IOException
     {
-        if(!checkValidation(request))
+        if(!checkValidation(request,"SURVEYOR"))
             return "String Error";
         //get parameter from request body
         int surveyId = Integer.parseInt(request.getParameter("surveyid"));
@@ -567,7 +578,7 @@ public class HelloController {
     @RequestMapping(value = "/sendemails", method = RequestMethod.GET)
     public String sendemailsForm(HttpServletRequest request, Model model)
     {
-        if(!checkValidation(request))
+        if(!checkValidation(request,"SURVEYOR"))
             return "sLogin";
         List<Surveys> surveys = surveysDao.findAll();
         
@@ -588,7 +599,7 @@ public class HelloController {
     @RequestMapping(value = "/sendemails", method = RequestMethod.POST)
     public String sendEmailsSubmit(HttpServletRequest request, Model model)
     {
-        if(!checkValidation(request))
+        if(!checkValidation(request,"SURVEYOR"))
             return "sLogin";
         //get survey id
         List<StaffEmails> emailList = staffEmailsDao.findAll();
@@ -618,7 +629,7 @@ public class HelloController {
      * @param request
      * @return 
      */
-    private boolean checkValidation(HttpServletRequest request)
+    private boolean checkValidation(HttpServletRequest request, String role)
     {
 
         Cookie[] c = request.getCookies();
@@ -632,13 +643,18 @@ public class HelloController {
         //System.out.println(c.length);
         Cookie myCookie = c[0];
 
-        
-        
         Sessions session = sessionsDao.findBySessionId(myCookie.getValue());
-        //System.out.println(session.getExpiryTime());
+        
+        //Find user role
+        Users u = usersDao.findByUserId(session.getUserId());
+        
+        boolean isValid = false;
         
         //true if valid
-        boolean isValid = session.getExpiryTime().after(new Date());
+        if(u.getRole().equals(role) && session.getExpiryTime().after(new Date()))
+        {
+            isValid = true;
+        }
         
         //extends the validity of the page
         if(isValid)
@@ -657,6 +673,10 @@ public class HelloController {
     @ResponseBody //just for passing a string instead of a template
     public String addUser(HttpServletRequest request, Model model)
     {
+        if(!checkValidation(request,"ADMINISTRATOR"))
+        {
+            return "ERROR- INVALID USER ROLE";
+        }
         
         //public Users(String username, String userPassword, String email, String phoneNumber, String role) {
         String username = request.getParameter("username");
@@ -681,6 +701,10 @@ public class HelloController {
     @ResponseBody //just for passing a string instead of a template
     public String editUser(HttpServletRequest request, Model model)
     {
+        if(!checkValidation(request,"ADMINISTRATOR"))
+        {
+            return "ERROR- INVALID USER ROLE";
+        }
         
         //public Users(String username, String userPassword, String email, String phoneNumber, String role) {
         String id = request.getParameter("userid");
@@ -718,6 +742,10 @@ public class HelloController {
     @ResponseBody //just for passing a string instead of a template
     public String deleteUser(HttpServletRequest request, Model model)
     {
+        if(!checkValidation(request,"ADMINISTRATOR"))
+        {
+            return "ERROR- INVALID USER ROLE";
+        }
         
         //public Users(String username, String userPassword, String email, String phoneNumber, String role) {
         String id = request.getParameter("userid");

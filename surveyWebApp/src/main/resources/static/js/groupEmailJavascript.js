@@ -15,11 +15,7 @@ $(document).ready(function() {
             dataType : 'text',
             success : function(response) {
                 console.log("Success!");
-                console.log(response);
-                $("tbody").fadeToggle(200);
-                $('tbody').html(response);
-                $("tbody").fadeToggle(200);
-                setEventListeners();
+                $('#emailList').val(response)
             },
             error : function(e) {
                     alert("ERROR: Unable to add word");

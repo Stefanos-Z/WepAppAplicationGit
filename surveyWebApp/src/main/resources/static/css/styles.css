@@ -495,3 +495,7 @@ input, textarea{
 .userModals{
 	margin-top:-7%;
 }
+
+.invalidInput {
+	border: 2px solid red !important;
+}
