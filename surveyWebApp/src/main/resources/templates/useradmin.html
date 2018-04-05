@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title th:text="${title}">Dallos Survey Manager</title>
+        <link href="../../css/styles.css" th:href="@{../../css/styles.css}" rel="stylesheet"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script type="text/javascript" th:inline="javascript" src="../js/javascript.js" th:src="@{../js/javascript.js}"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script type="text/javascript" th:inline="javascript" src="../js/surveyResultsDeletion.js" th:src="@{../js/surveyResultsDeletion.js}"></script>
+    </head>
+    <body>
+        <div th:replace="template :: navbar"/>
+        <h2 id="q_description" th:text="${message}">DEFAULT MESSAGE</h2>
+        
+        <button type="button" class="addButton" data-toggle="modal" data-target="#addModal"><span class="glyphicon glyphicon-plus"> </span> New User</button>
+        
+        <div class="modal fade userModals" id="addModal" role="dialog" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">Register new user</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="LoginServlet" method="POST">
+                        <br></br>
+                        <label>Username:</label>
+                        <br></br>
+                        <input id="usernameInput" type="text" name="username"></input>
+                        <br></br>
+                        <label>Password:</label>
+                        <br></br>
+                        <input id="passwordInput" type="password" name="password"></input>
+                        <br></br>
+                        <label>Email:</label>
+                        <br></br>
+                        <input id="emailInput" type="text" name="email"></input>
+                        <br></br>
+                        <label>Phone:</label>
+                        <br></br>
+                        <input id="phoneInput" type="text" name="phone"></input>
+                        <br></br>
+                        <label>Role</label>
+                        <br></br>
+                        <select id="roleInput" name="role">
+                          <option value="ADMINISTRATOR">ADMINISTRATOR</option>
+                          <option value="SURVEYOR">SURVEYOR</option>
+                        </select>
+                        <br></br>
+                        <br></br>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                  <button id="addUserDB" type="button" class="btn btn-default" data-dismiss="modal">Save</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+        <div class="modal fade userModals" id="editModal" role="dialog" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">Edit User</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="LoginServlet" method="POST">
+                        <br></br>
+                        <label>Username:</label>
+                        <br></br>
+                        <input id="usernameEdit" type="text" name="username"></input>
+                        <br></br>
+                        <label>Password:</label>
+                        <br></br>
+                        <input id="passwordEdit" type="password" name="password"></input>
+                        <br></br>
+                        <label>Email:</label>
+                        <br></br>
+                        <input id="emailEdit" type="text" name="email"></input>
+                        <br></br>
+                        <label>Phone:</label>
+                        <br></br>
+                        <input id="phoneEdit" type="text" name="phone"></input>
+                        <br></br>
+                        <label>Role</label>
+                        <br></br>
+                        <select id="roleEdit" name="role">
+                          <option value="ADMINISTRATOR">ADMINISTRATOR</option>
+                          <option value="SURVEYOR">SURVEYOR</option>
+                        </select>
+                        <br></br>
+                        <br></br>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                  <button id="editUserDB" type="button" class="btn btn-default" data-dismiss="modal">Save</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+        <div class="modal fade" id="deleteModal" role="dialog" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">Delete User</h4>
+                </div>
+                <div class="modal-body">
+                <p>Are you sure you want to delete this user?</p> 
+                </div>
+                    <div class="modal-footer">
+                        <button id="deleteUserDB" type="button" class="btn btn-default" data-dismiss="modal" value="1">Delete</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tableDiv" th:utext="${userTable}"></div>
+    </body>
+    
+    <div th:replace="template :: footer"></div>
+</html>

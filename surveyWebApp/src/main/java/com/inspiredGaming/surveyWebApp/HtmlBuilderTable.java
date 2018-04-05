@@ -10,6 +10,7 @@ import com.inspiredGaming.surveyWebApp.models.Questions;
 import com.inspiredGaming.surveyWebApp.models.RespondentAnswers;
 import com.inspiredGaming.surveyWebApp.models.Respondents;
 import com.inspiredGaming.surveyWebApp.models.Surveys;
+import com.inspiredGaming.surveyWebApp.models.Users;
 import com.inspiredGaming.surveyWebApp.models.dao.RespondentsDao;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -258,6 +259,51 @@ public class HtmlBuilderTable {
         
         return getTableHTML();
         
+    }
+    
+    /**
+     * Formats a list of users as a HTML table
+     * @param users the list of users
+     * @throws SQLException 
+     */
+    public String getUsersTable(List<Users> user)
+    {
+        String table = "<table class=\"userTable\">";
+        
+        //create top row
+        table+=("<tr>");
+        
+        //create headers        
+        table+= ("<th>User Id</th>");
+        table+= ("<th>Username</th>");
+        table+= ("<th>Password</th>");
+        table+= ("<th>Email</th>");
+        table+= ("<th>Phone Number</th>");
+        table+= ("<th class=\"actions\">Actions</th>");
+        
+        table+=("</tr>");
+        
+        //loop to print the table
+        for(int i = 0; i<user.size();i++)
+        {
+            table+=("<tr id=\"row"+user.get(i).getUserId()+"\">");
+            
+            //dynamically adjusts according to number of columns in metadata
+            
+            table+=("<td>"+user.get(i).getUserId()+"</td>");
+            table+=("<td>"+user.get(i).getUsername()+"</td>");
+            table+=("<td>******</td>");
+            table+=("<td>"+user.get(i).getEmail()+"</td>");
+            table+=("<td>"+user.get(i).getPhoneNumber()+"</td>");
+            
+            table+=("<td class=\"actions\"><div class=\"editIcon\" ><span class=\"glyphicon glyphicon glyphicon-edit\" data-toggle=\"modal\" data-target=\"#editModal\">");
+            table+=("</span></div><div class=\"deleteIcon\" ><span class=\"glyphicon glyphicon-remove-sign\" data-toggle=\"modal\" data-target=\"#deleteModal\"></span></div></td>");
+            table+=("</tr>");
+        }
+        
+        table+="<table>";
+        
+        return table;
     }
 
     /**
