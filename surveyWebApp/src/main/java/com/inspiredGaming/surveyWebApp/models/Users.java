@@ -28,21 +28,31 @@ public class Users {
     private String email;
     private String userPassword;
     private String phoneNumber;
+    private String role;
 
-    public Users(String username, String userPassword, String email, String phoneNumber) {
+    public Users(String username, String userPassword, String email, String phoneNumber, String role) {
         this.username = username;
         this.email = email;
         this.userPassword = userPassword;
         this.phoneNumber = phoneNumber;
+        this.role = role;
+    }
+
+    @NotNull
+    @Column(name="role", unique = true)
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
     
     
     public Users()
     {
         //needs to be empty for hibernate to work
-    }
-    
-    
+    }    
     
     @Id
     @GeneratedValue 

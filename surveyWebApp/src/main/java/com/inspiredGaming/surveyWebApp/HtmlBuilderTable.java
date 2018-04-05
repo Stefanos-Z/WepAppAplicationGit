@@ -279,6 +279,7 @@ public class HtmlBuilderTable {
         table+= ("<th>Password</th>");
         table+= ("<th>Email</th>");
         table+= ("<th>Phone Number</th>");
+        table+= ("<th>Role</th>");
         table+= ("<th class=\"actions\">Actions</th>");
         
         table+=("</tr>");
@@ -295,6 +296,7 @@ public class HtmlBuilderTable {
             table+=("<td>******</td>");
             table+=("<td>"+user.get(i).getEmail()+"</td>");
             table+=("<td>"+user.get(i).getPhoneNumber()+"</td>");
+            table+=("<td>"+user.get(i).getRole()+"</td>");
             
             table+=("<td class=\"actions\"><div class=\"editIcon\" ><span class=\"glyphicon glyphicon glyphicon-edit\" data-toggle=\"modal\" data-target=\"#editModal\">");
             table+=("</span></div><div class=\"deleteIcon\" ><span class=\"glyphicon glyphicon-remove-sign\" data-toggle=\"modal\" data-target=\"#deleteModal\"></span></div></td>");
