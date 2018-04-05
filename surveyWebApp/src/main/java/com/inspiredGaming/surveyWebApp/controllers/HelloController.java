@@ -8,7 +8,6 @@ package com.inspiredGaming.surveyWebApp.controllers;
 import com.inspiredGaming.surveyWebApp.Email;
 import com.inspiredGaming.surveyWebApp.HtmlBuilderSurvey;
 import com.inspiredGaming.surveyWebApp.HtmlBuilderTable;
-import com.inspiredGaming.surveyWebApp.XMLParser.QuestionsParser;
 import com.inspiredGaming.surveyWebApp.models.Answers;
 import com.inspiredGaming.surveyWebApp.models.HelloLog;
 import com.inspiredGaming.surveyWebApp.models.HelloMessage;
@@ -32,15 +31,11 @@ import com.inspiredGaming.surveyWebApp.models.dao.SurveysDao;
 import com.inspiredGaming.surveyWebApp.models.dao.UsersDao;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
@@ -57,15 +52,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.ui.ModelMap;
 
 
 
@@ -115,9 +107,9 @@ public class HelloController {
     
     
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginPage(HttpServletResponse responce)
+    public String loginPage(HttpServletRequest request, HttpServletResponse response)
     {
-
+        deleteCookiesOnPage(request, response);
         return "sLogin";
     }
     
@@ -129,7 +121,8 @@ public class HelloController {
     {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        
+        responce.setContentType("text/html");
+        deleteCookiesOnPage(request, responce);
 //        Users newUser = new Users(username, password, "malakas@deryneia.com", "0998789733");
 //        usersDao.save(newUser); //saves login details to the database
         Users user = usersDao.findByUsername(username);
@@ -150,9 +143,13 @@ public class HelloController {
                 myCookie.setPath("/");
                 
                 responce.addCookie(myCookie);
-
+                try {
+                    responce.sendRedirect("/landing");
+                } catch (IOException ex) {
+                    System.out.println("Error in redirect");
+                }
                 return "landingPage";
-                //return landingForm();
+
             }
         }
         
@@ -593,15 +590,36 @@ public class HelloController {
         Sessions session = sessionsDao.findBySessionId(myCookie.getValue());
         System.out.println(session.getExpiryTime());
         
+        //true if valid
         boolean isValid = session.getExpiryTime().after(new Date());
         
         //extends the validity of the page
         if(isValid)
         {
-            
+            Date newExpiryDate = new Date();//create a new date refference
+            newExpiryDate.setHours(newExpiryDate.getHours()+1);//adds an hour to the expiry date
+            session.setExpiryTime(newExpiryDate);//updates the new expiry date
+            sessionsDao.save(session);
+            myCookie.setMaxAge(60*60);
         }
         
         return isValid;
+    }
+
+    private void deleteCookiesOnPage(HttpServletRequest request, HttpServletResponse response) {
+        Cookie[] allCookies = request.getCookies();
+        if (allCookies != null)
+        {
+            for(Cookie thisCookie: allCookies)
+            {
+                Cookie cookie = new Cookie(thisCookie.getName(), null);
+                cookie.setPath("/");
+                cookie.setMaxAge(0);
+                System.out.println("hello world");
+                
+                response.addCookie(cookie);
+            }
+        }
     }
 }
     
