@@ -327,6 +327,10 @@ button:hover, input[type=submit]:hover {
     background-color:black;
 }
 
+#surveyName{
+    border: 2.5px solid;
+}
+
 .sbuilderheader button{    
     line-height: 5px;
     margin-top:15px;   
