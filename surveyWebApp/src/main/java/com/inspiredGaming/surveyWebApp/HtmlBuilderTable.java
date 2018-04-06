@@ -141,7 +141,22 @@ public class HtmlBuilderTable {
             deleteButton.setAttribute("data-toggle", "modal");
             deleteButton.setAttribute("data-target", "#myModal");
             deleteButton.appendChild(deleteIcon);
+            
             actionsCell.appendChild(deleteButton);
+            
+            //add an edit option ONLY if survey has no responses.
+            if(numberOfResponses==0)
+            {
+                Element editIcon = doc.createElement("span");
+                editIcon.setAttribute("class","glyphicon glyphicon-edit");
+                Element editLink = doc.createElement("a");
+                editLink.setAttribute("href", "/surveyEditor?surveyId="+surveys.get(i).getSurveyId());
+                editLink.setAttribute("class", "editLink");
+                editLink.appendChild(editIcon);
+                actionsCell.appendChild(editLink);
+            }
+            
+            
             row.appendChild(actionsCell);
             
             table.appendChild(row);

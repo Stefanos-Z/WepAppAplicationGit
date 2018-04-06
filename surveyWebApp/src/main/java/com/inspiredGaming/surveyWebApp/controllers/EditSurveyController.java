@@ -141,7 +141,7 @@ public class EditSurveyController {
                 for(int j = 0; j < answers.size(); j++)
                 {
                     String answerText = answers.get(j).getAnswer();
-                    toReturn += "<div id=\"ansDiv"+i+"\">Answer";
+                    toReturn += "<div id=\"ansDiv"+i+"\">Answer: ";
                     toReturn += "<input id=ans"+i+" class=\"textbox\" name=\"answer"+i+"\" type=\"text\" value=\""+answerText+"\" >";
                     toReturn +=  "<span onclick=\"deleteAnswer("+i+")\" id=\"deleteIcon\">   ×</span>";
                     toReturn += "</div>";

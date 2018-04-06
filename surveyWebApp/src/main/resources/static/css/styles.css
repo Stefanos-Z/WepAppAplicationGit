@@ -174,11 +174,6 @@ body{
         text-align:left;
 }
 
-a>.glyphicon
-{
-    color:crimson;
-}
-
 .textbox{
     width: 300px;
     margin-bottom: 2.5%;
@@ -192,7 +187,7 @@ a>.glyphicon
     margin-right: 0.5%;
     /* margin-top: 2.5%; */
     height: 2.58em;
-    border: 3px solid;
+    /*border: 3px solid;*/
 }
 
 button {
@@ -352,6 +347,21 @@ td > button
     font-size: 25px;
     color:crimson;
     background-color:rgba(0, 0, 0, 0);
+}
+
+td > .editLink
+{
+	margin-left:5%;
+	outline:0;
+    padding: 0;
+    font-size: 25px;
+    color:#d08b23;
+    background-color:rgba(0, 0, 0, 0);
+}
+
+.editLink:hover
+{
+	color: #ff9901;
 }
 
 td > button:hover {

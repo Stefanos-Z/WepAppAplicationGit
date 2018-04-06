@@ -256,13 +256,15 @@ function checkQuestionText()
             var surveyText = document.getElementById("surveyName").value;
             if(questionText === "")
             {
-                document.getElementById("question"+i).style.borderColor = "red";
+                //document.getElementById("question"+i).style.borderColor = "red";
+                document.getElementById("question"+i).classList.add("invalidInput");
                 questionsFiled = false;
                 toReturn = false;
             }
             else
             {
-                document.getElementById("question"+i).style.borderColor = "black";
+                document.getElementById("question"+i).classList.remove("invalidInput");
+                //document.getElementById("question"+i).style.borderColor = "black";
             }
             //send alert telling user of missed fields
            
