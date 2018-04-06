@@ -145,7 +145,7 @@ function createQuestion()
 		newQ +='<option value="yes">Yes</option>';
 		newQ +='<option value="no">No</option>'	;	*/	
 		newQ +='</select>';
-                newQ +='<button onclick="deleteQuestion('+questionCounter+')" type="button" name="deleteQ">Delete Question</button>'
+                newQ +='<button onclick="deleteQuestion('+questionCounter+')" type="button" name="deleteQ">Delete Question</button>';
                 newQ +='</form>';
 		newQ +='<button id="createAnswer'+questionCounter+'" onclick="createAnswer('+questionCounter+')" type="button" name="createQ">Create Answer</button>';
 		//newQ +='<button onclick="createQuestionObj('+questionCounter+')" type="button" name="saveQuestion">Save Question</button>'
