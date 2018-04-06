@@ -1,6 +1,13 @@
 var answerCounter = 0;
-var questionCounter = 0;
+var questionCounter;
 var questionsArray = new Array;
+
+function onLoadInstantiate()
+{
+    questionCounter = $('#questionCount').val();
+    console.log(questionCounter);
+}
+
 
 function createAnswer(question)
 {	
@@ -49,15 +56,18 @@ function createAnswer(question)
 function createQuestionObj(question)
 {
     try{
-	var questionText = document.getElementById("question"+question).value;	
+	var questionText = document.getElementById("question"+question).value;
+        console.log(questionText);
 	var answerType = document.getElementById("dropDown" + question).value;	
-		
+	console.log(answerType);	
 	var required;
-	var value = document.getElementById("required" + question).value;	
+	/*var value = document.getElementById("required" + question).value;	
 	if (value == 'yes')
 	{
 		var required = true;		
-	}	
+	}
+        console.log(value);*/
+        var required = true;
 	var answers = document.getElementsByName("answer"+question);
 	var ansValue = new Array;
 	for(i = 0; i < answers.length; i++)
@@ -67,10 +77,11 @@ function createQuestionObj(question)
 	
 	var Question = {question: questionText,answers: ansValue, required: required, type: answerType};
 	
-	questionsArray.push(Question);        
+	questionsArray.push(Question);  
+        console.log("question added");
     }catch(e)
     {
-        console.log("question skipped");
+        console.log(e.message);
     }	
 }
 
@@ -83,6 +94,7 @@ function constructString()
     }
 	for(m = 0; m < questionCounter; m++)
 	{
+            console.log("calling question builder");
             createQuestionObj(m);		
 	}
 	var xmlS;
@@ -127,6 +139,7 @@ function constructString()
 
         var textField = document.getElementById("xmlForm");
         textField.value = temp;
+        console.log(temp);
         
         return true;  //Placeholder- can be used to prevent bad xml from being submitted.
 }
@@ -152,12 +165,12 @@ function createQuestion()
 		
 		//var newDiv ='<div id="div'+(questionCounter + 1)+'"></div>'
 		var newDivE = document.createElement("div");
-		newDivE.setAttribute('id', "div"+(questionCounter + 1));
+		newDivE.setAttribute('id', "div"+(parseInt(questionCounter) + 1));
                 newDivE.setAttribute("class","questions");
                 newDivE.setAttribute("style","display:none");
 		
                 //insert html into empty div
-                var nextDiv = document.getElementById("div" + questionCounter)
+                var nextDiv = document.getElementById("div" + questionCounter);
 		nextDiv.innerHTML = newQ;
                 nextDiv.removeAttribute("style");
 		var body = document.getElementsByTagName("body")[0];
@@ -230,6 +243,11 @@ function checkQuestionText()
     var toReturn = true;
     var questionsFiled = true;
     var surveyFiled = true;
+    if(questionCounter === "0" || questionCounter === 0)
+    {
+        alert("Must have at least one question!");
+        return false;
+    }
     for(i = 0; i < questionCounter; i++)
     {
         try
@@ -246,34 +264,36 @@ function checkQuestionText()
             {
                 document.getElementById("question"+i).style.borderColor = "black";
             }
-            if(surveyText === "")
-            {
-                document.getElementById("surveyName").style.borderColor = "red";
-                surveyFiled = false;
-                toReturn = false;
-            }
-            else
-            {
-                document.getElementById("surveyName").style.borderColor = "black";
-            }
-            
             //send alert telling user of missed fields
-            if(!surveyFiled && !questionsFiled)
-            {
-                alert("Not all question fields completed!\nSurvey needs a name!");
-            }
-            else if(!surveyFiled)
-            {
-                alert("Survey needs a name!");
-            }
-            else if(!questionsFiled)
-            {
-                alert("Not all question fields completed!")
-            }
+           
         }catch(err){
             console.log("no question");
         }
     }
+    if(surveyText === "")
+    {
+        document.getElementById("surveyName").style.borderColor = "red";
+        surveyFiled = false;
+        toReturn = false;
+    }
+    else
+    {
+        document.getElementById("surveyName").style.borderColor = "black";
+    }
+    
+    if(!surveyFiled && !questionsFiled)
+    {
+        alert("Not all question fields completed!\nSurvey needs a name!");
+    }
+    else if(!surveyFiled)
+    {
+        alert("Survey needs a name!");
+    }
+    else if(!questionsFiled)
+    {
+        alert("Not all question fields completed!")
+    }
+    console.log("check valid input: " + toReturn);
     return toReturn;    
 }
 
