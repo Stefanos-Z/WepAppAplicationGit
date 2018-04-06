@@ -33,41 +33,38 @@ public class EditSurveyController {
     
     
     @RequestMapping(value = "/surveyEditor", method = RequestMethod.GET)
-    public String EditSurvey(HttpServletResponse responce, HttpServletRequest request, Model model, int surveyId)
+    public String EditSurvey(HttpServletResponse responce, HttpServletRequest request, Model model)
     {
+        int surveyId = Integer.parseInt(request.getParameter("surveyId"));
         List<Questions> questionsArray = qDao.findBySurveyId(surveyId);
-        String toReturn = "";
-        toReturn += "<!DOCTYPE html>";
-        toReturn += "<html xmlns:th=\"http://www.thymeleaf.org\">";
-        toReturn += "<head th:replace=\"template :: header\">";
-        toReturn += "<title>Survey Editor</title>";
-        toReturn += "<script src=\"../js/javascript.js\"></script>";
-        toReturn += "</head>";
+        String toReturn = "";    
     
-        toReturn += "<body id=\"body\">";
+        
         toReturn += "<div th:replace=\"template :: navbar\"/>";
         toReturn += "<div class =\"sbuilderheader\">Survey Name:";
         toReturn += "<input id =\"surveyName\" type=\"text\" name=\"sName\" class=\"textbox\"></input>";
-        toReturn += "button onclick=\"createQuestion()\" type=\"button\" name=\"createQ\">Add Question</button>";
-        toReturn += "<form id=\"submitForm\" onsubmit=\"return constructString()\" method=\"post\">";
-        toReturn += "<input tyoe=\"text\" id=\"xmlForm\" name=\"mytextform\" value=\"\" style=\"display:none\"></input>";
-        toReturn += "<button id=\"saveButton\" type=\"submit\"SaveSurvey</button>";
+        toReturn += "<button onclick=\"createQuestion()\" type=\"button\" name=\"createQ\">Add Question</button>";
+        toReturn += "<form id=\"submitForm\" action=\"surveyBuilder\" onsubmit=\"return constructString()\" method=\"post\">";
+        toReturn += "<input type=\"text\" id=\"xmlForm\" name=\"mytextform\" value=\"\" style=\"display:none\"></input>";
+        toReturn += "<button id=\"saveButton\" type=\"submit\"> SaveSurvey</button>";
         toReturn += "</form><br></br></div>";
+        toReturn += "<input type=\"hidden\" id=\"questionCount\" value=\""+questionsArray.size()+"\">";
     
     
         for(int i = 0; i < questionsArray.size(); i++)
         {
             String questionText = questionsArray.get(i).getQuestion();
-            toReturn += "<div id=\"div" + i + "\" class=\"questions\" style=\"display:none\">";
-            toReturn += "<br><form><input id=\"question\"" + i + "\" type=\"text\" name=\"questionText\" class=\"questiontext\" value=\""+questionText+"\">";
+            toReturn += "<div id=\"div" + i + "\" class=\"questions\">";
+            toReturn += "<br><form><input id=\"question" + i + "\" type=\"text\" name=\"questionText\" class=\"questiontext\" value=\""+questionText+"\">";
             toReturn += "<select id=\"dropDown"+i+"\" onchange=\"removeAllAnswers("+i+")\" name=\"qType\">";
+            //set drop down menu to that stored....TODO
             toReturn += "<option value=\"RadioButtons\">Radio Button</option>";
             toReturn += "<option value=\"ScoreRange\">Score Range</option>";
             toReturn += "<option value=\"OpenText\">Open Text</option></select>";
             toReturn += "<button onclick=\"deleteQuestion("+i+")\" type=\"button\" name=\"deleteQ\">Delete Question</button>";
             toReturn += "</form>";
             toReturn += "<button id=\"createAnswer"+i+"\" onclick=\"createAnswer("+i+")\" type=\"button\" name=\"createQ\">Create Answer</button>";
-            toReturn += "</div>";
+            
 
             //loop through answers       
             List<Answers> answers = aDao.findByQuestions(questionsArray.get(i));
@@ -75,14 +72,15 @@ public class EditSurveyController {
             for(int j = 0; j < answers.size(); j++)
             {
                 String answerText = answers.get(j).getAnswer();
-                toReturn += "<div id=\"ansDiv"+i+">Answer";
-                toReturn += "<input id=ans"+i+" class=\"textbox\" name=\"answer"+i+" type=\"text\" value=\""+answerText+"\" >";
+                toReturn += "<div id=\"ansDiv"+i+"\">Answer";
+                toReturn += "<input id=ans"+i+" class=\"textbox\" name=\"answer"+i+"\" type=\"text\" value=\""+answerText+"\" >";
                 toReturn +=  "<span onclick=\"deleteAnswer("+i+")\" id=\"deleteIcon\">   ×</span>";
                 toReturn += "</div>";
-            }        
-            toReturn += "</body>";
-            toReturn += "</html>";        
+            }   
+            toReturn += "</div>";                  
         }
-        return toReturn;
+        toReturn += "<div id=\"div"+questionsArray.size()+"\" class=\"questions\">";
+        model.addAttribute("surveyEditorPage", toReturn);
+        return "ourSurveyEditor";
     }    
 }
