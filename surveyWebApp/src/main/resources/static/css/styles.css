@@ -30,6 +30,11 @@ text-align : center;
 {
     float: right;
 }
+
+#newGroupName{
+    display: none;
+}
+
 #inspiredLogo{
     float: left;
     margin-right: 2%;

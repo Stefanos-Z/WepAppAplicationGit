@@ -26,4 +26,6 @@ public interface StaffEmailsDao extends CrudRepository<StaffEmails, Integer>{
     public StaffEmails findByStaffId(Integer staffId);
     
     public List<StaffEmails> findByGroupID(Integer groupID);
+    
+    
 }

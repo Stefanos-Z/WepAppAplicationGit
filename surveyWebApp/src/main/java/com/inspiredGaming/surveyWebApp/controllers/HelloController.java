@@ -49,7 +49,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -466,35 +468,65 @@ public class HelloController {
            
             selectListHtml += "<option value = \""+groups.get(i).getGroupID()+"\">"+groups.get(i).getGroupName()+"</option>";
         }
+        
+        //do not change!!!!
         selectListHtml += "<option value = \""+"New Group"+"\">"+"New Group"+"</option>";
+        //this line!!!!
+        
         model.addAttribute("groupSelectList", selectListHtml);
         return "uploademails";
     }
     
     @RequestMapping(value = "/uploademails", method = RequestMethod.POST)
-    public String uploadEmailsSubmit(HttpServletRequest request, Model model)
+    public String uploadEmailsSubmit(HttpServletRequest request,HttpServletResponse response, Model model)
     {        
         if (!checkValidation(request,"SURVEYOR"))
             return "sLogin";
         //get survey id
+
         String emails = request.getParameter("emails");
         
         String[] emailList = emails.split("\n");
         
-        //clear database of old emails.
-        //staffEmailsDao.deleteAll();
-        
-        String groupName = request.getParameter("groupName");
-        EmailGroups newEmailGroup = new EmailGroups(groupName);
-        emailGroupsDao.save(newEmailGroup);
-        
-        //save all new emails
-        for(int i = 0; i<emailList.length; i++)
+        String selected = request.getParameter("groups");
+        if(selected.equals("New Group"))
         {
-            emailList[i] = emailList[i].replaceAll("[\r|\n|\\s]","");
-            StaffEmails email = new StaffEmails(emailList[i], newEmailGroup.getGroupID());            
-            staffEmailsDao.save(email);
+            String groupName = request.getParameter("groupName");
+            EmailGroups newEmailGroup = new EmailGroups(groupName);
+            emailGroupsDao.save(newEmailGroup);
+            for(int i = 0; i<emailList.length; i++)
+            {
+                emailList[i] = emailList[i].replaceAll("[\r|\n|\\s]","");
+                StaffEmails email = new StaffEmails(emailList[i], newEmailGroup.getGroupID());            
+                staffEmailsDao.save(email);
+            }
+        }else{
+            Integer groupID = Integer.parseInt(selected);
+            
+            EmailGroups thisEmailGroup = emailGroupsDao.findByGroupID(groupID);
+            
+            List<StaffEmails> allEmails = staffEmailsDao.findAll();
+            for(StaffEmails thisEmail: allEmails)
+            {
+                if(thisEmail.getGroupID() == groupID)
+                    staffEmailsDao.delete(thisEmail);
+            }
+            
+            
+            for(int i = 0; i<emailList.length; i++)
+            {
+                emailList[i] = emailList[i].replaceAll("[\r|\n|\\s]","");
+                StaffEmails email = new StaffEmails(emailList[i], groupID);            
+                staffEmailsDao.save(email);
+            }
+            
         }
+        try {
+            response.sendRedirect("/uploademails");
+        } catch (IOException ex) {
+            System.out.println("Error in redirect");
+        }
+        
         
         return "uploademails";
     }
