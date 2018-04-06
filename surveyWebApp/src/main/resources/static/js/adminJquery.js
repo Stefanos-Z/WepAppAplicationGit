@@ -14,6 +14,16 @@
 $(document).ready(function() {
     
     setEventListeners();
+    
+    //configure tooltips
+    $('[data-toggle="tooltip"]').tooltip();
+
+    //check validity of an email
+    function checkEmailValidity(email)
+    {
+        var emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+        return emailRegex.test(String(email));
+    }
 
     //prevent modal from being hidden if not completed
     $('#addModal').on('hide.bs.modal',function(e){
@@ -29,6 +39,7 @@ $(document).ready(function() {
         else
         {
             clearAddLines();
+            $('#emailInput').tooltip({placement: 'right',trigger: 'manual'}).tooltip('hide');
         }
      });
      
@@ -52,6 +63,7 @@ $(document).ready(function() {
         else
         {
             clearEditLines();
+            $('#emailEdit').tooltip({placement: 'right',trigger: 'manual'}).tooltip('hide');
         }
      });
     
@@ -129,9 +141,16 @@ $(document).ready(function() {
             $("#passwordInput").attr("class","invalidInput");
             errors++;
         }
+        
         if(user.email==='')
         {
             $("#emailInput").attr("class","invalidInput");
+            errors++;
+        }
+        if(!checkEmailValidity(user.email))
+        {
+            $("#emailInput").attr("class","invalidInput");
+            $('#emailInput').tooltip({placement: 'right',trigger: 'manual'}).tooltip('show');
             errors++;
         }
         if(user.role==='')
@@ -160,9 +179,11 @@ $(document).ready(function() {
 
         $("#emailInput").attr("class","");
         $("#emailInput").val("");
+        
+        $("#phoneInput").attr("class","");
+        $("#phoneInput").val("");
 
         $("#roleInput").attr("class","");
-        $("#roleInput").val("");
 
     }
     
@@ -233,6 +254,12 @@ $(document).ready(function() {
         if(user.email==='')
         {
             $("#emailEdit").attr("class","invalidInput");
+            errors++;
+        }
+        if(!checkEmailValidity(user.email))
+        {
+            $("#emailEdit").attr("class","invalidInput");
+            $('#emailEdit').tooltip({placement: 'right',trigger: 'manual'}).tooltip('show');
             errors++;
         }
         if(user.role==='')

@@ -73,16 +73,18 @@ public class EditSurveyController {
     
     
     @RequestMapping(value = "/surveyEditor", method = RequestMethod.GET)
-    public String EditSurvey(HttpServletResponse responce, HttpServletRequest request, Model model)
+    public String EditSurvey(HttpServletResponse response, HttpServletRequest request, Model model)
     {
-        if(!checkValidation(request,"SURVEYOR"))
-        {
-            return "sLogin";
-        }
+        int surveyId  = Integer.parseInt(request.getParameter("surveyId"));
         
-        int surveyId = Integer.parseInt(request.getParameter("surveyId"));
         List<Questions> questionsArray = questionsDao.findBySurveyId(surveyId);
-        String toReturn = "";    
+        String toReturn = "";
+        toReturn += "<!DOCTYPE html>";
+        toReturn += "<html xmlns:th=\"http://www.thymeleaf.org\">";
+        toReturn += "<head th:replace=\"template :: header\">";
+        toReturn += "<title>Survey Editor</title>";
+        toReturn += "<script src=\"../js/javascript.js\"></script>";
+        toReturn += "</head>";
     
         
         toReturn += "<div th:replace=\"template :: navbar\"/>";
