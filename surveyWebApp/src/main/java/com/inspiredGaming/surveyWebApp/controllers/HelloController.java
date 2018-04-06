@@ -438,7 +438,11 @@ public class HelloController {
     public String getEmails(HttpServletRequest request, Model model)
     { 
         String emailString = "";
-        List<StaffEmails> e = staffEmailsDao.findAll();
+        
+        EmailGroups group = emailGroupsDao.findByGroupName(request.getParameter("groupName"));
+        
+        List<StaffEmails> e = staffEmailsDao.findByGroupID(group.getGroupID());
+        
         for(StaffEmails www: e)
         {
             emailString += www.getEmail()+"\n";

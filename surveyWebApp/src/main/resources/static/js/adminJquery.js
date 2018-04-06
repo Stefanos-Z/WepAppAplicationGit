@@ -252,7 +252,7 @@ $(document).ready(function() {
     //function to clear red highlighting
     function clearEditLines()
     {
- 
+        //remove highlighting from each text box.
         $("#usernameEdit").attr("class","");
 
         $("#passwordEdit").attr("class","");
