@@ -5,7 +5,7 @@
         <script src="../js/javascript.js"></script>
         
     </head>
-    <body id="body" onload="createQuestion()">
+    <body id="body" onLoad="onLoadInstantiate()">
         <div th:replace="template :: navbar"/>
         <div class="sbuilderheader">
             <!--<h1>Survey Builder</h1>-->
@@ -19,11 +19,9 @@
             </form>
             <br></br>
         </div>
+        <input type="hidden" id="questionCount" value="0"></input>
 		
-	<div id="div0" class="questions" style="display:none"></div>
-        
-        
-        
+	<div id="div0" class="questions" style="display:none"></div>        
     </body>
     
 </html>
