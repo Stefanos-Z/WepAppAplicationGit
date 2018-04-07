@@ -12,6 +12,6 @@ public class SurveyWebAppApplication {
                 //http://localhost:8080/respondent
             
                 /* 11/03 */
-                System.out.println("Hello asfui;gsf lasgh adsfh ");
+                System.out.println("Hello you are free to start the application ");
 	}
 }
