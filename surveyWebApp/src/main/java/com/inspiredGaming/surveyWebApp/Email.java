@@ -74,4 +74,51 @@ public class Email {
         System.out.println("Email sent");
 
     }
+    
+    /**
+    * Sends an email to an address with link to a survey.
+    * @throws AddressException
+    * @throws MessagingException
+    */
+    public void sendCompletionEmail(String surveyName) throws AddressException, MessagingException
+    {
+
+        //Set up SMTP details
+        Properties emailServer = new Properties();
+        emailServer.put("mail.smtp.host","smtp.gmail.com");
+        emailServer.put("mail.smtp.socketFactory.port", "465");
+        emailServer.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        emailServer.put("mail.smtp.auth", "true");
+        emailServer.put("mail.smtp.port", "465");
+
+        //Supply gmail authentication details.
+        Session session = Session.getDefaultInstance(emailServer,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication(){
+                        return new PasswordAuthentication("emailsenderbangor@gmail.com","Abc.123456");
+                    }
+                }
+        );
+
+        //Compose and Send Message
+        Message message=new MimeMessage(session);
+        //message.setFrom(new InternetAddress("levroque@gmail.com"));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailAddress));
+        message.setSubject("Dallos: New response recieved for "+surveyName);
+
+        // Set the text of the email message text.
+        MimeBodyPart messagePart = new MimeBodyPart();
+        messagePart.setText("A new repsonse has been received for survey "+surveyName+". You can view the results at "+url);
+
+        //Create the Email
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(messagePart);
+        message.setContent(multipart);
+
+        Transport.send(message);
+
+        //debug
+        System.out.println("Email sent");
+
+    }
 }

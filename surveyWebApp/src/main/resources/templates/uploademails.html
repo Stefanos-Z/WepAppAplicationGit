@@ -5,20 +5,22 @@
     </head>
     <body>
         <div th:replace="template :: navbar"/>
-        <h1> Email Upload</h1>
+        <h1> Group Management</h1>
         
-        <p id="uploadText">You can use the form below to determine who is invited to complete a survey. 
+        <p id="uploadText">You can use the form below to create and edit the groups used to 
+            determine who is invited to complete a survey. 
                
-               Enter each email on a <span id="modalSurvey">separate</span> line.</p>
+            Enter each email on a <span id="modalSurvey">separate</span> line.</p>
         
-        <form id="myForm" name="emailForm" method="post">
+        <form id="groupForm" name="emailForm" method="post">
             
             <br/>
             <select id="groupSelect" class="longselect" name="groups" th:utext="${groupSelectList}"></select>
+            <br></br>
+            <br></br>
+            <input id="newGroupName" class="longselect" name="groupName" placeholder="Enter new group's name" type="text" autofocus="true"/>
             <br/>
-            Group Name: <input id="newGroupName" name="groupName" placeholder="New Group" type="text" autofocus="true"/>
-            <br/>
-            <textarea id="emailList" rows="25" cols="50" name="emails" form="myForm"></textarea>
+            <textarea id="emailList" placeholder="Enter a list of emails here" rows="30" name="emails" form="groupForm"></textarea>
             <br></br>
             <input type="submit"></input>
         </form>

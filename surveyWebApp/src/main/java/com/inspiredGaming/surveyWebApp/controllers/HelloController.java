@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.mail.MessagingException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
@@ -228,6 +229,12 @@ public class HelloController {
     {
         if(!checkValidation(request,"SURVEYOR"))
             return "sLogin";
+        
+        //find user
+        Cookie c[] = request.getCookies();
+        Cookie myCookie = c[0];
+        Sessions session = sessionsDao.findBySessionId(myCookie.getValue());
+        
         try {
             //gets the value from the textbox
             //System.out.println(request.getParameter("mytextform"));
@@ -248,7 +255,7 @@ public class HelloController {
             String surveyName = path.evaluate("/survey/surveyName" ,doc);
 
             //save survey to the database
-            Surveys survey  = new Surveys(surveyName,usersDao.findByUserId(1));
+            Surveys survey  = new Surveys(surveyName,usersDao.findByUserId(session.getUserId()));
             surveysDao.save(survey);
 
             for(int i = 0; i<doc.getElementsByTagName("question").getLength();i++)
@@ -305,7 +312,6 @@ public class HelloController {
         }
         return "ourSurveyBuilder";
     }
-    
     
     
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
@@ -388,9 +394,12 @@ public class HelloController {
     }
     
     @RequestMapping(value = "/survey", method = RequestMethod.POST)
-    public String surveySubmit(HttpServletRequest request, Model model)
+    public String surveySubmit(HttpServletRequest request, Model model) throws MessagingException
     {
+        surveyKeysDao.findByKeyId(request.getParameter("key")).getSurveyId();
         int surveyId = surveyKeysDao.findByKeyId(request.getParameter("key")).getSurveyId();
+        
+        
                 
         //get list of expected questions
         List<Questions> questionList = questionsDao.findBySurveyId(surveyId);
@@ -427,6 +436,12 @@ public class HelloController {
             
         }
         
+        //Email the creator of the survey.
+        Surveys s = surveysDao.findBySurveyId(surveyId);
+        Users user = usersDao.findByUserId(s.getUsers().getUserId());
+        Email email = new Email(user.getEmail(),"http://localhost:8080/survey_results/responses/user?id="+log.getRespondentId());
+        email.sendCompletionEmail(s.getSurveyName());
+        
         //make survey expired
         SurveyKeys key = surveyKeysDao.findByKeyId(request.getParameter("key"));
         key.setExpired(true);
@@ -453,8 +468,8 @@ public class HelloController {
         return emailString;
     }
     
-    @RequestMapping(value = "/uploademails", method = RequestMethod.GET)
-    public String uploademailsForm(HttpServletRequest request, Model model)
+    @RequestMapping(value = "/groupmanagement", method = RequestMethod.GET)
+    public String manageGroupsForm(HttpServletRequest request, Model model)
     {       
         if (!checkValidation(request,"SURVEYOR"))
             return "sLogin";     
@@ -477,8 +492,8 @@ public class HelloController {
         return "uploademails";
     }
     
-    @RequestMapping(value = "/uploademails", method = RequestMethod.POST)
-    public String uploadEmailsSubmit(HttpServletRequest request,HttpServletResponse response, Model model)
+    @RequestMapping(value = "/groupmanagement", method = RequestMethod.POST)
+    public String manageGroupsSubmit(HttpServletRequest request,HttpServletResponse response, Model model)
     {        
         if (!checkValidation(request,"SURVEYOR"))
             return "sLogin";
@@ -627,7 +642,20 @@ public class HelloController {
             selectListHtml += "<option value = \""+surveys.get(i).getSurveyId()+"\">"+surveys.get(i).getSurveyName()+"</option>";
         }
         
+        
+        List<EmailGroups> groups = emailGroupsDao.findAll();
+        String groupListHtml = "";
+        
+        //add all groups to the form
+        for(int i = 0;i<groups.size();i++)
+        {
+           
+            groupListHtml += "<option value = \""+groups.get(i).getGroupID()+"\">"+groups.get(i).getGroupName()+"</option>";
+        }
+        
         model.addAttribute("selectList", selectListHtml);
+        model.addAttribute("groupList", groupListHtml);
+        
         
         return "sendemails";
     }
@@ -638,8 +666,11 @@ public class HelloController {
         if(!checkValidation(request,"SURVEYOR"))
             return "sLogin";
         //get survey id
-        List<StaffEmails> emailList = staffEmailsDao.findAll();
-                
+        
+        int groupId = Integer.parseInt(request.getParameter("group"));
+        
+        List<StaffEmails> emailList = staffEmailsDao.findByGroupID(groupId);
+        
         //save all new emails
         for(int i = 0; i<emailList.size(); i++)
         {
@@ -705,6 +736,23 @@ public class HelloController {
         return isValid;
     }
     
+    /**
+     * Validates a user submission.
+     * @param username
+     * @param password
+     * @param email
+     * @return 
+     */
+    private boolean validateUser(String username, String password, String email)
+    {
+        boolean valid = true;
+        valid = !username.isEmpty();
+        valid = !password.isEmpty();
+        valid = Pattern.matches("[A-z\\d][A-z\\d_\\-.]+[@][A-z|\\d]+[.A-z\\d]+[A-z]+", email);
+                
+        return valid;
+    }
+    
     @RequestMapping(value = "/add_user", method = RequestMethod.POST)
     @ResponseBody //just for passing a string instead of a template
     public String addUser(HttpServletRequest request, Model model)
@@ -714,12 +762,18 @@ public class HelloController {
             return "ERROR- INVALID USER ROLE";
         }
         
-        //public Users(String username, String userPassword, String email, String phoneNumber, String role) {
+        //get user data
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
         String phoneNumber = request.getParameter("phoneNumber");
         String role = request.getParameter("role");
+        
+        //validate mandatory fields
+        if(!validateUser(username,password,email))
+        {
+            return "ERROR- INVALID SUBMISSION";
+        }
         
         //create a new user
         Users u = new Users(username,password,email,phoneNumber,role);
@@ -749,6 +803,12 @@ public class HelloController {
         String email = request.getParameter("email");
         String phoneNumber = request.getParameter("phoneNumber");
         String role = request.getParameter("role");
+        
+        //validate mandatory fields
+        if(!validateUser(username,password,email))
+        {
+            return "ERROR- INVALID SUBMISSION";
+        }
         
         //create a new user
         Users u = usersDao.findByUserId(Integer.parseInt(id));

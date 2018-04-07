@@ -17,11 +17,14 @@ $(document).ready(function() {
     
     //configure tooltips
     $('[data-toggle="tooltip"]').tooltip();
+    //disable initially.
+    $('#emailInput').tooltip('disable');
+    $('#emailEdit').tooltip('disable');
 
     //check validity of an email
     function checkEmailValidity(email)
     {
-        var emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+        var emailRegex = /^[A-z\d][A-z\d_\-.]+[@][A-z|\d]+[.A-z\d]+[A-z]+$/
         return emailRegex.test(String(email));
     }
 
@@ -34,7 +37,6 @@ $(document).ready(function() {
         //if not valid, don't close modal.
         if(!user.validUser && document.activeElement.id == 'addUserDB'){
            e.preventDefault();
-           alert('Please complete the highlighted fields');
         }
         else
         {
@@ -58,7 +60,6 @@ $(document).ready(function() {
         //if not valid, don't close modal.
         if(!user.validUser && document.activeElement.id == 'editUserDB'){
            e.preventDefault();
-           alert('Please complete the highlighted fields');
         }
         else
         {
@@ -150,6 +151,7 @@ $(document).ready(function() {
         if(!checkEmailValidity(user.email))
         {
             $("#emailInput").attr("class","invalidInput");
+            $('#emailInput').tooltip('enable');
             $('#emailInput').tooltip({placement: 'right',trigger: 'manual'}).tooltip('show');
             errors++;
         }
@@ -179,6 +181,7 @@ $(document).ready(function() {
 
         $("#emailInput").attr("class","");
         $("#emailInput").val("");
+        $('#emailInput').tooltip('disable');
         
         $("#phoneInput").attr("class","");
         $("#phoneInput").val("");
@@ -259,6 +262,7 @@ $(document).ready(function() {
         if(!checkEmailValidity(user.email))
         {
             $("#emailEdit").attr("class","invalidInput");
+            $('#emailEdit').tooltip('enable');
             $('#emailEdit').tooltip({placement: 'right',trigger: 'manual'}).tooltip('show');
             errors++;
         }
@@ -285,6 +289,7 @@ $(document).ready(function() {
         $("#passwordEdit").attr("class","");
 
         $("#emailEdit").attr("class","");
+        $('#emailEdit').tooltip('disable');
 
         $("#roleEdit").attr("class","");
     }

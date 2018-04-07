@@ -30,8 +30,6 @@ public class RespondentAnswers {
     private int respondentId;
     private String answerText;
     
-   
-    
     private Answers answers;
     
     public RespondentAnswers(Answers answers, int respondentId, String answerText)

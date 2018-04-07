@@ -390,6 +390,10 @@ input, textarea{
     margin-bottom:4%;
 }
 
+#myForm input, #myForm textarea{
+    margin-left: 5% !important;
+}
+
 #submitButton{
     margin-top:2%;
     text-align:center;
@@ -513,4 +517,9 @@ input, textarea{
 
 .invalidInput {
 	border: 2px solid red !important;
+}
+
+#groupForm textarea {
+    width: 50%;
+    font-family: "Open Sans", Arial, Tahoma, sans-serif;
 }
