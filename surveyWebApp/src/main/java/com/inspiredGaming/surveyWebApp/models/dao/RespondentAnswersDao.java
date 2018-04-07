@@ -10,7 +10,9 @@ import com.inspiredGaming.surveyWebApp.models.RespondentAnswers;
 import com.inspiredGaming.surveyWebApp.models.Respondents;
 import java.util.List;
 import javax.transaction.Transactional;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -28,5 +30,12 @@ public interface RespondentAnswersDao extends CrudRepository<RespondentAnswers, 
     public Respondents findByRespondentAnswerId(Integer respondentAnswerId);
     
     public List<RespondentAnswers> findByRespondentId(Integer respondentId);
+    
+    @Query(value = "SELECT ANSWER,count(Y.ANSWER_ID) AS COUNT " +
+                    "FROM ANSWERS AS X LEFT JOIN RESPONDENT_ANSWERS AS Y ON X.ANSWER_ID = Y.ANSWER_ID " +
+                    "WHERE QUESTION_ID=:questionId " +
+                    "GROUP BY answer " +
+                    "ORDER BY X.ANSWER_ID ASC", nativeQuery=true)
+    public List<AnswerCount> countAnswersByQuestion(@Param("questionId") int questionId);
     
 }
