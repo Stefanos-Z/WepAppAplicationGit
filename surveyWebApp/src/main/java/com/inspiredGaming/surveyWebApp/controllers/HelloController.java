@@ -690,6 +690,22 @@ public class HelloController {
         return "sendemails";
     }
         
+    /**
+     * Returns the results of a selected questionnaire
+     * @param request is the Server Request ???
+     * @param model is the selected questionnaire ????
+     * @return the login or the result page
+     */
+    @RequestMapping(value = "/resultPage", method = RequestMethod.GET)
+    public String displayResultPage(HttpServletRequest request, Model model)
+    {
+        /*
+        if(!checkValidation(request,"SURVEYOR")){
+            return "sLogin";
+        }
+        */
+        return "resultPage";
+    }
     
     /**
      * A method to validate the credentials of a request.
