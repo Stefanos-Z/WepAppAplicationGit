@@ -523,3 +523,7 @@ input, textarea{
     width: 50%;
     font-family: "Open Sans", Arial, Tahoma, sans-serif;
 }
+
+#errorEmails{
+    color:red;
+}

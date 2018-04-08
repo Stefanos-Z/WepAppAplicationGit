@@ -121,7 +121,15 @@ public class SurveyViewerController {
         
         for(int i = 0; i<questionList.size();i++)
         {
-            s+="<div class=\"questions\">";
+            if(i == 0)
+            {
+                s+="<div class=\"questions\" id=\"question1\">";
+            }
+            else
+            {
+                s+="<div class=\"questions\">";
+            }
+            
             List<AnswerCount> ac = respondentAnswerDao.countAnswersByQuestion(questionList.get(i).getQuestionId());
             
             

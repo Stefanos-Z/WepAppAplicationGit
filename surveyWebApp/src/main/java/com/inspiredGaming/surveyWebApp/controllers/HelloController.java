@@ -33,6 +33,7 @@ import com.inspiredGaming.surveyWebApp.models.dao.SurveysDao;
 import com.inspiredGaming.surveyWebApp.models.dao.UsersDao;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -475,7 +476,7 @@ public class HelloController {
             return "sLogin";     
         List<EmailGroups> groups = emailGroupsDao.findAll();
         
-        String selectListHtml = "";
+        String selectListHtml = "";        
         
         //add all groups to the form
         for(int i = 0;i<groups.size();i++)
@@ -497,53 +498,87 @@ public class HelloController {
     {        
         if (!checkValidation(request,"SURVEYOR"))
             return "sLogin";
-        //get survey id
-
-        String emails = request.getParameter("emails");
         
+        //get emails
+        String emails = request.getParameter("emails");
         String[] emailList = emails.split("\n");
         
+        //create arraylist to catch invalid emails
+        ArrayList<String> invalidEmails = new ArrayList<String>();
+        
         String selected = request.getParameter("groups");
-        if(selected.equals("New Group"))
+        
+        EmailGroups emailGroup;
+        
+        //clear emails if updating a group
+        if(!selected.equals("New Group"))
         {
-            String groupName = request.getParameter("groupName");
-            EmailGroups newEmailGroup = new EmailGroups(groupName);
-            emailGroupsDao.save(newEmailGroup);
-            for(int i = 0; i<emailList.length; i++)
-            {
-                emailList[i] = emailList[i].replaceAll("[\r|\n|\\s]","");
-                StaffEmails email = new StaffEmails(emailList[i], newEmailGroup.getGroupID());            
-                staffEmailsDao.save(email);
-            }
-        }else{
             Integer groupID = Integer.parseInt(selected);
             
-            EmailGroups thisEmailGroup = emailGroupsDao.findByGroupID(groupID);
+            emailGroup = emailGroupsDao.findByGroupID(groupID);
             
             List<StaffEmails> allEmails = staffEmailsDao.findAll();
+            
+            //remove group so it can be replaced with new version.
             for(StaffEmails thisEmail: allEmails)
             {
                 if(thisEmail.getGroupID() == groupID)
                     staffEmailsDao.delete(thisEmail);
             }
-            
-            
-            for(int i = 0; i<emailList.length; i++)
+        }
+        
+        //else create new group
+        else
+        {
+            String groupName = request.getParameter("groupName");
+            emailGroup = new EmailGroups(groupName);
+            emailGroupsDao.save(emailGroup);
+        }
+        
+        //upload all new emails
+        for(int i = 0; i<emailList.length; i++)
+        {
+            //strip whitespace characters
+            emailList[i] = emailList[i].replaceAll("[\r|\n|\\s]","");
+
+            if(Pattern.matches("[A-z\\d][A-z\\d_\\-.]+[@][A-z|\\d]+[.A-z\\d]+[A-z]+", emailList[i]))
             {
-                emailList[i] = emailList[i].replaceAll("[\r|\n|\\s]","");
-                StaffEmails email = new StaffEmails(emailList[i], groupID);            
+                StaffEmails email = new StaffEmails(emailList[i], emailGroup.getGroupID());            
                 staffEmailsDao.save(email);
             }
-            
+            else
+            {
+                invalidEmails.add(emailList[i]);
+            }
+
         }
+        
+        int numberUploaded = emailList.length - invalidEmails.size();
+        String serverMessage = "<h1>"+numberUploaded+"/"+emailList.length+" emails uploaded sucessfully</h1><br/>";
+        
+        //flag any invalid email addresses
+        if(invalidEmails.size()>0)
+        {
+            serverMessage += "<p id = \"errorEmails\"><span class = \"glyphicon glyphicon-exclamation-sign\"></span>"+
+                            "The following email addresses are invalid and were excluded from the upload:<br/><br/>";
+            
+            for(String email: invalidEmails)
+            {
+                serverMessage+= email + "<br/>";
+            }
+            serverMessage +="<br/></p>";
+        }
+        
+        model.addAttribute("serverMessage", serverMessage);
+        /*
         try {
             response.sendRedirect("/uploademails");
         } catch (IOException ex) {
             System.out.println("Error in redirect");
-        }
+        }*/
         
         
-        return "uploademails";
+        return "confirmationPage";
     }
     
     @RequestMapping(value = "/survey_results", method = RequestMethod.GET)

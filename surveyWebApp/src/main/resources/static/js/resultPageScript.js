@@ -14,7 +14,8 @@ var rectY = 100; //holds space between the status rectangles (in height)
 /* SETUP CANVAS */
 function setup() {
   
-  createCanvas(2000, 600); //Create the Canvas to draw the Pie Chart
+  var canvas = createCanvas(2000, 600); //Create the Canvas to draw the Pie Chart
+  canvas.parent("question1");
   background(255); //Set a White Background Color on the Canvas
   
   /* Draw Chart after calculation */

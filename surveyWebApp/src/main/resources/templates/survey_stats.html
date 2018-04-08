@@ -5,10 +5,33 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="template :: bootstrapP5Header">
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8"></meta>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <!-- Head with bootstrap and p5-->
+    <head>
+        <title th:text="${title}">Dallos Survey Manager</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
+        <script type="text/javascript" th:inline="javascript" src="../js/javascript.js" th:src="@{../js/javascript.js}"></script> 
+        <script type="text/javascript" th:inline="javascript" src="../js/resultPageScript.js" th:src="@{../js/resultPageScript.js}"></script>
+        <script th:inline="javascript">
+        /*<![CDATA[*/
+
+            var canvasWidth = 2000;
+            var canvasHeight = 600;
+            var pieChartSize = 400;
+            var respondentDataInputArray = [80,80,80,80,80];
+            var sum = respondentDataInputArray[0]+respondentDataInputArray[1]+respondentDataInputArray[2]
+                    +respondentDataInputArray[3]+respondentDataInputArray[4]; //Holds the sum of the answers
+            var percentagesArray = [respondentDataInputArray.length]; //Depending on each answer from 5 seperete answers by persentage
+            var chartArray = [respondentDataInputArray.length]; //Holds 5 arcs to present a pie chart
+            var answersArray = ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"];
+            var rectX = 500; //holds space between the status rectangles (in width)
+            var rectY = 100; //holds space between the status rectangles (in height)
+
+        /*]]>*/
+        </script>
+        <link href="../../css/styles.css" th:href="@{../../css/styles.css}" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
     </head>
     <body>
         <div th:replace="template :: navbar"/>
