@@ -16,6 +16,21 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
+    
+    
+    <!-- Head with bootstrap and p5-->
+    <head th:fragment="bootstrapP5Header">
+        <title th:text="${title}">Dallos Survey Manager</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
+        <script type="text/javascript" th:inline="javascript" src="../js/javascript.js" th:src="@{../js/javascript.js}"></script> 
+        <script type="text/javascript" th:inline="javascript" src="../js/resultPageScript.js" th:src="@{../js/resultPageScript.js}"></script> 
+        <link href="../../css/styles.css" th:href="@{../../css/styles.css}" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+    </head>
+   
+    
     <body>
         <!-- Placeholder banner-->
         <div th:fragment="banner" id = "header_banner"><h1 id="header_title">Inspired Gaming Surveys</h1></div> 
