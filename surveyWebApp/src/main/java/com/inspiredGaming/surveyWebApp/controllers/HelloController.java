@@ -116,67 +116,7 @@ public class HelloController {
     ServletContext servletContext;
     
     
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginPage(HttpServletRequest request, HttpServletResponse response)
-    {
-        deleteCookiesOnPage(request, response);
-        return "sLogin";
-    }
     
-    
-    
-    
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String loginPage(HttpServletResponse responce, HttpServletRequest request, Model model)
-    {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        responce.setContentType("text/html");
-        deleteCookiesOnPage(request, responce);
-//        Users newUser = new Users(username, password, "malakas@deryneia.com", "0998789733");
-//        usersDao.save(newUser); //saves login details to the database
-        Users user = usersDao.findByUsername(username);
-
-        //EncryptPasswordWithPBKDF2WithHmacSHA1 afddas = new EncryptPasswordWithPBKDF2WithHmacSHA1();
-        String databasePassword = "";
-        
-        if (user!=null)
-        {
-            databasePassword = user.getUserPassword();
-            if(databasePassword.equals(password))
-            {
-                user.getUserId();
-                Sessions s = new Sessions(user.getUserId());
-                sessionsDao.save(s);
-                Cookie myCookie = new Cookie(user.getUsername(), s.getSessionId());
-                myCookie.setMaxAge(60*60);//sets the the lifespan of the cooki in seconds
-                myCookie.setPath("/");
-                
-                responce.addCookie(myCookie);
-                
-                //direct user to appropriate site location
-                if(user.getRole().equals("ADMINISTRATOR"))
-                {
-                    try {
-                    responce.sendRedirect("/landingAdmin");
-                    } catch (IOException ex) {
-                        System.out.println("Error in redirect");
-                    }
-                    return "landingPageAdmin";
-                }
-                
-                try {
-                    responce.sendRedirect("/landing");
-                } catch (IOException ex) {
-                    System.out.println("Error in redirect");
-                }
-                return "landingPage";
-
-            }
-        }
-        
-        return "sLogin";
-    }
     
     
     @RequestMapping(value = "/surveyBuilder", method = RequestMethod.GET)
@@ -912,20 +852,7 @@ public class HelloController {
         return tb.getUsersTable(userlist);
     }
     
-    private void deleteCookiesOnPage(HttpServletRequest request, HttpServletResponse response) {
-        Cookie[] allCookies = request.getCookies();
-        if (allCookies != null)
-        {
-            for(Cookie thisCookie: allCookies)
-            {
-                Cookie cookie = new Cookie(thisCookie.getName(), null);
-                cookie.setPath("/");
-                cookie.setMaxAge(0);
-                
-                response.addCookie(cookie);
-            }
-        }
-    }
+    
     
     
 }
