@@ -1,20 +1,26 @@
-/* Variables Declaration */
-var pieChartSize = 400;
-var respondentDataInputArray = [1]; //Holds the number of answers for each question
+/* Needed Variables */
+var respondentDataInputArray = []; //Holds data of Numbers from the Database (44.13%-25.05%)
+var answersArray = []; //Holds data of Answers from the Database ("Agree/Yes-Dissagree/No")
+
+/* Data Declaration */
 var sum = total(respondentDataInputArray); //Holds the sum of the answers
+var percentagesArray = [respondentDataInputArray.length]; //Holds the persentages in an array
+var chartArray = [respondentDataInputArray.length]; //Holds the Arcs of the Pie Chart in an Array
 
-var percentagesArray = [respondentDataInputArray.length]; //Depending on each answer from 5 seperete answers by persentage
-var chartArray = [respondentDataInputArray.length]; //Holds 5 arcs to present a pie chart
-var answersArray = ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"];
-var rectX = 500; //holds space between the status rectangles (in width)
-var rectY = 100; //holds space between the status rectangles (in height)
+/* Other Variables Declaration */
+var pieChartSize = 400; //Size of the Pie Chart
+var rectX = 500; //Space between the status rectangles - Constant Variable (in width)
+var rectY = 100; //Space between the status rectangles - Dynamic  Variable (in height)
+var canvasWidth = 1000; //Constant Variable
+var canvasHeight = respondentDataInputArray.length * 100; //Dynamic Variable
 
-var canvasWidth = 1000;
-var canvasHeight = respondentDataInputArray.length * 100;
-
-/* SETUP CANVAS */
+/**
+ * Setup the Pie Chart in the Canvas after the 
+ * calculation has been established.
+ */
 function setup() {
   
+  /* If canvas is hiding elements change the size */
   if(canvasHeight > 550){
     var canvas= createCanvas(canvasWidth, canvasHeight); //Create the Canvas to draw the Pie Chart
     canvas.parent("question1");
@@ -22,30 +28,30 @@ function setup() {
     var canvas = createCanvas(canvasWidth, 550);
     canvas.parent("question1");
   }
-  background(255); //Set a White Background Color on the Canvas
   
-  /* Draw Chart after calculation */
-  calculateAngles(); //This method will calculate the angle for the chart points
+  //Set the same White-Silver Background Color on the Canvas with WebApp Background
+   
+  
+  /* Draw Chart after calculations */
+  calculateAngles(); //This method will calculate the angle for the chart arcs
   pieChart(pieChartSize, chartArray); //Draw Pie Chart
 }
 
 /* DO CALCULATION */
 function calculateAngles(){
   
-  var persentageMultiplyer = 100 / sum; //Add the persentage of the sum in a variable
+  var persentageMultiplier = 100 / sum; //Add the persentage of the sum in a variable
 
-  for(i=0; i<respondentDataInputArray.length; i++){
+  for(var i=0; i<respondentDataInputArray.length; i++){
 
     //Add the persentage of the sum to an array of persentages
-    percentagesArray[i] = respondentDataInputArray[i] * persentageMultiplyer;
+    percentagesArray[i] = respondentDataInputArray[i] * persentageMultiplier;
      
     chartArray[i] = percentagesArray[i] * 3.6; //Hold degrees of each part in the array
   }
-    
 }
 
-
-function pieChart(diameter, data) {
+function pieChart(diameterSize, data) {
   
   /* Add title to show how many people had answered */
   textSize(50);
@@ -59,13 +65,30 @@ function pieChart(diameter, data) {
         
     if(chartArray[i]>0){
         
+        colorMode(RGB); // Try changing to HSB.
+        var from = color(random(100,255),0,0);
+        var to = color(0, 0, random(100,255));
+       
+        var interA = lerpColor(from, to, 0.11*i);
+        var interB = lerpColor(from, to, 0.21*i);
 
-        fill(random(255),random(255),random(255)); //Add random Color
-
+        if(i==0){
+            fill(from);
+        }
+        else if(i>i%2){
+            fill(interA);
+        }
+        else if(i==data.length){
+            fill(froB);
+        }else{
+            fill(to);
+        }
+        
+        fill(random(255),random(255),random(255));
         /* DRAW PIE CHART */
         arc(25+pieChartSize/2, height/2-50, 	//Arguments : x/y coordinate of the arc's ellipse
-            diameter, diameter, 											  	//width/height of the arc's ellipse by default
-            lastAngle, lastAngle+radians(chartArray[i]));	//angle to start/stop the arc, specified in radians
+        diameterSize, diameterSize,  //width/height of the arc's ellipse by default
+            lastAngle, lastAngle+radians(chartArray[i])); //angle to start/stop the arc, specified in radians
 
         lastAngle += radians(chartArray[i]); //Add to last angle depenting on the next Arc
     }
