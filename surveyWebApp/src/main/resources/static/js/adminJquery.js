@@ -19,12 +19,14 @@ $(document).ready(function() {
     $('[data-toggle="tooltip"]').tooltip();
     //disable initially.
     $('#emailInput').tooltip('disable');
+    $('#usernameInput').tooltip('disable');
+    $('#usernameEdit').tooltip('disable');
     $('#emailEdit').tooltip('disable');
 
     //check validity of an email
     function checkEmailValidity(email)
     {
-        var emailRegex = /^[A-z\d][A-z\d_\-.]+[@][A-z|\d]+[.A-z\d]+[A-z]+$/
+        var emailRegex = /^[A-z\d][A-z\d_\-.]+[@][A-z|\d]+[.A-z\d]+[A-z]+$/;
         return emailRegex.test(String(email));
     }
 
@@ -35,13 +37,14 @@ $(document).ready(function() {
         var user = validateAddUser();
         
         //if not valid, don't close modal.
-        if(!user.validUser && document.activeElement.id == 'addUserDB'){
+        if(!user.validUser && document.activeElement.id === 'addUserDB'){
            e.preventDefault();
         }
         else
         {
             clearAddLines();
             $('#emailInput').tooltip({placement: 'right',trigger: 'manual'}).tooltip('hide');
+            $('#usernameInput').tooltip({placement: 'right',trigger: 'manual'}).tooltip('hide');
         }
      });
      
@@ -55,16 +58,17 @@ $(document).ready(function() {
     $('#editModal').on('hide.bs.modal',function(e){
         
         //get user from form
-        var user = validateEditUser();
+        var user = validateEditUser($("#editUserDB").val());
         
         //if not valid, don't close modal.
-        if(!user.validUser && document.activeElement.id == 'editUserDB'){
+        if(!user.validUser && document.activeElement.id === 'editUserDB'){
            e.preventDefault();
         }
         else
         {
             clearEditLines();
             $('#emailEdit').tooltip({placement: 'right',trigger: 'manual'}).tooltip('hide');
+            $('#usernameEdit').tooltip({placement: 'right',trigger: 'manual'}).tooltip('hide');
         }
      });
     
@@ -79,7 +83,37 @@ $(document).ready(function() {
         //alert("detected");
         deleteUserDB($(this).val());
     });
-    
+
+    ////function to check for duplicate
+    function checkUserUniqueness(user,userId)
+    {
+        var username = {
+            userId: userId,
+            username : user
+        };
+        
+        var isValid = false;
+
+        //Post data to the database
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : "/check_username_uniqueness",
+            data : username,
+            dataType : 'text',
+            async : false,
+            success : function(response) {
+                console.log(response);
+                isValid = (response=="unique");
+            },
+            error : function(e) {
+                    alert("ERROR: Unable to check username");
+                    console.log("ERROR: ", e);
+            }
+        });
+        return isValid;
+    }
+
     //function to insert user into database
     function saveUserDB(){
 
@@ -128,13 +162,21 @@ $(document).ready(function() {
                 email : $("#emailInput").val(),
                 phoneNumber : $("#phoneInput").val(),
                 role : $('#roleInput').val()
-        }
+        };
         
         var errors = 0;
         //check for errors
+        
         if(user.username==='')
         {
             $("#usernameInput").attr("class","invalidInput");
+            errors++;
+        }
+        else if(!checkUserUniqueness(user.username,0))
+        {
+            $("#usernameInput").attr("class","invalidInput");
+            $('#usernameInput').tooltip('enable');
+            $('#usernameInput').tooltip({placement: 'right',trigger: 'manual'}).tooltip('show');
             errors++;
         }
         if(user.password==='')
@@ -175,6 +217,7 @@ $(document).ready(function() {
  
         $("#usernameInput").attr("class","");
         $("#usernameInput").val("");
+        $('#usernameInput').tooltip('disable');
 
         $("#passwordInput").attr("class","");
         $("#passwordInput").val("");
@@ -190,7 +233,7 @@ $(document).ready(function() {
 
     }
     
-    //function to delete survet from database
+    //function to edit user in database
     function editUserDB(userid){
 
         // create form data
@@ -240,13 +283,20 @@ $(document).ready(function() {
                 email : $("#emailEdit").val(),
                 phoneNumber : $("#phoneEdit").val(),
                 role : $('#roleEdit').val()
-        }
+        };
         
         var errors = 0;
         //check for errors
         if(user.username==='')
         {
             $("#usernameEdit").attr("class","invalidInput");
+            errors++;
+        }
+        else if(!checkUserUniqueness(user.username,user.userid))
+        {
+            $("#usernameEdit").attr("class","invalidInput");
+            $('#usernameEdit').tooltip('enable');
+            $('#usernameEdit').tooltip({placement: 'right',trigger: 'manual'}).tooltip('show');
             errors++;
         }
         if(user.password==='')
@@ -285,6 +335,7 @@ $(document).ready(function() {
     {
         //remove highlighting from each text box.
         $("#usernameEdit").attr("class","");
+        $('#usernameEdit').tooltip('disable');
 
         $("#passwordEdit").attr("class","");
 
@@ -300,7 +351,7 @@ $(document).ready(function() {
         // create form data
         var user = {
                 userid : userid
-        }
+        };
 
 
         //Post data to the database

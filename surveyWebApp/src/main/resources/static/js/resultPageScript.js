@@ -54,9 +54,9 @@ function calculateAngles(){
 function pieChart(diameterSize, data) {
   
   /* Add title to show how many people had answered */
-  textSize(50);
+  textSize(30);
   textStyle(BOLD);
-  text("Out of " + sum + " people",450,50);
+  text("Out of " + sum + " people",490,50);
   textStyle(NORMAL);
   
   var lastAngle = 0;
@@ -97,13 +97,13 @@ function pieChart(diameterSize, data) {
     /* DRAW STATUS OF THE PIE CHART */
     rect(rectX,rectY,20,20); 
     
-    textSize(20); //Change the size of the text
+    textSize(15); //Change the size of the text
     
     var percentagesText = text(nf(percentagesArray[i], 2,2), rectX+35, rectY+15); //Remove Decimal numbers
     var str = "          % , " + answersArray[i] + " , ("+respondentDataInputArray[i]+" people answered)";
     text(str,rectX+35,rectY+15);
     
-    rectY+=80; //Move next point of status
+    rectY+=40; //Move next point of status
     
   } //-End of For Loop 
 }
