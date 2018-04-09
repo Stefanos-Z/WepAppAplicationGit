@@ -354,19 +354,56 @@ public class HtmlBuilderTable {
             
             //dynamically adjusts according to number of columns in metadata
             
-            table+=("<td>"+i+"</td>");
+            table+=("<td>"+(i+1)+"</td>");
             table+=("<td>"+questions.get(i).getQuestion()+"</td>");            
             
-            if(questions.get(i).getQuestionTypeId()==2)
+            if(questions.get(i).getQuestionTypeId()==4)
             {
                 table+=("<td class=\"actions\"><div class=\"statsIcon\" >"
-                        + "<a class=\"statsLink\" href=\"/survey_results/survey_answers/survey_stats?questionId="+questions.get(i).getQuestionId()+"\">"
-                        + "<span class=\"glyphicon glyphicon glyphicon-stats\" ></span></a></td>");
+                        + "<a class=\"statsLink\" href=\"/survey_results/survey_answers/freetext?questionId="+questions.get(i).getQuestionId()+"\">"
+                        + "<span class=\"glyphicon glyphicon glyphicon-comment\" ></span></a></td>");     
             }
             else
             {
-                table+=("<td class=\"actions\"><div class=\"statsIcon\" ><span class=\"glyphicon glyphicon glyphicon-eye-open\" ></span</td>");
+                table+=("<td class=\"actions\"><div class=\"statsIcon\" >"
+                  + "<a class=\"statsLink\" href=\"/survey_results/survey_answers/survey_stats?questionId="+questions.get(i).getQuestionId()+"\">"
+                  + "<span class=\"glyphicon glyphicon glyphicon-stats\" ></span></a></td>");
+
             }
+            
+            table+=("</tr>");
+        }
+        
+        table+="<table>";
+        
+        return table;
+    }
+    
+    /**
+     * Formats a list of answers as a HTML table
+     * @param users the list of users
+     * @throws SQLException 
+     */
+    public static String getFreeTextTable(List<RespondentAnswers> answers)
+    {
+        String table = "<table class=\"userTable\">";
+        
+        //create top row
+        table+=("<tr>");
+        
+        //create headers        
+        table+= ("<th>Respondent</th>");
+        table+= ("<th>Answer</th>");
+        
+        table+=("</tr>");
+        
+        //loop to print the table
+        for(int i = 0; i<answers.size();i++)
+        {
+            table+=("<tr id=\"row"+answers.get(i).getRespondentId()+"\">");
+            
+            table+=("<td>"+i+"</td>");
+            table+=("<td>"+answers.get(i).getAnswerText()+"</td>");     
             
             table+=("</tr>");
         }

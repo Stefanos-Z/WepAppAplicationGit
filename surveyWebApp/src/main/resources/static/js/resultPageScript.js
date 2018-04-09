@@ -23,10 +23,10 @@ function setup() {
   /* If canvas is hiding elements change the size */
   if(canvasHeight > 550){
     var canvas= createCanvas(canvasWidth, canvasHeight); //Create the Canvas to draw the Pie Chart
-    canvas.parent("question1");
+    canvas.parent("statsDiv");
   }else{
     var canvas = createCanvas(canvasWidth, 550);
-    canvas.parent("question1");
+    canvas.parent("statsDiv");
   }
   
   //Set the same White-Silver Background Color on the Canvas with WebApp Background

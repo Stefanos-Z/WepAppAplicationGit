@@ -126,6 +126,24 @@ public class SurveyViewerController {
         return "resultsSurveyList";
     }
     
+    @RequestMapping(value = "/survey_results/survey_answers/freetext", method = RequestMethod.GET)
+    public String listFreeTextAnswers(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException
+    {
+        //get question associated with question id.
+        int questionId = Integer.parseInt(request.getParameter("questionId"));
+        Questions q = questionsDao.findByQuestionId(questionId);
+        
+        //Get answers associated with the free text.
+        List<Answers> answer = answersDao.findByQuestions(q);
+        List<RespondentAnswers> answers = respondentAnswerDao.findByAnswers(answer.get(0));
+        
+        //print the table
+        String table = HtmlBuilderTable.getFreeTextTable(answers);
+        model.addAttribute("surveyTable", table);
+        
+        return "resultsSurveyList";
+    }
+    
     @RequestMapping(value = "/survey_results/survey_answers/survey_stats", method = RequestMethod.GET)
     public String surveyStats(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException
     {
@@ -137,9 +155,9 @@ public class SurveyViewerController {
         ArrayList<Integer> countArray = new ArrayList<Integer>();
         ArrayList<String> answersArray = new ArrayList<String>();
         
-        s+="<div class=\"questions\" id=\"question1\">";
+        s+="<div class=\"questions\" id=\"statsDiv\">";
         
-        s+="<h1>"+q.getQuestion()+"</h1>";
+        s+="<div id=\"titleDiv\"><h1>Q) "+q.getQuestion()+"</h1></div>";
             
         List<AnswerCount> ac = respondentAnswerDao.countAnswersByQuestion(questionId);
             

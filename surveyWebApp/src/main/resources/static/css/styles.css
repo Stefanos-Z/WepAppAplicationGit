@@ -559,3 +559,15 @@ input, textarea{
 #groupEmailDelete:disabled{
      background: #dddddd;
 }
+
+#titleDiv{
+	background-color:black;
+	padding:10px;
+	color:white;
+	text-align:left;
+	margin-bottom:5%
+}
+
+#statsDiv{
+	margin-bottom:5%;
+}

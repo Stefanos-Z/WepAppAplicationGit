@@ -5,6 +5,7 @@
  */
 package com.inspiredGaming.surveyWebApp.models.dao;
 
+import com.inspiredGaming.surveyWebApp.models.Answers;
 import com.inspiredGaming.surveyWebApp.models.HelloLog;
 import com.inspiredGaming.surveyWebApp.models.RespondentAnswers;
 import com.inspiredGaming.surveyWebApp.models.Respondents;
@@ -30,6 +31,9 @@ public interface RespondentAnswersDao extends CrudRepository<RespondentAnswers, 
     public Respondents findByRespondentAnswerId(Integer respondentAnswerId);
     
     public List<RespondentAnswers> findByRespondentId(Integer respondentId);
+    
+    public List<RespondentAnswers> findByAnswers(Answers answer);
+    
     
     @Query(value = "SELECT ANSWER,count(Y.ANSWER_ID) AS COUNT " +
                     "FROM ANSWERS AS X LEFT JOIN RESPONDENT_ANSWERS AS Y ON X.ANSWER_ID = Y.ANSWER_ID " +

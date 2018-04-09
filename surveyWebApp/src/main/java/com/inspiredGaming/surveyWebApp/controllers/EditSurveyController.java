@@ -156,8 +156,6 @@ public class EditSurveyController {
                 toReturn += "<option value=\"ScoreRange\" selected>Score Range</option>";
             }
             
-            
-            
             toReturn += "</select>";
             toReturn += "<button onclick=\"deleteQuestion("+i+")\" type=\"button\" name=\"deleteQ\">Delete Question</button>";
             toReturn += "</form>";
@@ -181,6 +179,7 @@ public class EditSurveyController {
             toReturn += "</div>";                  
         }
         toReturn += "<div id=\"div"+questionsArray.size()+"\" class=\"questions\" style=\"display:none\">";
+        
         model.addAttribute("surveyEditorPage", toReturn);
         return "ourSurveyEditor";
     }
