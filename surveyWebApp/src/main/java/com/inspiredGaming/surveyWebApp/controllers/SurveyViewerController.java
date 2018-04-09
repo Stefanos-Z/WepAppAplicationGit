@@ -126,45 +126,31 @@ public class SurveyViewerController {
         return "resultsSurveyList";
     }
     
-    @RequestMapping(value = "/survey_stats", method = RequestMethod.GET)
+    @RequestMapping(value = "/survey_results/survey_answers/survey_stats", method = RequestMethod.GET)
     public String surveyStats(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException
     {
-        int surveyid = Integer.parseInt(request.getParameter("surveyId"));
-        
-        List<Questions> questionList = questionsDao.findBySurveyId(surveyid);
+        int questionId = Integer.parseInt(request.getParameter("questionId"));
         
         String s = "";
+        Questions q = questionsDao.findByQuestionId(questionId);
         
         ArrayList<Integer> countArray = new ArrayList<Integer>();
         ArrayList<String> answersArray = new ArrayList<String>();
         
-        for(int i = 0; i<questionList.size();i++)
+        s+="<div class=\"questions\" id=\"question1\">";
+        
+        s+="<h1>"+q.getQuestion()+"</h1>";
+            
+        List<AnswerCount> ac = respondentAnswerDao.countAnswersByQuestion(questionId);
+            
+        for(int j = 0; j<ac.size(); j++)
         {
-            if(i == 0)
-            {
-                s+="<div class=\"questions\" id=\"question1\">";
-            }
-            else
-            {
-                s+="<div class=\"questions\">";
-            }
-            
-            List<AnswerCount> ac = respondentAnswerDao.countAnswersByQuestion(questionList.get(i).getQuestionId());
-            
-            
-            for(int j = 0; j<ac.size(); j++)
-            {
-                s+= "Answer: "+ac.get(j).getAnswer()+" Count: "+ac.get(j).getCount()+"<br></br>";
-                System.out.println("Answer: "+ac.get(j).getAnswer()+" Count: "+ac.get(j).getCount());
-                
-                if(i==0){
-                   
-                    answersArray.add(ac.get(j).getAnswer());
-                    countArray.add(ac.get(j).getCount());
-                    
-                }
-                
-            }
+            //s+= "Answer: "+ac.get(j).getAnswer()+" Count: "+ac.get(j).getCount()+"<br></br>";
+            System.out.println("Answer: "+ac.get(j).getAnswer()+" Count: "+ac.get(j).getCount());
+
+            answersArray.add(ac.get(j).getAnswer());
+            countArray.add(ac.get(j).getCount());
+
             s+="</div>";
         }
         

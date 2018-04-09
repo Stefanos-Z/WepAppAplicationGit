@@ -359,8 +359,9 @@ public class HtmlBuilderTable {
             
             if(questions.get(i).getQuestionTypeId()==2)
             {
-                table+=("<td class=\"actions\"><div class=\"statsIcon\" ><span class=\"glyphicon glyphicon glyphicon-stats\" ></span</td>");
-            
+                table+=("<td class=\"actions\"><div class=\"statsIcon\" >"
+                        + "<a class=\"statsLink\" href=\"/survey_results/survey_answers/survey_stats?questionId="+questions.get(i).getQuestionId()+"\">"
+                        + "<span class=\"glyphicon glyphicon glyphicon-stats\" ></span></a></td>");
             }
             else
             {
