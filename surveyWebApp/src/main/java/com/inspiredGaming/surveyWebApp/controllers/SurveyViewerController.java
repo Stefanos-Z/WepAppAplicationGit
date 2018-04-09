@@ -34,6 +34,7 @@ import com.inspiredGaming.surveyWebApp.models.dao.SurveysDao;
 import com.inspiredGaming.surveyWebApp.models.dao.UsersDao;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -110,6 +111,14 @@ public class SurveyViewerController {
     
     ServletContext servletContext;
     
+    @RequestMapping(value = "/survey_results/survey_answers", method = RequestMethod.GET)
+    public String DisplayResults(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException
+    {
+    
+        
+        return "resultsSurveyList";
+    }
+    
     @RequestMapping(value = "/survey_stats", method = RequestMethod.GET)
     public String EditSurvey(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException
     {
@@ -118,6 +127,9 @@ public class SurveyViewerController {
         List<Questions> questionList = questionsDao.findBySurveyId(surveyid);
         
         String s = "";
+        
+        ArrayList<Integer> countArray = new ArrayList<Integer>();
+        ArrayList<String> answersArray = new ArrayList<String>();
         
         for(int i = 0; i<questionList.size();i++)
         {
@@ -137,11 +149,24 @@ public class SurveyViewerController {
             {
                 s+= "Answer: "+ac.get(j).getAnswer()+" Count: "+ac.get(j).getCount()+"<br></br>";
                 System.out.println("Answer: "+ac.get(j).getAnswer()+" Count: "+ac.get(j).getCount());
+                
+                if(i==0){
+                   
+                    answersArray.add(ac.get(j).getAnswer());
+                    countArray.add(ac.get(j).getCount());
+                    
+                }
+                
             }
             s+="</div>";
         }
         
         model.addAttribute("stats", s);
+//        int array[] = {1,2};
+//        String array2[] = {"textA","textB"};
+ 
+        model.addAttribute("respondentDataArray", countArray);
+        model.addAttribute("answersArray", answersArray);
         
         return "survey_stats";
     }

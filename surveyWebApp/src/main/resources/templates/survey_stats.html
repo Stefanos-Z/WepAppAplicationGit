@@ -16,17 +16,19 @@ and open the template in the editor.
         <script th:inline="javascript">
         /*<![CDATA[*/
 
-            var canvasWidth = 2000;
-            var canvasHeight = 600;
-            var pieChartSize = 400;
-            var respondentDataInputArray = [80,80,80,80,80];
-            var sum = respondentDataInputArray[0]+respondentDataInputArray[1]+respondentDataInputArray[2]
-                    +respondentDataInputArray[3]+respondentDataInputArray[4]; //Holds the sum of the answers
+            
+            var answersArray = [[${answersArray}]];
+            var respondentDataInputArray = [[${respondentDataArray}]];
+            
+            var sum = total(respondentDataInputArray); //Holds the sum of the answers
+
             var percentagesArray = [respondentDataInputArray.length]; //Depending on each answer from 5 seperete answers by persentage
             var chartArray = [respondentDataInputArray.length]; //Holds 5 arcs to present a pie chart
-            var answersArray = ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"];
             var rectX = 500; //holds space between the status rectangles (in width)
             var rectY = 100; //holds space between the status rectangles (in height)
+
+            var canvasWidth = 1000;
+            var canvasHeight = respondentDataInputArray.length * 100;
 
         /*]]>*/
         </script>
