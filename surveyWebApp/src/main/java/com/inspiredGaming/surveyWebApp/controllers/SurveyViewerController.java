@@ -120,7 +120,7 @@ public class SurveyViewerController {
     }
     
     @RequestMapping(value = "/survey_stats", method = RequestMethod.GET)
-    public String EditSurvey(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException
+    public String surveyStats(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException
     {
         int surveyid = Integer.parseInt(request.getParameter("surveyId"));
         
