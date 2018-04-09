@@ -127,9 +127,14 @@ public class HtmlBuilderTable {
             
             //add creation date
             Element statsBreakdown = doc.createElement("td");
+            
             Element statsIcon = doc.createElement("span");
             statsIcon.setAttribute("class", "glyphicon glyphicon-stats");
-            statsBreakdown.appendChild(statsIcon);
+            Element statsLink = doc.createElement("a");
+            statsLink.setAttribute("href", "/survey_results/survey_answers?surveyId="+surveys.get(i).getSurveyId());
+            statsLink.setAttribute("class", "statsLink");
+            statsLink.appendChild(statsIcon);
+            statsBreakdown.appendChild(statsLink);
             row.appendChild(statsBreakdown);
             
             //add actions cell
@@ -323,6 +328,53 @@ public class HtmlBuilderTable {
         return table;
     }
 
+    /**
+     * Formats a list of users as a HTML table
+     * @param users the list of users
+     * @throws SQLException 
+     */
+    public static String getQuestionsTable(List<Questions> questions)
+    {
+        String table = "<table class=\"userTable\">";
+        
+        //create top row
+        table+=("<tr>");
+        
+        //create headers        
+        table+= ("<th>Number</th>");
+        table+= ("<th>Question Text</th>");
+        table+= ("<th class=\"actions\">Actions</th>");
+        
+        table+=("</tr>");
+        
+        //loop to print the table
+        for(int i = 0; i<questions.size();i++)
+        {
+            table+=("<tr id=\"row"+(i+1)+"\">");
+            
+            //dynamically adjusts according to number of columns in metadata
+            
+            table+=("<td>"+i+"</td>");
+            table+=("<td>"+questions.get(i).getQuestion()+"</td>");            
+            
+            if(questions.get(i).getQuestionTypeId()==2)
+            {
+                table+=("<td class=\"actions\"><div class=\"statsIcon\" ><span class=\"glyphicon glyphicon glyphicon-stats\" ></span</td>");
+            
+            }
+            else
+            {
+                table+=("<td class=\"actions\"><div class=\"statsIcon\" ><span class=\"glyphicon glyphicon glyphicon-eye-open\" ></span</td>");
+            }
+            
+            table+=("</tr>");
+        }
+        
+        table+="<table>";
+        
+        return table;
+    }
+    
     /**
      * Returns xml as a string
      * @return 

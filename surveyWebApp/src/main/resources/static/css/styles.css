@@ -289,6 +289,8 @@ td, th {
     padding: 8px !important;
 }
 
+
+
 th{
      background-color: black;
      color : white;
@@ -349,20 +351,37 @@ td > button
     background-color:rgba(0, 0, 0, 0);
 }
 
-td > .editLink
+td > .editLink, td>.statsLink
 {
 	margin-left:5%;
 	outline:0;
     padding: 0;
     font-size: 25px;
-    color:#d08b23;
     background-color:rgba(0, 0, 0, 0);
+}
+
+td > .editLink
+{
+    color:#d08b23;
+}
+
+td > .statsLink 
+{
+    color:#2350d0;
 }
 
 .editLink:hover
 {
 	color: #ff9901;
 }
+
+.statsLink:hover
+{
+	color: #607bca;
+}
+
+
+
 
 td > button:hover {
     color:red;
@@ -480,6 +499,15 @@ input, textarea{
 
 .editIcon:hover{
     color:#ff9901;
+    cursor:pointer;
+}
+
+.statsIcon{
+    color:#3245c3;
+}
+
+.statsIcon:hover{
+    color:#7876ec;
     cursor:pointer;
 }
 

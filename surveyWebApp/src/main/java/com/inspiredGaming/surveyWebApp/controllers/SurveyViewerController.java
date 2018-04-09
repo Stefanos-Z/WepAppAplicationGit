@@ -115,6 +115,13 @@ public class SurveyViewerController {
     public String DisplayResults(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException
     {
     
+        int suveyId = Integer.parseInt(request.getParameter("surveyId"));
+        
+        List<Questions> questions = questionsDao.findBySurveyId(suveyId);
+        
+        String table = HtmlBuilderTable.getQuestionsTable(questions);
+        
+        model.addAttribute("surveyTable", table);
         
         return "resultsSurveyList";
     }
