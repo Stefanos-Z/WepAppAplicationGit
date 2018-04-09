@@ -30,9 +30,13 @@ $(document).ready(function() {
                 }
             });
             $('#newGroupName').hide();
+            $('#groupEmailDelete').prop('disabled', false);// enebles delete button
+            $("#saveEmails").val("Update Email Group");
         }else{
+            $("#saveEmails").val("Save new Group");
             $('#newGroupName').show();
             $("#emailList").val('');
+            $('#groupEmailDelete').prop('disabled', true);//disables delete button
         }
         
     });

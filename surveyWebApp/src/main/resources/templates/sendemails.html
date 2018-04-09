@@ -16,7 +16,7 @@
                     <br></br>
                     <span>Group:  </span><select class="longselect" name="group" th:utext="${groupList}"></select>
                 </div>
-                <button type="submit">SEND</button>
+                <button onClick="return confirm('Would you like to send this survey?\n\nPlease be aware when a survey is send out it cannot be edited!!!')" type="submit">SEND</button>
             </form>
         </div>
         

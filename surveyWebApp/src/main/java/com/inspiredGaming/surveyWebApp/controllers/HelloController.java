@@ -422,23 +422,32 @@ public class HelloController {
         for(int i = 0;i<groups.size();i++)
         {
            
-            selectListHtml += "<option value = \""+groups.get(i).getGroupID()+"\">"+groups.get(i).getGroupName()+"</option>";
+           selectListHtml += "<option value = \""+groups.get(i).getGroupID()+"\">"+groups.get(i).getGroupName()+"</option>";
+           if(i==0)
+           {
+                List<StaffEmails> emailsInFirstGroup = staffEmailsDao.findByGroupID(groups.get(i).getGroupID());
+                String emailStrings ="";
+                for(StaffEmails e: emailsInFirstGroup)
+                    emailStrings += e.getEmail() +"\n";
+                model.addAttribute("emailTextArea", emailStrings);
+           }
         }
         
         //do not change!!!!
         selectListHtml += "<option value = \""+"New Group"+"\">"+"New Group"+"</option>";
         //this line!!!!
         
+        
+        
         model.addAttribute("groupSelectList", selectListHtml);
         return "uploademails";
     }
     
-    @RequestMapping(value = "/groupmanagement", method = RequestMethod.POST)
+    @RequestMapping(value = "/groupmanagement", method = RequestMethod.POST, params="upload")
     public String manageGroupsSubmit(HttpServletRequest request,HttpServletResponse response, Model model)
     {        
         if (!checkValidation(request,"SURVEYOR"))
             return "sLogin";
-        
         //get emails
         String emails = request.getParameter("emails");
         String[] emailList = emails.split("\n");
@@ -521,6 +530,26 @@ public class HelloController {
         return "confirmationPage";
     }
     
+    
+    @RequestMapping(value = "/groupmanagement", method = RequestMethod.POST, params="delete")
+    public String deleteGroupsSubmit(HttpServletRequest request,HttpServletResponse response, Model model)
+    {
+        int selectedGroupId = Integer.parseInt(request.getParameter("groups"));
+        
+        List<StaffEmails> emailsToBeDeleted = staffEmailsDao.findByGroupID(selectedGroupId);
+        int emailCount = emailsToBeDeleted.size();
+        for(StaffEmails e: emailsToBeDeleted)
+        {
+            staffEmailsDao.delete(e);
+        }
+        String groupName = emailGroupsDao.findByGroupID(selectedGroupId).getGroupName();
+        emailGroupsDao.delete(selectedGroupId);
+        
+        String serverMessage = "<h1>"+ "The group "+groupName +" with a total of " +emailCount+" has been succesfully deleted!" +"</h1><br/>";
+
+        model.addAttribute("serverMessage", serverMessage);
+        return "confirmationPage";
+    }
     @RequestMapping(value = "/survey_results", method = RequestMethod.GET)
     //@ResponseBody //just for passing a string instead of a template
     public String surveyResults(HttpServletRequest request, Model model)

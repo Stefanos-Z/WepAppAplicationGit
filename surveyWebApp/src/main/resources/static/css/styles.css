@@ -527,3 +527,7 @@ input, textarea{
 #errorEmails{
     color:red;
 }
+
+#groupEmailDelete:disabled{
+     background: #dddddd;
+}
