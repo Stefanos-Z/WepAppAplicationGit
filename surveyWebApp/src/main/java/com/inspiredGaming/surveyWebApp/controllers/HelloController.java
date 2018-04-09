@@ -882,6 +882,32 @@ public class HelloController {
     }
     
     
+    @RequestMapping(value = "/check_username_uniqueness", method = RequestMethod.POST)
+    @ResponseBody //just for passing a string instead of a template
+    public String checkUsernameUniqueness(HttpServletRequest request, Model model)
+    {
+ 
+        String username = request.getParameter("username");
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        System.out.println("user id: "+userId+", username: "+username);
+         
+        Users user = usersDao.findByUsername(username);
+         
+        if(user == null)
+        {
+            return "unique";
+         }
+        else if (user.getUserId()==userId)
+        {
+            return "unique";
+        }
+        else
+        {
+            return "duplicate";
+        }
+         
+        
+    }
     
     
 }
