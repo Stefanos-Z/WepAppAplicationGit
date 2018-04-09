@@ -162,8 +162,6 @@ public class SurveyViewerController {
         }
         
         model.addAttribute("stats", s);
-//        int array[] = {1,2};
-//        String array2[] = {"textA","textB"};
  
         model.addAttribute("respondentDataArray", countArray);
         model.addAttribute("answersArray", answersArray);
