@@ -89,11 +89,17 @@ public class HtmlBuilderTable {
         statsHeader.appendChild(doc.createTextNode("Statistics"));
         headerRow.appendChild(statsHeader);
         
-        //add actions header
-        Element actionsHeader = doc.createElement("th");
-        actionsHeader.setAttribute("class", "columns");
-        actionsHeader.appendChild(doc.createTextNode("Actions"));
-        headerRow.appendChild(actionsHeader);
+        //add edit header
+        Element editHeader = doc.createElement("th");
+        editHeader.setAttribute("class", "columns");
+        editHeader.appendChild(doc.createTextNode("Edit"));
+        headerRow.appendChild(editHeader);
+        
+        //add edit header
+        Element deleteHeader = doc.createElement("th");
+        deleteHeader.setAttribute("class", "columns");
+        deleteHeader.appendChild(doc.createTextNode("Delete"));
+        headerRow.appendChild(deleteHeader);
 
         table.appendChild(headerRow);
         
@@ -137,18 +143,8 @@ public class HtmlBuilderTable {
             statsBreakdown.appendChild(statsLink);
             row.appendChild(statsBreakdown);
             
-            //add actions cell
-            Element actionsCell = doc.createElement("td");
-            Element deleteIcon = doc.createElement("span");
-            deleteIcon.setAttribute("class", "glyphicon glyphicon-remove-sign");
-            Element deleteButton = doc.createElement("button");
-            deleteButton.setAttribute("onClick", "updateModal('"+surveys.get(i).getSurveyName()+"','"+surveys.get(i).getSurveyId()+"')");
-            deleteButton.setAttribute("data-toggle", "modal");
-            deleteButton.setAttribute("data-target", "#myModal");
-            deleteButton.appendChild(deleteIcon);
-            
-            actionsCell.appendChild(deleteButton);
-            
+            //add edit cell
+            Element editCell = doc.createElement("td");
             //add an edit option ONLY if survey has no responses.
             if(numberOfResponses==0)
             {
@@ -158,11 +154,24 @@ public class HtmlBuilderTable {
                 editLink.setAttribute("href", "/surveyEditor?surveyId="+surveys.get(i).getSurveyId());
                 editLink.setAttribute("class", "editLink");
                 editLink.appendChild(editIcon);
-                actionsCell.appendChild(editLink);
+                editCell.appendChild(editLink);
             }
+                        
+            row.appendChild(editCell);
             
+            //add delete cell
+            Element deleteCell = doc.createElement("td");
+            Element deleteIcon = doc.createElement("span");
+            deleteIcon.setAttribute("class", "glyphicon glyphicon-remove-sign");
+            Element deleteButton = doc.createElement("button");
+            deleteButton.setAttribute("onClick", "updateModal('"+surveys.get(i).getSurveyName()+"','"+surveys.get(i).getSurveyId()+"')");
+            deleteButton.setAttribute("data-toggle", "modal");
+            deleteButton.setAttribute("data-target", "#myModal");
+            deleteButton.appendChild(deleteIcon);
             
-            row.appendChild(actionsCell);
+            deleteCell.appendChild(deleteButton);
+            
+            row.appendChild(deleteCell);
             
             table.appendChild(row);
         }
@@ -192,6 +201,12 @@ public class HtmlBuilderTable {
         creationDateHeader.setAttribute("class", "columns");
         creationDateHeader.appendChild(doc.createTextNode("Response Date"));
         headerRow.appendChild(creationDateHeader);
+        
+        //add view
+        Element viewHeader = doc.createElement("th");
+        viewHeader.setAttribute("class", "columns");
+        viewHeader.appendChild(doc.createTextNode("View Responses"));
+        headerRow.appendChild(viewHeader);
 
         table.appendChild(headerRow);
         
@@ -212,6 +227,18 @@ public class HtmlBuilderTable {
             Element creationDate = doc.createElement("td");
             creationDate.appendChild(doc.createTextNode(""+respondents.get(i).getSurveyDate()));
             row.appendChild(creationDate);
+            
+            //add view cell
+            Element viewCell = doc.createElement("td");
+            Element editIcon = doc.createElement("span");
+            editIcon.setAttribute("class","glyphicon glyphicon-comment");
+            Element viewLink = doc.createElement("a");
+            viewLink.setAttribute("href", "http://localhost:8080/survey_results/responses/user?id="+respondents.get(i).getRespondentId());    
+            viewLink.setAttribute("class", "statsLink");
+            viewLink.appendChild(editIcon);
+            viewCell.appendChild(viewLink);
+                        
+            row.appendChild(viewCell);
             
             table.appendChild(row);
         }
@@ -343,7 +370,7 @@ public class HtmlBuilderTable {
         //create headers        
         table+= ("<th>Number</th>");
         table+= ("<th>Question Text</th>");
-        table+= ("<th class=\"actions\">Actions</th>");
+        table+= ("<th class=\"Stats\">Actions</th>");
         
         table+=("</tr>");
         

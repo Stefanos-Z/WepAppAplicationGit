@@ -157,7 +157,7 @@ public class SurveyViewerController {
         
         s+="<div class=\"questions\" id=\"statsDiv\">";
         
-        s+="<div id=\"titleDiv\"><h1>Q) "+q.getQuestion()+"</h1></div>";
+        s+="<div id=\"titleDiv\"><h3>Q) "+q.getQuestion()+"</h3></div>";
             
         List<AnswerCount> ac = respondentAnswerDao.countAnswersByQuestion(questionId);
             
