@@ -358,21 +358,28 @@ public class HelloController {
             //check type of question
             int questionTypeId = questionList.get(i).getQuestionTypeId();
             
-            //if question is text, need to search for answerId & insert value param into answerText field
-            if(questionTypeId==4)
-            {
-                List<Answers> textAnswer = answersDao.findByQuestions(questionList.get(i));
-                //Answer answerId = textAnswer.get(0).getAnswerId();                
+            try{
                 
-                RespondentAnswers answerLog = new RespondentAnswers(textAnswer.get(0),log.getRespondentId(),map.get(""+questionList.get(i).getQuestionId())[0]);
-                respondentAnswerDao.save(answerLog);
-            }
-            else
+            
+                //if question is text, need to search for answerId & insert value param into answerText field
+                if(questionTypeId==4)
+                {
+                    List<Answers> textAnswer = answersDao.findByQuestions(questionList.get(i));
+                    //Answer answerId = textAnswer.get(0).getAnswerId();                
+
+                    RespondentAnswers answerLog = new RespondentAnswers(textAnswer.get(0),log.getRespondentId(),map.get(""+questionList.get(i).getQuestionId())[0]);
+                    respondentAnswerDao.save(answerLog);
+                }
+                else
+                {
+                    //insert radio buttons answerlog.
+                    Answers a = answersDao.findByAnswerId(Integer.parseInt(map.get(""+questionList.get(i).getQuestionId())[0]));
+                    RespondentAnswers answerLog = new RespondentAnswers(a,log.getRespondentId(),"");
+                    respondentAnswerDao.save(answerLog);
+                }
+            }catch(NullPointerException error)
             {
-                //insert radio buttons answerlog.
-                Answers a = answersDao.findByAnswerId(Integer.parseInt(map.get(""+questionList.get(i).getQuestionId())[0]));
-                RespondentAnswers answerLog = new RespondentAnswers(a,log.getRespondentId(),"");
-                respondentAnswerDao.save(answerLog);
+                System.out.println("Question not filled");
             }
             
         }
