@@ -567,8 +567,16 @@ public class HelloController {
             HtmlBuilderTable tableBuilder = new HtmlBuilderTable();
 
             String tableXML = tableBuilder.buildSurveyTable(surveyList,respondentDao);
-
-             model.addAttribute("surveyTable", tableXML);
+            String breadcrumbs = "<ul class=\"breadcrumb123\">"+
+                        "<li><a href=\"/landing\">Home</a></li>"+ 
+                        "<li><a href=\"#\">Survey Overview</a></li>"+
+                    "</ul>";
+                        
+            
+            
+            
+            model.addAttribute("myBreadcrumbs", breadcrumbs);
+            model.addAttribute("surveyTable", tableXML);
 
             return "resultsSurveyList";
         }
