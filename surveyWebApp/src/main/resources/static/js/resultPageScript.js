@@ -1,6 +1,13 @@
 /* Needed Variables */
-var respondentDataInputArray = []; //Holds data of Numbers from the Database (44.13%-25.05%)
-var answersArray = []; //Holds data of Answers from the Database ("Agree/Yes-Dissagree/No")
+var answersArrays = [["test"],["test"]];
+var countArrays = [[1],[2]];
+
+var index = 0;
+
+var respondentDataInputArray = answersArrays[index]; //Holds data of Numbers from the Database (44.13%-25.05%)
+var answersArray = answersArrays[index]; //Holds data of Answers from the Database ("Agree/Yes-Dissagree/No")
+
+
 
 /* Data Declaration */
 var sum = total(respondentDataInputArray); //Holds the sum of the answers
@@ -8,24 +15,39 @@ var percentagesArray = [respondentDataInputArray.length]; //Holds the persentage
 var chartArray = [respondentDataInputArray.length]; //Holds the Arcs of the Pie Chart in an Array
 
 /* Other Variables Declaration */
-var pieChartSize = 400; //Size of the Pie Chart
-var rectX = 500; //Space between the status rectangles - Constant Variable (in width)
+var pieChartSize = 200; //Size of the Pie Chart
+var rectX = 250; //Space between the status rectangles - Constant Variable (in width)
 var rectY = 100; //Space between the status rectangles - Dynamic  Variable (in height)
-var canvasWidth = 1000; //Constant Variable
-var canvasHeight = respondentDataInputArray.length * 100; //Dynamic Variable
+var canvasWidth = 550; //Constant Variable
+var canvasHeight = respondentDataInputArray.length * 60; //Dynamic Variable
 
 /**
  * Setup the Pie Chart in the Canvas after the 
  * calculation has been established.
  */
 function setup() {
+  respondentDataInputArray = countArrays[index];
+  answersArray = answersArrays[index];
+
+    /* Data Declaration */
+  sum = total(respondentDataInputArray); //Holds the sum of the answers
+  percentagesArray = [respondentDataInputArray.length]; //Holds the persentages in an array
+  chartArray = [respondentDataInputArray.length]; //Holds the Arcs of the Pie Chart in an Array
+
+  /* Other Variables Declaration */
+  pieChartSize = 200; //Size of the Pie Chart
+  rectX = 250; //Space between the status rectangles - Constant Variable (in width)
+  rectY = 100; //Space between the status rectangles - Dynamic  Variable (in height)
+  canvasWidth = 550; //Constant Variable
+  canvasHeight = respondentDataInputArray.length * 60; //Dynamic Variable
+
   
   /* If canvas is hiding elements change the size */
-  if(canvasHeight > 550){
+  if(canvasHeight > 250){
     var canvas= createCanvas(canvasWidth, canvasHeight); //Create the Canvas to draw the Pie Chart
     canvas.parent("statsDiv");
   }else{
-    var canvas = createCanvas(canvasWidth, 550);
+    var canvas = createCanvas(canvasWidth, 250);
     canvas.parent("statsDiv");
   }
   
@@ -34,7 +56,7 @@ function setup() {
   
   /* Draw Chart after calculations */
   calculateAngles(); //This method will calculate the angle for the chart arcs
-  pieChart(pieChartSize, chartArray); //Draw Pie Chart
+  //pieChart(pieChartSize, chartArray); //Draw Pie Chart
 }
 
 /* DO CALCULATION */
@@ -52,11 +74,11 @@ function calculateAngles(){
 }
 
 function pieChart(diameterSize, data) {
-  
+  fill(color(0,0,0));
   /* Add title to show how many people had answered */
   textSize(30);
   textStyle(BOLD);
-  text("Out of " + sum + " people",490,50);
+  text("Out of " + sum + " people",245,50);
   textStyle(NORMAL);
   
   var lastAngle = 0;
@@ -86,21 +108,26 @@ function pieChart(diameterSize, data) {
         
         fill(random(255),random(255),random(255));
         /* DRAW PIE CHART */
-        arc(25+pieChartSize/2, height/2-50, 	//Arguments : x/y coordinate of the arc's ellipse
+        arc(pieChartSize/2, height/2+height*0.1, 	//Arguments : x/y coordinate of the arc's ellipse
         diameterSize, diameterSize,  //width/height of the arc's ellipse by default
             lastAngle, lastAngle+radians(chartArray[i])); //angle to start/stop the arc, specified in radians
-
+                
         lastAngle += radians(chartArray[i]); //Add to last angle depenting on the next Arc
+        
     }
     
     
     /* DRAW STATUS OF THE PIE CHART */
     rect(rectX,rectY,20,20); 
     
-    textSize(15); //Change the size of the text
+    textSize(12); //Change the size of the text
     
     var percentagesText = text(nf(percentagesArray[i], 2,2), rectX+35, rectY+15); //Remove Decimal numbers
-    var str = "          % , " + answersArray[i] + " , ("+respondentDataInputArray[i]+" people answered)";
+    var str = "          % , " + answersArray[i].substring(0,20);
+    if(answersArray[i].length>20)
+    {
+        str + "...";
+    }
     text(str,rectX+35,rectY+15);
     
     rectY+=40; //Move next point of status
@@ -116,3 +143,17 @@ function total(array){
     }
     return sum;
 }
+
+//function to update index on click
+$(document).ready(function() {
+   
+   //refresh pie chart in modal when icon is pressed
+   $(".statIcon").click(function() {
+        //alert("detected");
+        index = parseInt($(this).attr("index"));
+        console.log($(this).attr("index")+"was printed");
+        setup();
+        pieChart(pieChartSize, chartArray);
+    });
+    
+});

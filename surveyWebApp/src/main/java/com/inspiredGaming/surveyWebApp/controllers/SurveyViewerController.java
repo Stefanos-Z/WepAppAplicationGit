@@ -115,15 +115,49 @@ public class SurveyViewerController {
     public String DisplayResults(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException
     {
     
+        //get the surveyid from the parameters
         int suveyId = Integer.parseInt(request.getParameter("surveyId"));
         
+        //find all questions associated with this survey
         List<Questions> questions = questionsDao.findBySurveyId(suveyId);
         
+        //print questions in html table format
         String table = HtmlBuilderTable.getQuestionsTable(questions);
+        
+        
+        //find all questions associated with survey.
+        List<Questions> q = questionsDao.findBySurveyId(suveyId);
+        
+        //create lists to hold other lists
+        ArrayList<ArrayList<String>> allAnswers = new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<Integer>> allTotals = new ArrayList<ArrayList<Integer>>();
+        
+        for(int i = 0;i<q.size();i++)
+        {
+            ArrayList<Integer> countArray = new ArrayList<Integer>();
+            ArrayList<String> answersArray = new ArrayList<String>();
+        
+            //get all answers associated with question
+            List<AnswerCount> ac = respondentAnswerDao.countAnswersByQuestion(q.get(i).getQuestionId());
+            for(int j = 0; j<ac.size(); j++)
+            {
+                //s+= "Answer: "+ac.get(j).getAnswer()+" Count: "+ac.get(j).getCount()+"<br></br>";
+                System.out.println("Answer: "+ac.get(j).getAnswer()+" Count: "+ac.get(j).getCount());
+
+                answersArray.add(ac.get(j).getAnswer());
+                countArray.add(ac.get(j).getCount());
+
+            }
+            allTotals.add(countArray);
+            allAnswers.add(answersArray);
+        }
+ 
+        model.addAttribute("respondentDataArray", allTotals);
+        model.addAttribute("answersArray", allAnswers);
         
         model.addAttribute("surveyTable", table);
         
-        return "resultsSurveyList";
+        return "graphicalResultsPage";
     }
     
     @RequestMapping(value = "/survey_results/survey_answers/freetext", method = RequestMethod.GET)
