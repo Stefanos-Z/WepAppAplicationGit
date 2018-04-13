@@ -179,7 +179,18 @@ public class EditSurveyController {
             toReturn += "</div>";                  
         }
         toReturn += "<div id=\"div"+questionsArray.size()+"\" class=\"questions\" style=\"display:none\">";
+        String surveyName = survey.getSurveyName();
         
+        String breadcrumbs = "<ul class=\"breadcrumb123\">"+
+                        "<li><a href=\"/landing\">Home</a></li>"+ 
+                        "<li><a href=\"/survey_results\">Survey Overview</a></li>"+
+                        "<li><a href=\"#\">Survey Editor: "+ surveyName +"</a></li>"+
+                    "</ul>";
+                        
+            
+            
+            
+        model.addAttribute("myBreadcrumbs", breadcrumbs);
         model.addAttribute("surveyEditorPage", toReturn);
         return "ourSurveyEditor";
     }

@@ -179,23 +179,30 @@ $(document).ready(function() {
             $('#usernameInput').tooltip({placement: 'right',trigger: 'manual'}).tooltip('show');
             errors++;
         }
+        else
+        {
+            $("#usernameInput").attr("class","");
+        }
         if(user.password==='')
         {
             $("#passwordInput").attr("class","invalidInput");
             errors++;
         }
-        
-        if(user.email==='')
+        else
         {
-            $("#emailInput").attr("class","invalidInput");
-            errors++;
-        }
+            $("#passwordInput").attr("class","");
+        }      
+        
         if(!checkEmailValidity(user.email))
         {
             $("#emailInput").attr("class","invalidInput");
             $('#emailInput').tooltip('enable');
             $('#emailInput').tooltip({placement: 'right',trigger: 'manual'}).tooltip('show');
             errors++;
+        }
+        else
+        {
+            $("#emailInput").attr("class","");            
         }
         if(user.role==='')
         {
@@ -304,10 +311,18 @@ $(document).ready(function() {
             $("#passwordEdit").attr("class","invalidInput");
             errors++;
         }
+        else
+        {
+            $("#passwordEdit").attr("class","");
+        }
         if(user.email==='')
         {
             $("#emailEdit").attr("class","invalidInput");
             errors++;
+        }
+        else
+        {
+            $("#emailEdit").attr("class","");
         }
         if(!checkEmailValidity(user.email))
         {
@@ -316,11 +331,16 @@ $(document).ready(function() {
             $('#emailEdit').tooltip({placement: 'right',trigger: 'manual'}).tooltip('show');
             errors++;
         }
+        else
+        {
+            $("#emailEdit").attr("class","");
+        }
         if(user.role==='')
         {
             $("#roleEdit").attr("class","invalidInput");
             errors++;
         }
+        
         
         if(errors===0)
         {

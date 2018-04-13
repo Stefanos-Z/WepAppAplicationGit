@@ -37,7 +37,7 @@ and open the template in the editor.
     </head>
     <body>
         <div th:replace="template :: navbar"/>
-        
+        <div th:utext="${myBreadcrumbs}"></div>
         <div th:utext="${stats}">DEFAULT MESSAGE</div>
     </body>
 </html>

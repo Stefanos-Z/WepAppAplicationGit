@@ -5,9 +5,11 @@
     </head>
     <body>
         <div th:replace="template :: navbar"/>
-        <h1>Send a Survey</h1>
-            <p>You can use this page to email a survey to a group of staff members.</p>
-            <p>To change a group, please use the <a url="/groupmanagement">group management</a> page. </p>
+        <h3 id="overviewHead" class="overviewText">Send a Survey</h3>
+        <hr width="80%"></hr>
+        <p class="overviewText">You can use this page to email a survey to a group of staff members.</p>
+        <p class="overviewText">To change a group, please use the <a href="/groupmanagement">group management</a> page.</p>
+        
         <div class="questions">
             <form id="myForm" name="emailForm" method="post">
                 <div class="comboDiv">
