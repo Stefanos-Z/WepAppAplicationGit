@@ -116,11 +116,20 @@ public class SurveyViewerController {
     {
     
         int suveyId = Integer.parseInt(request.getParameter("surveyId"));
-        
+        String surveyName = surveysDao.findBySurveyId(suveyId).getSurveyName();
         List<Questions> questions = questionsDao.findBySurveyId(suveyId);
         
         String table = HtmlBuilderTable.getQuestionsTable(questions);
-        
+        String breadcrumbs = "<ul class=\"breadcrumb123\">"+
+                        "<li><a href=\"/landing\">Home</a></li>"+ 
+                        "<li><a href=\"/survey_results\">Survey Overview</a></li>"+
+                        "<li><a href=\"#\">Survey: "+ surveyName +"</a></li>"+
+                    "</ul>";
+                        
+            
+            
+            
+            model.addAttribute("myBreadcrumbs", breadcrumbs);
         model.addAttribute("surveyTable", table);
         
         return "resultsSurveyList";
@@ -151,6 +160,8 @@ public class SurveyViewerController {
         
         String s = "";
         Questions q = questionsDao.findByQuestionId(questionId);
+        String surveyName = surveysDao.findBySurveyId(q.getSurveyId()).getSurveyName();
+        int surveyId = q.getSurveyId();
         
         ArrayList<Integer> countArray = new ArrayList<Integer>();
         ArrayList<String> answersArray = new ArrayList<String>();
@@ -171,6 +182,17 @@ public class SurveyViewerController {
 
             s+="</div>";
         }
+        String breadcrumbs = "<ul class=\"breadcrumb123\">"+
+                        "<li><a href=\"/landing\">Home</a></li>"+ 
+                        "<li><a href=\"/survey_results\">Survey Overview</a></li>"+
+                        "<li><a href=\"/survey_results/survey_answers?surveyId="+surveyId+"\">Survey: "+ surveyName +"</a></li>"+
+                        "<li><a href=\"#\">Question: "+ q.getQuestion() +"</a></li>"+
+                    "</ul>";
+                        
+            
+            
+            
+        model.addAttribute("myBreadcrumbs", breadcrumbs);
         
         model.addAttribute("stats", s);
  

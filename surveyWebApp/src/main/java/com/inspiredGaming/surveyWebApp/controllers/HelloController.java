@@ -574,15 +574,24 @@ public class HelloController {
     {
         if(checkValidation(request,"SURVEYOR")){
             int surveyId = Integer.parseInt(request.getParameter("survey"));
-
+            String surveyName = surveysDao.findBySurveyId(surveyId).getSurveyName();
             List<Respondents> respondentList = respondentDao.findBySurveyId(surveyId);
 
             HtmlBuilderTable tableBuilder = new HtmlBuilderTable();
 
             String tableXML = tableBuilder.buildResponseTable(respondentList);
-
-             model.addAttribute("surveyTable", tableXML);
-
+            String breadcrumbs = "<ul class=\"breadcrumb123\">"+
+                        "<li><a href=\"/landing\">Home</a></li>"+ 
+                        "<li><a href=\"/survey_results\">Survey Overview</a></li>"+
+                        "<li><a href=\"/survey_results/responses?survey="+surveyId+"\">SurveyNo"+ surveyName +"</a></li>"+
+                    "</ul>";
+                        
+            
+            
+            
+            model.addAttribute("myBreadcrumbs", breadcrumbs);
+            model.addAttribute("surveyTable", tableXML);
+             
             return "resultsSurveyList";
         }
         return "sLogin";
@@ -594,13 +603,41 @@ public class HelloController {
     {
         if(checkValidation(request,"SURVEYOR")){
             int respondentId = Integer.parseInt(request.getParameter("id"));
-
+            
             List<RespondentAnswers> answers = respondentAnswerDao.findByRespondentId(respondentId);
+            Answers aaa = answers.get(0).getAnswers();
+            Questions ddd = aaa.getQuestions();
+
+            System.out.println(ddd.getSurveyId());
+            String surveyName = surveysDao.findBySurveyId(ddd.getSurveyId()).getSurveyName();
+            String breadcrumbs = "<ul class=\"breadcrumb123\">"+
+                        "<li><a href=\"/landing\">Home</a></li>"+ 
+                        "<li><a href=\"/survey_results\">Survey Overview</a></li>"+
+                        "<li><a href=\"/survey_results/responses?survey="+ddd.getSurveyId()+"\">Survey: "+ surveyName +"</a></li>"+
+                        "<li><a href=\"#\">RespondentNo: "+ "I want to put selected respondent num" +"</a></li>"+
+                    "</ul>";
+                        
+            
+            
+            
+            model.addAttribute("myBreadcrumbs", breadcrumbs);
 
             HtmlBuilderTable tableBuilder = new HtmlBuilderTable();
 
             String tableXML = tableBuilder.buildIndividialResponse(answers);
 
+//            String breadcrumbs = "<ul class=\"breadcrumb123\">"+
+//                        "<li><a href=\"/landing\">Home</a></li>"+ 
+//                        "<li><a href=\"/survey_results\">Survey Overview</a></li>"+
+//                        "<li><a href=\"/resultsSurveyList\">SurveyNo"+ 4 +"</a></li>"+
+//                    "</ul>";
+//                        
+//            
+//            
+//            
+//            model.addAttribute("myBreadcrumbs", breadcrumbs);
+//            
+            
             model.addAttribute("surveyTable", tableXML);
 
             return "resultsSurveyList";
