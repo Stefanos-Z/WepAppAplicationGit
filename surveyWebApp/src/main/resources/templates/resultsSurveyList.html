@@ -12,7 +12,9 @@
     <body>
         <div th:replace="template :: navbar"/>
         <h2 id="q_description" th:text="${message}">DEFAULT MESSAGE</h2>
-        
+        <h3 id="overviewHead" class="overviewText">Survey Overview</h3>
+        <hr width="80%"></hr>
+        <p class="overviewText">Here you will find a list of all surveys. Where you can edit, delete them and view statistics.</p>
         <div class="tableDiv" th:utext="${surveyTable}">
 
         </div>
