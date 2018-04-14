@@ -39,6 +39,7 @@
         <div th:replace="template :: navbar"/>
         <h2 id="q_description" th:text="${message}">DEFAULT MESSAGE</h2>
         
+        <div th:utext="${myBreadcrumbs}"></div>
         <div class="tableDiv" th:utext="${surveyTable}">
 
         </div>

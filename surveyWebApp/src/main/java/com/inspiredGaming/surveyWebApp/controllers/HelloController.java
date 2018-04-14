@@ -216,6 +216,10 @@ public class HelloController {
                 {
                     questionTypeId = 4;
                 }
+                else if(questionType.equals("CheckBox"))
+                {
+                    questionTypeId = 5;
+                }
 
                 //add question to the db
                 Questions question = new Questions(questionText,questionTypeId,survey.getSurveyId());
@@ -339,8 +343,6 @@ public class HelloController {
     {
         surveyKeysDao.findByKeyId(request.getParameter("key")).getSurveyId();
         int surveyId = surveyKeysDao.findByKeyId(request.getParameter("key")).getSurveyId();
-        
-        
                 
         //get list of expected questions
         List<Questions> questionList = questionsDao.findBySurveyId(surveyId);
@@ -369,6 +371,20 @@ public class HelloController {
 
                     RespondentAnswers answerLog = new RespondentAnswers(textAnswer.get(0),log.getRespondentId(),map.get(""+questionList.get(i).getQuestionId())[0]);
                     respondentAnswerDao.save(answerLog);
+                }
+                //If answer is a check boxes, iterate through all values supplied.
+                else if(questionTypeId==5)
+                {
+                    
+                    String [] answers = map.get(""+questionList.get(i).getQuestionId());
+                    
+                    for(int j = 0 ;j<answers.length;j++)
+                    {
+                        //System.out.println("Radio responses = "+Integer.parseInt(answers[j]));
+                        Answers a = answersDao.findByAnswerId(Integer.parseInt(answers[j]));
+                        RespondentAnswers answerLog = new RespondentAnswers(a,log.getRespondentId(),"");
+                        respondentAnswerDao.save(answerLog);
+                    }
                 }
                 else
                 {

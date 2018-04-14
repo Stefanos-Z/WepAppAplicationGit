@@ -163,7 +163,7 @@ public class SurveyViewerController {
             
             
             
-            model.addAttribute("myBreadcrumbs", breadcrumbs);
+        model.addAttribute("myBreadcrumbs", breadcrumbs);
         model.addAttribute("surveyTable", table);
         
         return "graphicalResultsPage";
@@ -235,4 +235,6 @@ public class SurveyViewerController {
         
         return "survey_stats";
     }
+    
+    
 }

@@ -440,7 +440,7 @@ input, textarea{
 }
 
 .iconGlyph{
-	font-size: 1250%;
+	font-size: 1250% !important;
 	margin-top:5%;
 	color:#bdbdbd !important;
 }
@@ -480,7 +480,7 @@ input, textarea{
 }
 
 .userTable span {
-    font-size:21px;
+    font-size:30px;
 }
 
 .deleteIcon{
