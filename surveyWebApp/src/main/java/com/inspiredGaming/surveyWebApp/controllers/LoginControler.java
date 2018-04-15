@@ -61,10 +61,11 @@ public class LoginControler {
     {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        
         responce.setContentType("text/html");
         deleteCookiesOnPage(request, responce);
-//        Users newUser = new Users(username, password, "malakas@deryneia.com", "0998789733");
-//        usersDao.save(newUser); //saves login details to the database
+//      Users newUser = new Users(username, password, "malakas@deryneia.com", "0998789733");
+//      usersDao.save(newUser); //saves login details to the database
         Users user = usersDao.findByUsername(username);
 
         //EncryptPasswordWithPBKDF2WithHmacSHA1 afddas = new EncryptPasswordWithPBKDF2WithHmacSHA1();
@@ -104,6 +105,7 @@ public class LoginControler {
 
             }
         }
+        model.addAttribute("loginMessage", "Incorrect username & password");
         
         return "sLogin";
     }

@@ -115,15 +115,58 @@ public class SurveyViewerController {
     public String DisplayResults(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException
     {
     
+        //get the surveyid from the parameters
         int suveyId = Integer.parseInt(request.getParameter("surveyId"));
-        
+        String surveyName = surveysDao.findBySurveyId(suveyId).getSurveyName();
         List<Questions> questions = questionsDao.findBySurveyId(suveyId);
         
+        //print questions in html table format
         String table = HtmlBuilderTable.getQuestionsTable(questions);
         
+        
+        //find all questions associated with survey.
+        List<Questions> q = questionsDao.findBySurveyId(suveyId);
+        
+        //create lists to hold other lists
+        ArrayList<ArrayList<String>> allAnswers = new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<Integer>> allTotals = new ArrayList<ArrayList<Integer>>();
+        
+        for(int i = 0;i<q.size();i++)
+        {
+            ArrayList<Integer> countArray = new ArrayList<Integer>();
+            ArrayList<String> answersArray = new ArrayList<String>();
+        
+            //get all answers associated with question
+            List<AnswerCount> ac = respondentAnswerDao.countAnswersByQuestion(q.get(i).getQuestionId());
+            for(int j = 0; j<ac.size(); j++)
+            {
+                //s+= "Answer: "+ac.get(j).getAnswer()+" Count: "+ac.get(j).getCount()+"<br></br>";
+                System.out.println("Answer: "+ac.get(j).getAnswer()+" Count: "+ac.get(j).getCount());
+
+                answersArray.add(ac.get(j).getAnswer());
+                countArray.add(ac.get(j).getCount());
+
+            }
+            allTotals.add(countArray);
+            allAnswers.add(answersArray);
+        }
+ 
+        model.addAttribute("respondentDataArray", allTotals);
+        model.addAttribute("answersArray", allAnswers);
+        
+        String breadcrumbs = "<ul class=\"breadcrumb123\">"+
+                        "<li><a href=\"/landing\">Home</a></li>"+ 
+                        "<li><a href=\"/survey_results\">Survey Overview</a></li>"+
+                        "<li><a href=\"#\">Survey: "+ surveyName +"</a></li>"+
+                    "</ul>";
+                        
+            
+            
+            
+        model.addAttribute("myBreadcrumbs", breadcrumbs);
         model.addAttribute("surveyTable", table);
         
-        return "resultsSurveyList";
+        return "graphicalResultsPage";
     }
     
     @RequestMapping(value = "/survey_results/survey_answers/freetext", method = RequestMethod.GET)
@@ -151,6 +194,8 @@ public class SurveyViewerController {
         
         String s = "";
         Questions q = questionsDao.findByQuestionId(questionId);
+        String surveyName = surveysDao.findBySurveyId(q.getSurveyId()).getSurveyName();
+        int surveyId = q.getSurveyId();
         
         ArrayList<Integer> countArray = new ArrayList<Integer>();
         ArrayList<String> answersArray = new ArrayList<String>();
@@ -171,6 +216,17 @@ public class SurveyViewerController {
 
             s+="</div>";
         }
+        String breadcrumbs = "<ul class=\"breadcrumb123\">"+
+                        "<li><a href=\"/landing\">Home</a></li>"+ 
+                        "<li><a href=\"/survey_results\">Survey Overview</a></li>"+
+                        "<li><a href=\"/survey_results/survey_answers?surveyId="+surveyId+"\">Survey: "+ surveyName +"</a></li>"+
+                        "<li><a href=\"#\">Question: "+ q.getQuestion() +"</a></li>"+
+                    "</ul>";
+                        
+            
+            
+            
+        model.addAttribute("myBreadcrumbs", breadcrumbs);
         
         model.addAttribute("stats", s);
  
@@ -179,4 +235,6 @@ public class SurveyViewerController {
         
         return "survey_stats";
     }
+    
+    
 }

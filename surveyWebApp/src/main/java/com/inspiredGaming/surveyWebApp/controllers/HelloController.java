@@ -216,6 +216,10 @@ public class HelloController {
                 {
                     questionTypeId = 4;
                 }
+                else if(questionType.equals("CheckBox"))
+                {
+                    questionTypeId = 5;
+                }
 
                 //add question to the db
                 Questions question = new Questions(questionText,questionTypeId,survey.getSurveyId());
@@ -339,8 +343,6 @@ public class HelloController {
     {
         surveyKeysDao.findByKeyId(request.getParameter("key")).getSurveyId();
         int surveyId = surveyKeysDao.findByKeyId(request.getParameter("key")).getSurveyId();
-        
-        
                 
         //get list of expected questions
         List<Questions> questionList = questionsDao.findBySurveyId(surveyId);
@@ -358,21 +360,42 @@ public class HelloController {
             //check type of question
             int questionTypeId = questionList.get(i).getQuestionTypeId();
             
-            //if question is text, need to search for answerId & insert value param into answerText field
-            if(questionTypeId==4)
-            {
-                List<Answers> textAnswer = answersDao.findByQuestions(questionList.get(i));
-                //Answer answerId = textAnswer.get(0).getAnswerId();                
+            try{
                 
-                RespondentAnswers answerLog = new RespondentAnswers(textAnswer.get(0),log.getRespondentId(),map.get(""+questionList.get(i).getQuestionId())[0]);
-                respondentAnswerDao.save(answerLog);
-            }
-            else
+            
+                //if question is text, need to search for answerId & insert value param into answerText field
+                if(questionTypeId==4)
+                {
+                    List<Answers> textAnswer = answersDao.findByQuestions(questionList.get(i));
+                    //Answer answerId = textAnswer.get(0).getAnswerId();                
+
+                    RespondentAnswers answerLog = new RespondentAnswers(textAnswer.get(0),log.getRespondentId(),map.get(""+questionList.get(i).getQuestionId())[0]);
+                    respondentAnswerDao.save(answerLog);
+                }
+                //If answer is a check boxes, iterate through all values supplied.
+                else if(questionTypeId==5)
+                {
+                    
+                    String [] answers = map.get(""+questionList.get(i).getQuestionId());
+                    
+                    for(int j = 0 ;j<answers.length;j++)
+                    {
+                        //System.out.println("Radio responses = "+Integer.parseInt(answers[j]));
+                        Answers a = answersDao.findByAnswerId(Integer.parseInt(answers[j]));
+                        RespondentAnswers answerLog = new RespondentAnswers(a,log.getRespondentId(),"");
+                        respondentAnswerDao.save(answerLog);
+                    }
+                }
+                else
+                {
+                    //insert radio buttons answerlog.
+                    Answers a = answersDao.findByAnswerId(Integer.parseInt(map.get(""+questionList.get(i).getQuestionId())[0]));
+                    RespondentAnswers answerLog = new RespondentAnswers(a,log.getRespondentId(),"");
+                    respondentAnswerDao.save(answerLog);
+                }
+            }catch(NullPointerException error)
             {
-                //insert radio buttons answerlog.
-                Answers a = answersDao.findByAnswerId(Integer.parseInt(map.get(""+questionList.get(i).getQuestionId())[0]));
-                RespondentAnswers answerLog = new RespondentAnswers(a,log.getRespondentId(),"");
-                respondentAnswerDao.save(answerLog);
+                System.out.println("Question not filled");
             }
             
         }
@@ -560,8 +583,16 @@ public class HelloController {
             HtmlBuilderTable tableBuilder = new HtmlBuilderTable();
 
             String tableXML = tableBuilder.buildSurveyTable(surveyList,respondentDao);
-
-             model.addAttribute("surveyTable", tableXML);
+            String breadcrumbs = "<ul class=\"breadcrumb123\">"+
+                        "<li><a href=\"/landing\">Home</a></li>"+ 
+                        "<li><a href=\"#\">Survey Overview</a></li>"+
+                    "</ul>";
+                        
+            
+            
+            
+            model.addAttribute("myBreadcrumbs", breadcrumbs);
+            model.addAttribute("surveyTable", tableXML);
 
             return "resultsSurveyList";
         }
@@ -574,15 +605,24 @@ public class HelloController {
     {
         if(checkValidation(request,"SURVEYOR")){
             int surveyId = Integer.parseInt(request.getParameter("survey"));
-
+            String surveyName = surveysDao.findBySurveyId(surveyId).getSurveyName();
             List<Respondents> respondentList = respondentDao.findBySurveyId(surveyId);
 
             HtmlBuilderTable tableBuilder = new HtmlBuilderTable();
 
             String tableXML = tableBuilder.buildResponseTable(respondentList);
-
-             model.addAttribute("surveyTable", tableXML);
-
+            String breadcrumbs = "<ul class=\"breadcrumb123\">"+
+                        "<li><a href=\"/landing\">Home</a></li>"+ 
+                        "<li><a href=\"/survey_results\">Survey Overview</a></li>"+
+                        "<li><a href=\"/survey_results/responses?survey="+surveyId+"\">SurveyNo"+ surveyName +"</a></li>"+
+                    "</ul>";
+                        
+            
+            
+            
+            model.addAttribute("myBreadcrumbs", breadcrumbs);
+            model.addAttribute("surveyTable", tableXML);
+             
             return "resultsSurveyList";
         }
         return "sLogin";
@@ -594,13 +634,41 @@ public class HelloController {
     {
         if(checkValidation(request,"SURVEYOR")){
             int respondentId = Integer.parseInt(request.getParameter("id"));
-
+            
             List<RespondentAnswers> answers = respondentAnswerDao.findByRespondentId(respondentId);
+            Answers aaa = answers.get(0).getAnswers();
+            Questions ddd = aaa.getQuestions();
+
+            System.out.println(ddd.getSurveyId());
+            String surveyName = surveysDao.findBySurveyId(ddd.getSurveyId()).getSurveyName();
+            String breadcrumbs = "<ul class=\"breadcrumb123\">"+
+                        "<li><a href=\"/landing\">Home</a></li>"+ 
+                        "<li><a href=\"/survey_results\">Survey Overview</a></li>"+
+                        "<li><a href=\"/survey_results/responses?survey="+ddd.getSurveyId()+"\">Survey: "+ surveyName +"</a></li>"+
+                        "<li><a href=\"#\">RespondentNo: "+ "I want to put selected respondent num" +"</a></li>"+
+                    "</ul>";
+                        
+            
+            
+            
+            model.addAttribute("myBreadcrumbs", breadcrumbs);
 
             HtmlBuilderTable tableBuilder = new HtmlBuilderTable();
 
             String tableXML = tableBuilder.buildIndividialResponse(answers);
 
+//            String breadcrumbs = "<ul class=\"breadcrumb123\">"+
+//                        "<li><a href=\"/landing\">Home</a></li>"+ 
+//                        "<li><a href=\"/survey_results\">Survey Overview</a></li>"+
+//                        "<li><a href=\"/resultsSurveyList\">SurveyNo"+ 4 +"</a></li>"+
+//                    "</ul>";
+//                        
+//            
+//            
+//            
+//            model.addAttribute("myBreadcrumbs", breadcrumbs);
+//            
+            
             model.addAttribute("surveyTable", tableXML);
 
             return "resultsSurveyList";

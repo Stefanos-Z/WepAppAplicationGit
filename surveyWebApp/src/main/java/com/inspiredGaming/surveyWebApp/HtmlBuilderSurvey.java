@@ -81,8 +81,7 @@ public class HtmlBuilderSurvey {
                 ans = doc.createElement("input");
                 ans.setAttribute("type", questionType);
                 ans.setAttribute("name", ""+question.getQuestionId());
-                ans.setAttribute("value", ""+answers.get(i).getAnswerId());
-                
+                ans.setAttribute("value", ""+answers.get(i).getAnswerId());                
             }
             
             ans.appendChild(doc.createTextNode(answers.get(i).getAnswer()));
@@ -110,6 +109,10 @@ public class HtmlBuilderSurvey {
         else if (questionType ==4)
         {
             inputType = "textarea";
+        }
+        else if (questionType ==5)
+        {
+            inputType = "checkbox";
         }
         
         return inputType;

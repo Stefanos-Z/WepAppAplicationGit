@@ -370,7 +370,7 @@ public class HtmlBuilderTable {
         //create headers        
         table+= ("<th>Number</th>");
         table+= ("<th>Question Text</th>");
-        table+= ("<th class=\"Stats\">Actions</th>");
+        table+= ("<th class=\"Stats\">View Chart</th>");
         
         table+=("</tr>");
         
@@ -393,9 +393,7 @@ public class HtmlBuilderTable {
             else
             {
                 table+=("<td class=\"actions\"><div class=\"statsIcon\" >"
-                  + "<a class=\"statsLink\" href=\"/survey_results/survey_answers/survey_stats?questionId="+questions.get(i).getQuestionId()+"\">"
-                  + "<span class=\"glyphicon glyphicon glyphicon-stats\" ></span></a></td>");
-
+                + "<span index = \""+i+"\"class=\"fa fa-pie-chart statIcon\" data-toggle=\"modal\" data-target=\"#addModal\" ></span></td>");
             }
             
             table+=("</tr>");
