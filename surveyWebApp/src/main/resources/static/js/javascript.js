@@ -16,10 +16,29 @@ function createAnswer(question)
 	
 	switch(answerType)
 	{
-		case 'ScoreRange':
-                //delete all previous answer fields
-							
-			break;
+		case 'CheckBox':
+                    //delete all previous answer fields
+                    var aDiv = document.createElement("div")
+                    aDiv.setAttribute('id', "ansDiv"+answerCounter);
+                    var title = document.createTextNode("Answer: ");	
+                    var ans = document.createElement("input");
+                    ans.setAttribute('type',"text");
+                    ans.setAttribute('name', "answer"+question);	
+                    ans.setAttribute('id', "ans"+question);
+                    ans.setAttribute("class","textbox");
+                    var div = document.getElementById("div"+question);                        
+                    var aSpan = document.createElement("span");
+                    aSpan.setAttribute('onClick', "deleteAnswer("+answerCounter+")");                        
+                    aSpan.setAttribute('id', "deleteIcon");
+                    aSpan.innerHTML = "   ×";                        
+                    aDiv.appendChild(title);
+                    aDiv.appendChild(ans);
+                    aDiv.appendChild(aSpan);
+                    div.appendChild(aDiv);
+
+                    answerCounter++;
+
+                    break;			
 		case 'RadioButtons':
                 //create new answer field
 			//console.log("Radio Buttons Selected");
@@ -152,7 +171,7 @@ function createQuestion()
 		newQ +='<select id="dropDown'+questionCounter+'" onchange="removeAllAnswers('+questionCounter+')" name="qType">';
 		newQ +='<option value="RadioButtons">Radio Button</option>';
 		//newQ +='<option value="MultipleChoice">Multiple Choice</option>';
-		newQ +='<option value="ScoreRange">Score Range</option>';
+		newQ +='<option value="CheckBox">Check Box</option>';
 		newQ +='<option value="OpenText">Open Text</option>';
 		/*newQ +='</select><select id="required'+questionCounter+'" name="Required">';
 		newQ +='<option value="yes">Yes</option>';
@@ -316,12 +335,12 @@ function removeAllAnswers(questionNum) {
     }
     var element = document.getElementById("dropDown"+questionNum);
             
-    if(element.value !== "RadioButtons")
+    if(element.value === "RadioButtons" || element.value === "CheckBox")
     {
-        document.getElementById('createAnswer'+questionNum).style.visibility = 'hidden';
+        document.getElementById('createAnswer'+questionNum).style.visibility = 'visible';
     }
     else
     {
-        document.getElementById('createAnswer'+questionNum).style.visibility = 'visible';
+        document.getElementById('createAnswer'+questionNum).style.visibility = 'hidden';
     }
 }
