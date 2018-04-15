@@ -4,8 +4,8 @@ var month2 = ["M02V01", "M02V02", "M02V03", "M02V04", "M02V05"];
 var month3 = ["M03V01"];
 var month4 = ["M04V01", "M04V02", "M04V03"];
 
-var arrayOfMonths = [month1, month2, month3, month4]; //X Axis
-var arrayOfResponses = ["1","2","3","4","5","6"];     //Y Axis
+var arrayOfMonths = [month1, month2, month3, month4]; //X Axis (Could be String or Array)
+var arrayOfResponses = ["1","2","3","4","5","6"];     //Y Axis (Could be String ONLY)
 
 /* Calculated Variables */
 var numOfMonths = arrayOfMonths.length;
@@ -18,31 +18,39 @@ var canvasHeight = (numOfResponses * 100) + extraSpace;
 
 function setup() {
 
-  createCanvas(canvasWidth+100, canvasHeight); //Create the canvas to display the Stacked Bar Chart 
-  background(255); //Remove this to make canvas transparent
+    //Create the canvas to display the Stacked Bar Chart 
+    createCanvas(canvasWidth+100, canvasHeight); 
+    background(255); /* !!!  (REMOVE THIS TO MAKE BACKGROUND TRANSPARENT)  !!! */
 
-  chartBase(); //Add X,Y Axis
+    chartBase(); //Add X,Y Axis Lines
 
-  addPointers(numOfResponses, numOfMonths); //Add Pointers
+    addPointers(numOfResponses, numOfMonths); //Add Pointers to X,Y Axis
 
-  addTextToPointers(); //Add Text to pointers
+    addTextToPointers(); //Add Text to pointers of Y Axis
 
-  addValues(); //Add the Bars (Values) of the Chart
-
+    addValues(); //Add the Bars (Values) of the Chart
 }
 
+/**
+ * Draws a line to represent a graph (X,Y Axis)
+ */
 function chartBase() {
 
-  /* DRAW X AXIS */
+  /* DRAW X AXIS LINE */
   line(canvasWidth - (canvasWidth - 50), canvasHeight - 100,
     (canvasWidth - 50) + 25, canvasHeight - 100);
 
-  /* DRAW Y AXIS */
+  /* DRAW Y AXIS LINE */
   line(canvasHeight - (canvasHeight - 100), canvasHeight - (canvasHeight - 50) - 25,
     canvasHeight - (canvasHeight - 100), canvasHeight - 50);
 }
 
-function addPointers(numOfResponses, numOfMonths) {
+/**
+ * Draws pointers on X,Y Axis according to the parameters values
+ * @param {type} numOfMonths is the number of Pointers to be drawn on X Axis
+ * @param {type} numOfResponses is the number of Pointers to be drawn on Y Axis
+ */
+function addPointers(numOfMonths, numOfResponses) {
 
   /* Find space Between Pointers */
   var spaceBetweenX = canvasWidth - (canvasWidth - 150);
