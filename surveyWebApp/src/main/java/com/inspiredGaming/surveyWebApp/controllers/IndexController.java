@@ -22,18 +22,12 @@ public class IndexController  implements ErrorController
     @RequestMapping(value = PATH)
     public ModelAndView error(){
         System.out.println("Handling Error 1");
-        
-        
-        
-        
-        
+
+        //send the user to landing page, which will check for logged in session.
         return new ModelAndView("redirect:/landing");
     }
     @Override
     public String getErrorPath() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-
-    
 }

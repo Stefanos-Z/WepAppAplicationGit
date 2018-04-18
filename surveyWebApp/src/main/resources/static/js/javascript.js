@@ -26,6 +26,7 @@ function createAnswer(question)
                     ans.setAttribute('name', "answer"+question);	
                     ans.setAttribute('id', "ans"+question);
                     ans.setAttribute("class","textbox");
+                    ans.setAttribute("placeholder", "Enter Answer");
                     var div = document.getElementById("div"+question);                        
                     var aSpan = document.createElement("span");
                     aSpan.setAttribute('onClick', "deleteAnswer("+answerCounter+")");                        
@@ -50,6 +51,7 @@ function createAnswer(question)
 			ans.setAttribute('name', "answer"+question);	
 			ans.setAttribute('id', "ans"+question);
                         ans.setAttribute("class","textbox");
+                        ans.setAttribute("placeholder", "Enter Answer");
 			var div = document.getElementById("div"+question);                        
                         var aSpan = document.createElement("span");
                         aSpan.setAttribute('onClick', "deleteAnswer("+answerCounter+")");                        
@@ -167,7 +169,7 @@ function constructString()
 
 function createQuestion()
 {
-	var newQ ='<br><form><input id="question'+questionCounter+'"type="text" name="questionText" class="questiontext">';
+	var newQ ='<br><form><input id="question'+questionCounter+'"type="text" name="questionText" class="questiontext" placeholder="Enter Question Here">';
 		newQ +='<select id="dropDown'+questionCounter+'" onchange="removeAllAnswers('+questionCounter+')" name="qType">';
 		newQ +='<option value="RadioButtons">Radio Button</option>';
 		newQ +='<option value="ScoreRange">Score Range</option>';
@@ -313,34 +315,39 @@ function checkQuestionText()
 function removeAllAnswers(questionNum) {
     
     var elementVal = document.getElementsByName("answer"+questionNum);
+    var element = document.getElementById("dropDown"+questionNum);
     console.log("answer :" + elementVal.length);
     if(elementVal.length >= 1)
     {
-        if(confirm("Delete All Answers?")) 
-        {                   
-            var answers = document.getElementsByName("answer"+questionNum);
-            console.log(answers.length);
-            for(i = answers.length - 1; i >= 0; i--)
-            {                
-                var element = answers[i].parentNode;
-                element.parentNode.removeChild(element);            
-            }
+        //if the question type is switched between radio and check keep answers there
+        if(element.value === "RadioButtons" || element.value === "CheckBox")
+        {
+            document.getElementById('createAnswer'+questionNum).style.visibility = 'visible';
         }
+    
         else
-        {   
-            var element = document.getElementById("dropDown"+questionNum);
-            element.value = "RadioButtons";
-        }
-    //delete all the answer fields from options
+        {
+            document.getElementById('createAnswer'+questionNum).style.visibility = 'hidden';
+
+            if(confirm("Delete All Answers?")) 
+            {                   
+                var answers = document.getElementsByName("answer"+questionNum);
+                console.log(answers.length);
+                for(i = answers.length - 1; i >= 0; i--)
+                {                
+                    var element = answers[i].parentNode;
+                    element.parentNode.removeChild(element);            
+                }
+            }
+            else
+            {   
+                var element = document.getElementById("dropDown"+questionNum);
+                element.value = "RadioButtons";
+            }
+        }    
     }
-    var element = document.getElementById("dropDown"+questionNum);
-            
-    if(element.value === "RadioButtons" || element.value === "CheckBox")
+    else if(element.value === "RadioButtons" || element.value === "CheckBox")
     {
         document.getElementById('createAnswer'+questionNum).style.visibility = 'visible';
-    }
-    else
-    {
-        document.getElementById('createAnswer'+questionNum).style.visibility = 'hidden';
     }
 }
