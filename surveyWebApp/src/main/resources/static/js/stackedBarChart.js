@@ -40,19 +40,27 @@ var extraPixels = 100; //Extra space 75 pixels
 // 200 pixels per month (Width) + some extra space 
 var canvasWidth = (arrayOfMonths.length * 150) + (extraPixels);
 // 11 pixels per Respontant (Height) + some extra space
-var canvasHeight = (findMaxNumOfResondents() * 11);
+var canvasHeight = (findMaxNumOfResondents() * 100);
+
 
 function setup() {
 
-  createCanvas(canvasWidth + 400, canvasHeight);
-  background(200); /* !!!  (REMOVE THIS TO MAKE BACKGROUND TRANSPARENT)  !!! */
+    /* Setup Canvas Size */
+    extraPixels = 100; //Extra space 75 pixels
+    // 200 pixels per month (Width) + some extra space 
+    canvasWidth = (arrayOfMonths.length * 150) + (extraPixels);
+    // 11 pixels per Respontant (Height) + some extra space
+    canvasHeight = Math.max((findMaxNumOfResondents() * 35), 500);
+    
+    var canvas = createCanvas(canvasWidth+400, canvasHeight);
+    //background(200); /* !!!  (REMOVE THIS TO MAKE BACKGROUND TRANSPARENT)  !!! */
 
-  chartBase(); //Add X,Y Axis Lines
+    chartBase(); //Add X,Y Axis Lines
 
+    addValues(); //Add the Bars (Values) of the Chart
 
-  addValues(); //Add the Bars (Values) of the Chart
-
-  addLegends(); //Add Lengend Information Bullets
+    addLegends(); //Add Lengend Information Bullets
+    canvas.parent("statsDiv");
 }
 
 function findMaxNumOfResondents() {
@@ -65,6 +73,7 @@ function findMaxNumOfResondents() {
     for (var y = 0; y < arrayOfMonths[x].length; y++) {
       currentValue += arrayOfMonths[x][y]; //save current value of every possible index in the 2D Array
     }
+    
     if (currentValue > myMax) { //If current value is bigger than previous
       myMax = currentValue; //Save Value
     }
@@ -76,10 +85,10 @@ function findMaxNumOfResondents() {
 function chartBase() {
 
   /* DRAW Y AXIS LINE (VERTICAL) */
-  line(50, 25, 50, canvasHeight - 110);
+  line(50, 25, 50, canvasHeight - 150);
 
   /* DRAW X AXIS LINE (HORIZONTAL) */
-  line(10, canvasHeight - 150, canvasWidth -100, canvasHeight - 150);
+  line(50, canvasHeight - 150, canvasWidth -100, canvasHeight - 150);
 
   /* DRAW LINE SEPERATORS & VALUES ON Y AXIS */
   var max = findMaxNumOfResondents(); //Maximum number of Respondents
@@ -149,8 +158,8 @@ function addValues() {
 
 function addLegends() {
 
-  var locX = canvasWidth + 20; //Start location of the Legend in X Axis 
-  var locY = canvasHeight - 100; //Start location of the Legend in Y Axis
+  var locX = canvasWidth-60; //Start location of the Legend in X Axis 
+  var locY = canvasHeight - (canvasHeight*0.6); //Start location of the Legend in Y Axis
   var sizeX = 15; //Size of Legend in width
   var sizeY = 15; //Size of Legend in height
 
@@ -164,7 +173,7 @@ function addLegends() {
 
     text(arrayOfLegends[x], locX + 20, locY, 400, 150);
 		
-    locY -= 100;
+    locY -= 25;
 
   }
 }

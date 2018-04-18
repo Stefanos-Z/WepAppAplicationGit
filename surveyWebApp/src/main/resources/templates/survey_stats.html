@@ -12,24 +12,15 @@ and open the template in the editor.
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
         <script type="text/javascript" th:inline="javascript" src="/js/javascript.js" th:src="@{/js/javascript.js}"></script> 
-        <script type="text/javascript" th:inline="javascript" src="/js/resultPageScript.js" th:src="@{/js/resultPageScript.js}"></script>
+        <script type="text/javascript" th:inline="javascript" src="/js/stackedBarChart.js" th:src="@{/js/stackedBarChart.js}"></script>
         <script th:inline="javascript">
         /*<![CDATA[*/
 
             
-            var answersArray = [[${answersArray}]];
-            var respondentDataInputArray = [[${respondentDataArray}]];
+            var arrayOfLegends = [[${answersArray}]];
+            var arrayOfMonths = [[${respondentDataArray}]];
+            var arrayOfMonths_TEXT = [[${arrayOfMonthText}]];
             
-            var sum = total(respondentDataInputArray); //Holds the sum of the answers
-
-            var percentagesArray = [respondentDataInputArray.length]; //Depending on each answer from 5 seperete answers by persentage
-            var chartArray = [respondentDataInputArray.length]; //Holds 5 arcs to present a pie chart
-            var rectX = 500; //holds space between the status rectangles (in width)
-            var rectY = 100; //holds space between the status rectangles (in height)
-
-            var canvasWidth = 1000;
-            var canvasHeight = respondentDataInputArray.length * 100;
-
         /*]]>*/
         </script>
         <link href="../../css/styles.css" th:href="@{../../css/styles.css}" rel="stylesheet"/>

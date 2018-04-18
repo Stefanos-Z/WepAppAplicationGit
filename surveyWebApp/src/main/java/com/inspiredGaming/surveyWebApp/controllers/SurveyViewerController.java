@@ -34,7 +34,11 @@ import com.inspiredGaming.surveyWebApp.models.dao.SurveysDao;
 import com.inspiredGaming.surveyWebApp.models.dao.UsersDao;
 import java.io.IOException;
 import java.io.StringReader;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -131,6 +135,7 @@ public class SurveyViewerController {
         ArrayList<ArrayList<String>> allAnswers = new ArrayList<ArrayList<String>>();
         ArrayList<ArrayList<Integer>> allTotals = new ArrayList<ArrayList<Integer>>();
         
+        
         for(int i = 0;i<q.size();i++)
         {
             ArrayList<Integer> countArray = new ArrayList<Integer>();
@@ -138,21 +143,25 @@ public class SurveyViewerController {
         
             //get all answers associated with question
             List<AnswerCount> ac = respondentAnswerDao.countAnswersByQuestion(q.get(i).getQuestionId());
+            
             for(int j = 0; j<ac.size(); j++)
             {
                 //s+= "Answer: "+ac.get(j).getAnswer()+" Count: "+ac.get(j).getCount()+"<br></br>";
-                System.out.println("Answer: "+ac.get(j).getAnswer()+" Count: "+ac.get(j).getCount());
+                //System.out.println("Answer: "+ac.get(j).getAnswer()+" Count: "+ac.get(j).getCount());
 
                 answersArray.add(ac.get(j).getAnswer());
                 countArray.add(ac.get(j).getCount());
 
             }
+            
             allTotals.add(countArray);
             allAnswers.add(answersArray);
         }
  
+        //add variables for pie chart to html
         model.addAttribute("respondentDataArray", allTotals);
         model.addAttribute("answersArray", allAnswers);
+        
         
         String breadcrumbs = "<ul class=\"breadcrumb123\">"+
                         "<li><a href=\"/landing\">Home</a></li>"+ 
@@ -187,7 +196,7 @@ public class SurveyViewerController {
         return "resultsSurveyList";
     }
     
-    @RequestMapping(value = "/survey_results/survey_answers/survey_stats", method = RequestMethod.GET)
+    @RequestMapping(value = "/survey_results/survey_answers/monthly_stats", method = RequestMethod.GET)
     public String surveyStats(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException
     {
         int questionId = Integer.parseInt(request.getParameter("questionId"));
@@ -197,44 +206,73 @@ public class SurveyViewerController {
         String surveyName = surveysDao.findBySurveyId(q.getSurveyId()).getSurveyName();
         int surveyId = q.getSurveyId();
         
-        ArrayList<Integer> countArray = new ArrayList<Integer>();
-        ArrayList<String> answersArray = new ArrayList<String>();
-        
         s+="<div class=\"questions\" id=\"statsDiv\">";
         
         s+="<div id=\"titleDiv\"><h3>Q) "+q.getQuestion()+"</h3></div>";
             
-        List<AnswerCount> ac = respondentAnswerDao.countAnswersByQuestion(questionId);
-            
-        for(int j = 0; j<ac.size(); j++)
+        //TO DO- INSERT GROUPED MONTH DATA
+        //create lists to hold other lists
+        ArrayList<ArrayList<String>> annualAnswersData = new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<Integer>> annualTotalsData = new ArrayList<ArrayList<Integer>>();
+        
+        ArrayList<String> allMonths = new ArrayList<String>();
+        
+        //get all answers associated with question (over 12 month period)
+        for(int i = 0; i<6; i++)
         {
-            //s+= "Answer: "+ac.get(j).getAnswer()+" Count: "+ac.get(j).getCount()+"<br></br>";
-            System.out.println("Answer: "+ac.get(j).getAnswer()+" Count: "+ac.get(j).getCount());
+            List<AnswerCount> acM = respondentAnswerDao.countAnswersByQuestionAndMonth(questionId,i);
+            ArrayList<Integer> countMonthArray = new ArrayList<Integer>();
+            ArrayList<String> answersMonthArray = new ArrayList<String>();
 
-            answersArray.add(ac.get(j).getAnswer());
-            countArray.add(ac.get(j).getCount());
+            //add each count for month to array
+            for(int k = 0; k<acM.size();k++)
+            {
+                answersMonthArray.add(acM.get(k).getAnswer());
+                countMonthArray.add(acM.get(k).getCount());
+            }
 
-            s+="</div>";
+            annualAnswersData.add(answersMonthArray);
+            annualTotalsData.add(countMonthArray);
+            
+            //get reference to month
+            LocalDateTime ldt = LocalDateTime.now();
+            int m = ldt.minusMonths(i).getMonthValue();
+            int y = ldt.minusMonths(i).getYear();
+            allMonths.add(getMonthText(m)+" "+y);
         }
+        
+        Collections.reverse(allMonths);
+        Collections.reverse(annualAnswersData);
+        Collections.reverse(annualTotalsData);
+        
+        s+="</div>";
         String breadcrumbs = "<ul class=\"breadcrumb123\">"+
                         "<li><a href=\"/landing\">Home</a></li>"+ 
                         "<li><a href=\"/survey_results\">Survey Overview</a></li>"+
                         "<li><a href=\"/survey_results/survey_answers?surveyId="+surveyId+"\">Survey: "+ surveyName +"</a></li>"+
                         "<li><a href=\"#\">Question: "+ q.getQuestion() +"</a></li>"+
                     "</ul>";
-                        
-            
-            
-            
+        
         model.addAttribute("myBreadcrumbs", breadcrumbs);
         
         model.addAttribute("stats", s);
  
-        model.addAttribute("respondentDataArray", countArray);
-        model.addAttribute("answersArray", answersArray);
+        model.addAttribute("respondentDataArray", annualTotalsData);
+        model.addAttribute("answersArray", annualAnswersData.get(0));
+        model.addAttribute("arrayOfMonthText", allMonths);
         
         return "survey_stats";
     }
     
+    /**
+     * Returns month as text string
+     * @param month
+     * @return 
+     */
+    private String getMonthText(int month)
+    {
+        String months[] = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+        return months[month-1];
+    }
     
 }

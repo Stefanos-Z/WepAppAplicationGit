@@ -76,6 +76,13 @@ public class HtmlBuilderTable {
         userIdHeader.setAttribute("class", "columns");
         userIdHeader.appendChild(doc.createTextNode("Created By"));
         headerRow.appendChild(userIdHeader);
+        
+        //add creation_date
+        Element creationDateHeader = doc.createElement("th");
+        creationDateHeader.setAttribute("class", "columns");
+        creationDateHeader.appendChild(doc.createTextNode("Creation Date"));
+        headerRow.appendChild(creationDateHeader);
+
 
         //add responses
         Element responsesHeader = doc.createElement("th");
@@ -119,6 +126,11 @@ public class HtmlBuilderTable {
             Element userId = doc.createElement("td");
             userId.appendChild(doc.createTextNode(""+surveys.get(i).getUsers().getUsername()));
             row.appendChild(userId);
+            
+            //add creation date
+            Element creationDate = doc.createElement("td");
+            creationDate.appendChild(doc.createTextNode((""+surveys.get(i).getCreationDate()).replace("00:00:00.0", "")));
+            row.appendChild(creationDate);
             
             //add userid
             Element responses = doc.createElement("td");
@@ -371,6 +383,7 @@ public class HtmlBuilderTable {
         table+= ("<th>Number</th>");
         table+= ("<th>Question Text</th>");
         table+= ("<th class=\"Stats\">View Chart</th>");
+        table+= ("<th class=\"Stats\">6 month Overview</th>");
         
         table+=("</tr>");
         
@@ -379,8 +392,6 @@ public class HtmlBuilderTable {
         {
             table+=("<tr id=\"row"+(i+1)+"\">");
             
-            //dynamically adjusts according to number of columns in metadata
-            
             table+=("<td>"+(i+1)+"</td>");
             table+=("<td>"+questions.get(i).getQuestion()+"</td>");            
             
@@ -388,12 +399,18 @@ public class HtmlBuilderTable {
             {
                 table+=("<td class=\"actions\"><div class=\"statsIcon\" >"
                         + "<a class=\"statsLink\" href=\"/survey_results/survey_answers/freetext?questionId="+questions.get(i).getQuestionId()+"\">"
-                        + "<span class=\"glyphicon glyphicon glyphicon-comment\" ></span></a></td>");     
+                        + "<span class=\"glyphicon glyphicon glyphicon-comment\" ></span></a></td>"); 
+                table+="<td></td>";
             }
             else
             {
                 table+=("<td class=\"actions\"><div class=\"statsIcon\" >"
                 + "<span index = \""+i+"\"class=\"fa fa-pie-chart statIcon\" data-toggle=\"modal\" data-target=\"#addModal\" ></span></td>");
+                
+                table+=("<td class=\"actions\"><div class=\"statsIcon\" >"
+                + "<a class=\"statsLink\" href=\"/survey_results/survey_answers/monthly_stats?questionId="+questions.get(i).getQuestionId()+"\">"
+                + "<span index = \""+i+"\"class=\"fa fa-bar-chart statIcon\"></span></a></td>");
+                
             }
             
             table+=("</tr>");

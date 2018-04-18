@@ -59,6 +59,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
@@ -166,10 +167,11 @@ public class HelloController {
     }
     
     @RequestMapping(value = "/surveyBuilder", method = RequestMethod.POST)
-    public String surveyBuilder(HttpServletRequest request, Model model)
+    public ModelAndView surveyBuilder(HttpServletRequest request, Model model)
     {
+        /*Should be handled by landing page
         if(!checkValidation(request,"SURVEYOR"))
-            return "sLogin";
+            return "sLogin";*/
         
         //find user
         Cookie c[] = request.getCookies();
@@ -255,7 +257,8 @@ public class HelloController {
         } catch (XPathExpressionException ex) {
             Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "ourSurveyBuilder";
+        
+        return new ModelAndView("redirect:/landing");
     }
     
     
