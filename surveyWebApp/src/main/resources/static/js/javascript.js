@@ -170,7 +170,7 @@ function createQuestion()
 	var newQ ='<br><form><input id="question'+questionCounter+'"type="text" name="questionText" class="questiontext">';
 		newQ +='<select id="dropDown'+questionCounter+'" onchange="removeAllAnswers('+questionCounter+')" name="qType">';
 		newQ +='<option value="RadioButtons">Radio Button</option>';
-		//newQ +='<option value="MultipleChoice">Multiple Choice</option>';
+		newQ +='<option value="ScoreRange">Score Range</option>';
 		newQ +='<option value="CheckBox">Check Box</option>';
 		newQ +='<option value="OpenText">Open Text</option>';
 		/*newQ +='</select><select id="required'+questionCounter+'" name="Required">';
