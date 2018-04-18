@@ -18,12 +18,12 @@ var arrayOfLegends = [
   "his is a free online calculator which counts the number of characters or letters in a text, useful for your tweets on Twitter, as well as a multitude of other applications.his is a free online calculator which counts the number of characters or letter 255",
   "his is a free online calculator which counts the number of characters or letters in a text, useful for your tweets on Twitter, as well as a multitude of other applications.his is a free online calculator which counts the number of characters or letter 255",
   "Are you happy with your manager?",
-    "his is a free online calculator which counts the number of characters or letters in a text, useful for your tweets on Twitter, as well as a multitude of other applications.his is a free online calculator which counts the number of characters or letter 255",
+  "his is a free online calculator which counts the number of characters or letters in a text, useful for your tweets on Twitter, as well as a multitude of other applications.his is a free online calculator which counts the number of characters or letter 255",
   "his is a free online calculator which counts the number of characters or letters in a text, useful for your tweets on Twitter, as well as a multitude of other applications.his is a free online calculator which counts the number of characters or letter 255",
   "Are you happy with your manager?",
   "Are you happy with your coworkers?",
-  "Are you happy with your admin service?","1","2","3","4","5","6","7","8","9"
-  
+  "Are you happy with your admin service?",
+  "1","2","3","4","5","6","7","8","9"
 ];
 
 /* Create an array of Colors (RGB ColorMode) */
@@ -47,29 +47,23 @@ var canvasHeight_Legends = ((arrayOfLegends.length*75)+20);
 
 function setup() {
 
-  if(chartHeight>canvasHeight_Legends){
+    if(chartHeight>canvasHeight_Legends){
+      canvasHeight = chartHeight;
+    }
+    else{
+      canvasHeight = canvasHeight_Legends;
+    }
     
-    canvasHeight = chartHeight;
-  }
-  else{
-    canvasHeight = canvasHeight_Legends;
-	  
-  }
-  
- 	console.log("else : canvas 1 = " + chartHeight);
-	console.log("else : canvas 2 = " + canvasHeight_Legends);
-  
-  /* Create Canvas to Draw the Chart */
-  createCanvas(canvasWidth,canvasHeight);
-  background(200); /* !!!  (REMOVE THIS TO MAKE BACKGROUND TRANSPARENT)  !!! */
+    /* Create Canvas to Draw the Chart */
+    createCanvas(canvasWidth,canvasHeight);
+    background(200); /* !!!  (REMOVE THIS TO MAKE BACKGROUND TRANSPARENT)  !!! */
 
-  addLegends(); //Add Lengend Information Bullets
-  chartBase(); //Add X,Y Axis Lines
+    chartBase(); //Add X,Y Axis Lines
 
+    addValues(); //Add the Bars (Values) of the Chart
 
-  addValues(); //Add the Bars (Values) of the Chart
+    addLegends(); //Add Lengend Information Bullets
 
-  
 }
 
 function findMaxNumOfResondents() {

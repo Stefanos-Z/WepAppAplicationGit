@@ -22,7 +22,7 @@
             <br></br>
             <input id="newGroupName" class="longselect" name="groupName" placeholder="Enter new group's name" type="text" autofocus="true"/>
             <br/>
-            <textarea th:utext="${emailTextArea}" id="emailList" placeholder="Enter a list of emails here" rows="30" name="emails" form="groupForm"></textarea>
+            <textarea th:utext="${emailTextArea}" id="emailList" placeholder="Enter a list of emails here" rows="10" name="emails" form="groupForm"></textarea>
             <br></br>
             <input id="saveEmails" type="submit" name="upload" value="Upload Group"></input>
             <input id="groupEmailDelete" type="submit" name="delete" value="Delete Group" onClick="return confirm('Would you like to delete this Group?')"></input>

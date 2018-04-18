@@ -42,4 +42,20 @@ public interface RespondentAnswersDao extends CrudRepository<RespondentAnswers, 
                     "ORDER BY X.ANSWER_ID ASC", nativeQuery=true)
     public List<AnswerCount> countAnswersByQuestion(@Param("questionId") int questionId);
     
+    @Query(value = "SELECT a.answer," +
+                    "case when rar.respondent_id is null then 0 " +
+                    "else count(*) " +
+                    "	   end as count " +
+                    "FROM questions AS q " +
+                    "LEFT JOIN answers as a on a.question_id = q.question_id " +
+                    "LEFT JOIN " +
+                    "	(SELECT ra.respondent_id,r.survey_date,ra.answer_id from respondent_answers AS ra " +
+                    "    INNER JOIN respondents as r on r.respondent_id = ra.respondent_id " +
+                    "	 WHERE concat(month(survey_date),year(survey_date)) = concat(month(curdate()-interval :months month),year(curdate()-interval :months month))) " +
+                    "AS rar ON rar.answer_id = a.answer_id " +
+                    "WHERE q.question_id = :questionId " +
+                    "GROUP BY a.answer_id,a.answer " +
+                    "ORDER BY a.answer_id ASC", nativeQuery=true)
+    public List<AnswerCount> countAnswersByQuestionAndMonth(@Param("questionId") int questionId,@Param("months") int months);
+    
 }

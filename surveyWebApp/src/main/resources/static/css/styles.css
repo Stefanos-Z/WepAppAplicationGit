@@ -141,6 +141,7 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
     margin-bottom: 7%;
+    padding:1px;
 }
 
 
@@ -688,4 +689,8 @@ ul.breadcrumb li a:hover {
 }
 .breadcrumb123 li a:hover:after { 
   border-left-color: hsla(34, 85%, 25%, 1) !important; 
+}
+
+.fa-bar-chart{
+	color:green;
 }
