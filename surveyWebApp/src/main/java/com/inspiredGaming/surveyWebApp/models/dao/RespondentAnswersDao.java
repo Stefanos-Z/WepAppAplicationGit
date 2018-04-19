@@ -58,4 +58,15 @@ public interface RespondentAnswersDao extends CrudRepository<RespondentAnswers, 
                     "ORDER BY a.answer_id ASC", nativeQuery=true)
     public List<AnswerCount> countAnswersByQuestionAndMonth(@Param("questionId") int questionId,@Param("months") int months);
     
+    @Query(value = "SELECT 'Average Score' AS answer, CASE WHEN answer_weight is null then 0 else AVG(answer_weight) end as count FROM questions AS q\n" +
+                    "LEFT JOIN \n" +
+                    "	(SELECT ra.respondent_id,r.survey_date,ra.answer_id,a.question_id,a.answer_weight\n" +
+                    "	 FROM answers AS a\n" +
+                    "     INNER JOIN respondent_answers AS ra ON ra.answer_id = a.answer_id\n" +
+                    "     INNER JOIN respondents as r on r.respondent_id = ra.respondent_id\n" +
+                    "	 WHERE concat(month(survey_date),year(survey_date)) = concat(month(curdate()-interval :months month),year(curdate()-interval :months month))) " +
+                    "AS a ON a.question_id = q.question_id\n" +
+                    "WHERE q.question_id= :questionId", nativeQuery=true)
+    public List<AnswerCount> avgAnswersByQuestionAndMonth(@Param("questionId") int questionId,@Param("months") int months);
+    
 }

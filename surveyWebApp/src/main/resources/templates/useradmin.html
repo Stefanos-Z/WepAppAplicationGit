@@ -27,15 +27,15 @@
                 <div class="modal-body">
                     <form action="LoginServlet" method="POST">
                         <br></br>
-                        <label>Username:</label>
+                        <label>Username<span class="mandatory">*</span>:</label>
                         <br></br>
                         <input id="usernameInput" type="text" name="username" data-toggle="tooltip" data-placement="right" title="Username already in use!"></input>
                         <br></br>
-                        <label>Password:</label>
+                        <label>Password<span class="mandatory">*</span>:</label>
                         <br></br>
                         <input id="passwordInput" type="password" name="password"></input>
                         <br></br>
-                        <label>Email:</label>
+                        <label>Email<span class="mandatory">*</span>:</label>
                         <br></br>
                         <input id="emailInput" type="text" name="email" data-toggle="tooltip" data-placement="right" title="Invalid Email!"></input>
                         <br></br>
@@ -71,15 +71,15 @@
                 <div class="modal-body">
                     <form action="LoginServlet" method="POST">
                         <br></br>
-                        <label>Username:</label>
+                        <label>Username<span class="mandatory">*</span>:</label>
                         <br></br>
                         <input id="usernameEdit" type="text" name="username"  data-toggle="tooltip" data-placement="right" title="Username already in use!"></input>
                         <br></br>
-                        <label>Password:</label>
+                        <label>Password<span class="mandatory">*</span>:</label>
                         <br></br>
                         <input id="passwordEdit" type="password" name="password"></input>
                         <br></br>
-                        <label>Email:</label>
+                        <label>Email<span class="mandatory">*</span>:</label>
                         <br></br>
                         <input id="emailEdit" type="text" name="email" data-toggle="tooltip" data-placement="right" title="Invalid Email!"></input>
                         <br></br>
@@ -113,7 +113,7 @@
                     <h4 class="modal-title">Delete User</h4>
                 </div>
                 <div class="modal-body">
-                <p>Are you sure you want to delete this user?</p> 
+                <p>Are you sure you want to delete this user?</p>
                 </div>
                     <div class="modal-footer">
                         <button id="deleteUserDB" type="button" class="btn btn-default" data-dismiss="modal" value="1">Delete</button>

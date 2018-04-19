@@ -38,8 +38,7 @@
         <div th:replace="template :: navbar"/>
         <h2 id="q_description" th:text="${message}">DEFAULT MESSAGE</h2>
         <h3 id="overviewHead" class="overviewText">Survey Stats</h3>
-        <hr width="80%"></hr>
-        <p class="overviewText">You can use this page to view a breakdown of all the responses to a question.</p>
+        <p class="overviewText overviewDescription">This page displays a breakdown of all the responses to a question.</p>
         
         <div th:utext="${myBreadcrumbs}"></div>
         <div class="tableDiv" th:utext="${surveyTable}">

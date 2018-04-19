@@ -574,15 +574,20 @@ input, textarea{
 
 .overviewText{
     text-align:left;
-    padding-left: 10%;
-    padding-right: 10%;
+    /* padding-left: 10%; */
+    /* padding-right: 10%; */
     font-size : 26px; /* Change font Size */
+	width:80%;
+	margin:auto;
 }
 
 #overviewHead{
     color : #12abcd; /* (Light Blue) Color */
     font-size : 40px; /* Change font Size */
     padding-top: 1%;
+    border-bottom:2px solid #c1c1c1;
+    width:80%;
+    margin:auto;
 }
 /*ul.breadcrumb {
     padding: 10px 16px;
@@ -693,4 +698,15 @@ ul.breadcrumb li a:hover {
 
 .fa-bar-chart{
 	color:green;
+}
+
+.mandatory{
+    color:red;
+}
+
+.overviewDescription{
+	font-size:23px;
+	color:#757575;
+	margin-bottom:3%;
+	margin-top:1%;
 }

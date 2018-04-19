@@ -8,9 +8,8 @@
     <body id="body" onLoad="onLoadInstantiate()">
         <div th:replace="template :: navbar"/>
         <h3 id="overviewHead" class="overviewText">Survey Editor</h3>
-        <hr width="80%"></hr>
-        <p class="overviewText">Here you can edit an existent survey. Add a new questions, delete/edit old questions.</p>
-        <p class="overviewText">By default the survey name stays the same, however it can be edited.</p>
+        <p class="overviewText overviewDescription">Here you can edit an existent survey. Add a new questions, delete/edit old questions.</p>
+        <p class="overviewText overviewDescription">By default the survey name stays the same, however it can be edited.</p>
         <div th:utext="${myBreadcrumbs}"></div>
         
         <div th:utext="${surveyEditorPage}">

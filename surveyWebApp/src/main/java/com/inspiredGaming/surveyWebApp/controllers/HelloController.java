@@ -222,6 +222,11 @@ public class HelloController {
                 {
                     questionTypeId = 5;
                 }
+                else if(questionType.equals("ScoreRange"))
+                {
+                    System.out.println(questionType+"set to 3");
+                    questionTypeId = 3;
+                }
 
                 //add question to the db
                 Questions question = new Questions(questionText,questionTypeId,survey.getSurveyId());
@@ -232,6 +237,16 @@ public class HelloController {
                 {
                     Answers answer = new Answers("",question,0);
                     answersDao.save(answer);
+                }
+                else if (questionTypeId == 3)
+                {
+                    //add 6 generic options for the scale
+                    for(int j = 0;j<5;j++)
+                    {
+                        Answers answer = new Answers(""+(j+1),question,j+1);
+                        answersDao.save(answer);
+                        System.out.println("saved apparently??");
+                    }
                 }
                 else
                 {

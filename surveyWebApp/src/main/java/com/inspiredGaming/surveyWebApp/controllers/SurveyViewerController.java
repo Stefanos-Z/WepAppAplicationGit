@@ -220,7 +220,18 @@ public class SurveyViewerController {
         //get all answers associated with question (over 12 month period)
         for(int i = 0; i<6; i++)
         {
-            List<AnswerCount> acM = respondentAnswerDao.countAnswersByQuestionAndMonth(questionId,i);
+            List<AnswerCount> acM;
+            
+            //handle according to question type, with score range presenting an average
+            if(q.getQuestionTypeId()==3)
+            {
+                acM = respondentAnswerDao.avgAnswersByQuestionAndMonth(questionId,i);
+            }
+            else
+            {
+                acM = respondentAnswerDao.countAnswersByQuestionAndMonth(questionId,i);
+            }
+            
             ArrayList<Integer> countMonthArray = new ArrayList<Integer>();
             ArrayList<String> answersMonthArray = new ArrayList<String>();
 
@@ -263,6 +274,7 @@ public class SurveyViewerController {
         
         return "survey_stats";
     }
+    
     
     /**
      * Returns month as text string
