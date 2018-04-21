@@ -350,4 +350,8 @@ function removeAllAnswers(questionNum) {
     {
         document.getElementById('createAnswer'+questionNum).style.visibility = 'visible';
     }
+    else if(element.value === "OpenText" || element.value === "ScoreRange")
+    {
+        document.getElementById('createAnswer'+questionNum).style.visibility = 'hidden';
+    }
 }
