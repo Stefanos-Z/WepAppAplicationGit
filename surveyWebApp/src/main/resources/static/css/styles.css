@@ -112,7 +112,7 @@ text-align : center;
         margin-top: 50px;
 }
 
-#header_banner, .questions {
+#header_banner, .questions, #completionMessage {
 	
 	/* Add Shadow to the selected elements */
 	opacity : 0.95;
@@ -152,7 +152,7 @@ body{
 	color : #12abcd;  (Light Blue) Color 
 }*/
 
-.questions{
+.questions, #completionMessage{
         z-index: 1;
 	margin: auto;
 	width : 80%;

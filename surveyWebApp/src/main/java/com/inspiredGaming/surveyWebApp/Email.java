@@ -94,6 +94,7 @@ public class Email {
         //Supply gmail authentication details.
         Session session = Session.getDefaultInstance(emailServer,
                 new javax.mail.Authenticator() {
+                    @Override
                     protected PasswordAuthentication getPasswordAuthentication(){
                         return new PasswordAuthentication("emailsenderbangor@gmail.com","Abc.123456");
                     }

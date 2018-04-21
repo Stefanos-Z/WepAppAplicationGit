@@ -505,25 +505,15 @@ public class HelloController {
         //clear emails if updating a group
         if(!selected.equals("New Group"))
         {
-            if(selected.equals(groupName))
+            Integer groupID = Integer.parseInt(selected);
+            emailGroup = emailGroupsDao.findByGroupID(groupID);
+            if(!selected.equals(groupName))
             {
-                Integer groupID = Integer.parseInt(selected);
-
-                emailGroup = emailGroupsDao.findByGroupID(groupID);
-
-                List<StaffEmails> allEmails = staffEmailsDao.findAll();
-
-                //remove group so it can be replaced with new version.
-                for(StaffEmails thisEmail: allEmails)
-                {
-                    if(thisEmail.getGroupID() == groupID)
-                        staffEmailsDao.delete(thisEmail);
-                }
-            }else
-            {
-                Integer groupID = Integer.parseInt(selected);
                 emailGroup = emailGroupsDao.findByGroupID(groupID);
                 emailGroup.setGroupName(groupName);
+            }
+                
+
                 List<StaffEmails> allEmails = staffEmailsDao.findAll();
 
                 //remove group so it can be replaced with new version.
@@ -532,11 +522,8 @@ public class HelloController {
                     if(thisEmail.getGroupID() == groupID)
                         staffEmailsDao.delete(thisEmail);
                 }
-            }
         }
-        
-        //else create new group
-        else
+        else //else create new group
         {
             
             emailGroup = new EmailGroups(groupName);
