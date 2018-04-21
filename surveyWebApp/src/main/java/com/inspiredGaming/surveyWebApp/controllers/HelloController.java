@@ -558,7 +558,8 @@ public class HelloController {
             }
             serverMessage +="<br/></p>";
         }
-        
+      
+        model.addAttribute("button_url","location.href = '/groupmanagement'");
         model.addAttribute("serverMessage", serverMessage);
         /*
         try {
@@ -632,12 +633,9 @@ public class HelloController {
             String breadcrumbs = "<ul class=\"breadcrumb123\">"+
                         "<li><a href=\"/landing\">Home</a></li>"+ 
                         "<li><a href=\"/survey_results\">Survey Overview</a></li>"+
-                        "<li><a href=\"/survey_results/responses?survey="+surveyId+"\">SurveyNo"+ surveyName +"</a></li>"+
+                        "<li><a href=\"/survey_results/responses?survey="+surveyId+"\">"+ surveyName +" (Responses)</a></li>"+
                     "</ul>";
-                        
-            
-            
-            
+                                    
             model.addAttribute("myBreadcrumbs", breadcrumbs);
             model.addAttribute("surveyTable", tableXML);
              
@@ -662,8 +660,8 @@ public class HelloController {
             String breadcrumbs = "<ul class=\"breadcrumb123\">"+
                         "<li><a href=\"/landing\">Home</a></li>"+ 
                         "<li><a href=\"/survey_results\">Survey Overview</a></li>"+
-                        "<li><a href=\"/survey_results/responses?survey="+ddd.getSurveyId()+"\">Survey: "+ surveyName +"</a></li>"+
-                        "<li><a href=\"#\">RespondentNo: "+ "I want to put selected respondent num" +"</a></li>"+
+                        "<li><a href=\"/survey_results/responses?survey="+ddd.getSurveyId()+"\">"+ surveyName +" (Responses)</a></li>"+
+                        "<li><a href=\"#\">Respondent: "+request.getParameter("num")+"</a></li>"+
                     "</ul>";
                         
             
@@ -777,7 +775,17 @@ public class HelloController {
             
         }
         
-        return "sendemails";
+        EmailGroups group = emailGroupsDao.findByGroupID(groupId);
+        Surveys survey = surveysDao.findBySurveyId(Integer.parseInt(request.getParameter("surveys")));
+        
+        String serverMessage = "<h1>Survey:<span id=\"modalSurvey\">"+survey.getSurveyName()+"</span> was successfully sent to group <span id=\"modalSurvey\">"+group.getGroupName()+"</span></h1><br/>";
+        
+        //inform user emails were sent        
+        
+        model.addAttribute("serverMessage", serverMessage);        
+        model.addAttribute("button_url","location.href = '/sendemails'");
+        return "confirmationPage";
+        
     }
         
     /**

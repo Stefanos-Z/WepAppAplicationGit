@@ -14,6 +14,6 @@ and open the template in the editor.
         <div th:replace="template :: navbar"/>
         
         <div class="questions" th:utext="${serverMessage}"></div>
-        <button onclick="location.href = '/groupmanagement'">back</button>
+        <button id="backButton" th:attr="onclick=${button_url}">Back</button>
     </body>
 </html>

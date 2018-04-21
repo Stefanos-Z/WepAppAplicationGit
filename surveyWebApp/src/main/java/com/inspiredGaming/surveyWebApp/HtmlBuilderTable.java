@@ -230,7 +230,7 @@ public class HtmlBuilderTable {
             //add respondent
             Element respondentId = doc.createElement("td");
             Element link = doc.createElement("a");
-            link.setAttribute("href", "http://localhost:8080/survey_results/responses/user?id="+respondents.get(i).getRespondentId());
+            link.setAttribute("href", "http://localhost:8080/survey_results/responses/user?id="+respondents.get(i).getRespondentId()+"&num="+(i+1));
             link.appendChild(doc.createTextNode(""+(i+1)));
             respondentId.appendChild(link);
             row.appendChild(respondentId);
@@ -245,7 +245,7 @@ public class HtmlBuilderTable {
             Element editIcon = doc.createElement("span");
             editIcon.setAttribute("class","glyphicon glyphicon-comment");
             Element viewLink = doc.createElement("a");
-            viewLink.setAttribute("href", "http://localhost:8080/survey_results/responses/user?id="+respondents.get(i).getRespondentId());    
+            viewLink.setAttribute("href", "http://localhost:8080/survey_results/responses/user?id="+respondents.get(i).getRespondentId()+"&num="+(i+1));    
             viewLink.setAttribute("class", "statsLink");
             viewLink.appendChild(editIcon);
             viewCell.appendChild(viewLink);
