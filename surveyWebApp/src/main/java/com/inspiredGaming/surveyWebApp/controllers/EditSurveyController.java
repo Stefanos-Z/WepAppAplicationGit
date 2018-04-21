@@ -142,25 +142,35 @@ public class EditSurveyController {
                 toReturn += "<option value=\"OpenText\" selected>Open Text</option>";
                 toReturn += "<option value=\"RadioButtons\">Radio Button</option>";
                 toReturn += "<option value=\"ScoreRange\">Score Range</option>";
+                toReturn += "<option value=\"CheckBox\">Check Box</option>";
             }
             else if(questionType == 2)
             {
                 toReturn += "<option value=\"OpenText\">Open Text</option>";
                 toReturn += "<option value=\"RadioButtons\" selected>Radio Button</option>";
                 toReturn += "<option value=\"ScoreRange\">Score Range</option>";
+                toReturn += "<option value=\"CheckBox\" >Check Box</option>";
             }
             else if(questionType == 3)
             {
                 toReturn += "<option value=\"OpenText\">Open Text</option>";
                 toReturn += "<option value=\"RadioButtons\">Radio Button</option>";
                 toReturn += "<option value=\"ScoreRange\" selected>Score Range</option>";
+                toReturn += "<option value=\"CheckBox\" >Check Box</option>";
+            }
+            else if(questionType == 5)
+            {
+                toReturn += "<option value=\"OpenText\">Open Text</option>";
+                toReturn += "<option value=\"RadioButtons\">Radio Button</option>";
+                toReturn += "<option value=\"ScoreRange\">Score Range</option>";
+                toReturn += "<option value=\"CheckBox\" selected>Check Box</option>";
             }
             
             toReturn += "</select>";
             toReturn += "<button onclick=\"deleteQuestion("+i+")\" type=\"button\" name=\"deleteQ\">Delete Question</button>";
             toReturn += "</form>";
             
-            if(questionType == 2)
+            if(questionType == 2 || questionType == 5)
             {
                 toReturn += "<button id=\"createAnswer"+i+"\" onclick=\"createAnswer("+i+")\" type=\"button\" name=\"createQ\">Create Answer</button>";
             

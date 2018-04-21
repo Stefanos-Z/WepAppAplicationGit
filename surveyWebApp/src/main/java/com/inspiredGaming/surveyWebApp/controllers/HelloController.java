@@ -273,7 +273,7 @@ public class HelloController {
             Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return new ModelAndView("redirect:/landing");
+        return new ModelAndView("redirect:/survey_results");
     }
     
     
