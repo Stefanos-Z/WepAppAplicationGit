@@ -626,7 +626,7 @@ ul.breadcrumb li a:hover {
     color: white;
     text-decoration: none; 
     padding: 10px 0 10px 65px;
-    background: brown; /* fallback color */
+    background: #63a8f1; /* fallback color */
     background: hsla(290,0%,0%,1); 
     position: relative; 
     display: block;
@@ -690,10 +690,10 @@ ul.breadcrumb li a:hover {
 
 
 .breadcrumb123 li a:hover { 
-  background: hsla(34, 85%, 25%, 1); 
+  background: hsl(211, 63%, 58%); 
 }
 .breadcrumb123 li a:hover:after { 
-  border-left-color: hsla(34, 85%, 25%, 1) !important; 
+  border-left-color: hsl(211, 63%, 58%,1)  !important; 
 }
 
 .fa-bar-chart{

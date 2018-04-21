@@ -261,7 +261,7 @@ public class SurveyViewerController {
                         "<li><a href=\"/landing\">Home</a></li>"+ 
                         "<li><a href=\"/survey_results\">Survey Overview</a></li>"+
                         "<li><a href=\"/survey_results/survey_answers?surveyId="+surveyId+"\">Survey: "+ surveyName +"</a></li>"+
-                        "<li><a href=\"#\">Question: "+ q.getQuestion() +"</a></li>"+
+                        "<li><a href=\"#\">6 Month Overview</a></li>"+
                     "</ul>";
         
         model.addAttribute("myBreadcrumbs", breadcrumbs);

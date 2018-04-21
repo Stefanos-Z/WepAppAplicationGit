@@ -383,7 +383,7 @@ public class HtmlBuilderTable {
         table+= ("<th>Number</th>");
         table+= ("<th>Question Text</th>");
         table+= ("<th class=\"Stats\">View Chart</th>");
-        table+= ("<th class=\"Stats\">6 month Overview</th>");
+        table+= ("<th class=\"Stats\">6 Month Overview</th>");
         
         table+=("</tr>");
         
