@@ -470,7 +470,9 @@ public class HelloController {
                 String emailStrings ="";
                 for(StaffEmails e: emailsInFirstGroup)
                     emailStrings += e.getEmail() +"\n";
-                model.addAttribute("emailTextArea", emailStrings);
+                model.addAttribute("emailTextArea", emailStrings);//adds emails of first group to the text area
+                model.addAttribute("thisGroupName", groups.get(i).getGroupName());//adds group name to the group name text fiel
+                //request.set
            }
         }
         
@@ -499,28 +501,44 @@ public class HelloController {
         String selected = request.getParameter("groups");
         
         EmailGroups emailGroup;
-        
+        String groupName = request.getParameter("groupName");
         //clear emails if updating a group
         if(!selected.equals("New Group"))
         {
-            Integer groupID = Integer.parseInt(selected);
-            
-            emailGroup = emailGroupsDao.findByGroupID(groupID);
-            
-            List<StaffEmails> allEmails = staffEmailsDao.findAll();
-            
-            //remove group so it can be replaced with new version.
-            for(StaffEmails thisEmail: allEmails)
+            if(selected.equals(groupName))
             {
-                if(thisEmail.getGroupID() == groupID)
-                    staffEmailsDao.delete(thisEmail);
+                Integer groupID = Integer.parseInt(selected);
+
+                emailGroup = emailGroupsDao.findByGroupID(groupID);
+
+                List<StaffEmails> allEmails = staffEmailsDao.findAll();
+
+                //remove group so it can be replaced with new version.
+                for(StaffEmails thisEmail: allEmails)
+                {
+                    if(thisEmail.getGroupID() == groupID)
+                        staffEmailsDao.delete(thisEmail);
+                }
+            }else
+            {
+                Integer groupID = Integer.parseInt(selected);
+                emailGroup = emailGroupsDao.findByGroupID(groupID);
+                emailGroup.setGroupName(groupName);
+                List<StaffEmails> allEmails = staffEmailsDao.findAll();
+
+                //remove group so it can be replaced with new version.
+                for(StaffEmails thisEmail: allEmails)
+                {
+                    if(thisEmail.getGroupID() == groupID)
+                        staffEmailsDao.delete(thisEmail);
+                }
             }
         }
         
         //else create new group
         else
         {
-            String groupName = request.getParameter("groupName");
+            
             emailGroup = new EmailGroups(groupName);
             emailGroupsDao.save(emailGroup);
         }

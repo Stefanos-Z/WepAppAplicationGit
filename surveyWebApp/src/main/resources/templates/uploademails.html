@@ -19,7 +19,7 @@
             <select id="groupSelect" class="longselect" name="groups" th:utext="${groupSelectList}"></select>
             <br></br>
             <br></br>
-            <input id="newGroupName" class="longselect" name="groupName" placeholder="Enter new group's name" type="text" autofocus="true"/>
+            <input th:attr="value=${thisGroupName}" id="newGroupName" class="longselect" name="groupName" placeholder="Enter new group's name" type="text" autofocus="true"/>
             <br/>
             <textarea th:utext="${emailTextArea}" id="emailList" placeholder="Enter a list of emails here" rows="10" name="emails" form="groupForm"></textarea>
             <br></br>

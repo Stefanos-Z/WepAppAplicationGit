@@ -29,7 +29,8 @@ $(document).ready(function() {
                         console.log("ERROR: ", e);
                 }
             });
-            $('#newGroupName').hide();
+//            $('#newGroupName').hide();
+            $('#newGroupName').val(group.groupName);
             $('#groupEmailDelete').prop('disabled', false);// enebles delete button
             $("#saveEmails").val("Update Email Group");
         }else{
