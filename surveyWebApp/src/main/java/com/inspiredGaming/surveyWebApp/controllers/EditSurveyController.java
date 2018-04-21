@@ -255,6 +255,8 @@ public class EditSurveyController {
                 String questionText = qE.getElementsByTagName("questionText").item(0).getTextContent();
                 String questionType = qE.getElementsByTagName("questionType").item(0).getTextContent();
 
+                
+                        
                 int questionTypeId =2; //radio button (with values) by default
 
                 //System.out.println("question type is"+questionType);
@@ -262,6 +264,15 @@ public class EditSurveyController {
                 if(questionType.equals("OpenText"))
                 {
                     questionTypeId = 4;
+                }
+                else if(questionType.equals("CheckBox"))
+                {
+                    questionTypeId = 5;
+                }
+                else if(questionType.equals("ScoreRange"))
+                {
+                    System.out.println(questionType+"set to 3");
+                    questionTypeId = 3;
                 }
 
                 //add question to the db
