@@ -166,7 +166,7 @@ public class SurveyViewerController {
         String breadcrumbs = "<ul class=\"breadcrumb123\">"+
                         "<li><a href=\"/landing\">Home</a></li>"+ 
                         "<li><a href=\"/survey_results\">Survey Overview</a></li>"+
-                        "<li><a href=\"#\">Survey: "+ surveyName +"</a></li>"+
+                        "<li><a href=\"#\">"+ surveyName +"(stats)</a></li>"+
                     "</ul>";
                         
             
@@ -260,7 +260,7 @@ public class SurveyViewerController {
         String breadcrumbs = "<ul class=\"breadcrumb123\">"+
                         "<li><a href=\"/landing\">Home</a></li>"+ 
                         "<li><a href=\"/survey_results\">Survey Overview</a></li>"+
-                        "<li><a href=\"/survey_results/survey_answers?surveyId="+surveyId+"\">Survey: "+ surveyName +"</a></li>"+
+                        "<li><a href=\"/survey_results/survey_answers?surveyId="+surveyId+"\">"+ surveyName +"(stats)</a></li>"+
                         "<li><a href=\"#\">6 Month Overview</a></li>"+
                     "</ul>";
         

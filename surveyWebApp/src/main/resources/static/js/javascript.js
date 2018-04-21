@@ -355,3 +355,4 @@ function removeAllAnswers(questionNum) {
         document.getElementById('createAnswer'+questionNum).style.visibility = 'hidden';
     }
 }
+
