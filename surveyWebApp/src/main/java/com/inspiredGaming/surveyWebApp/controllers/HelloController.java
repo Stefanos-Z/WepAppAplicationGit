@@ -592,7 +592,7 @@ public class HelloController {
         String groupName = emailGroupsDao.findByGroupID(selectedGroupId).getGroupName();
         emailGroupsDao.delete(selectedGroupId);
         
-        String serverMessage = "<h1>"+ "The group "+groupName +" with a total of " +emailCount+" has been succesfully deleted!" +"</h1><br/>";
+        String serverMessage = "<h1>"+ "Group "+groupName +" has been deleted." +"</h1><br/>";
 
         model.addAttribute("serverMessage", serverMessage);
         return "confirmationPage";
@@ -783,7 +783,7 @@ public class HelloController {
         EmailGroups group = emailGroupsDao.findByGroupID(groupId);
         Surveys survey = surveysDao.findBySurveyId(Integer.parseInt(request.getParameter("surveys")));
         
-        String serverMessage = "<h1>Survey:<span id=\"modalSurvey\">"+survey.getSurveyName()+"</span> was successfully sent to group <span id=\"modalSurvey\">"+group.getGroupName()+"</span></h1><br/>";
+        String serverMessage = "<h1>Survey <span id=\"modalSurvey\">"+survey.getSurveyName()+"</span> was successfully sent to group <span id=\"modalSurvey\">"+group.getGroupName()+"</span></h1><br/>";
         
         //inform user emails were sent        
         

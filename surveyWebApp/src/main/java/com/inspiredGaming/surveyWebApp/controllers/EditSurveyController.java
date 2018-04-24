@@ -279,11 +279,21 @@ public class EditSurveyController {
                 Questions question = new Questions(questionText,questionTypeId,survey.getSurveyId());
                 questionsDao.save(question);
                 
-                //add answers for the question
+                 //add answers for the question
                 if(questionTypeId==4)
                 {
                     Answers answer = new Answers("",question,0);
                     answersDao.save(answer);
+                }
+                else if (questionTypeId == 3)
+                {
+                    //add 6 generic options for the scale
+                    for(int j = 0;j<5;j++)
+                    {
+                        Answers answer = new Answers(""+(j+1),question,j+1);
+                        answersDao.save(answer);
+                        System.out.println("saved apparently??");
+                    }
                 }
                 else
                 {

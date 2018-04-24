@@ -197,9 +197,15 @@ function createQuestion()
 		var body = document.getElementsByTagName("body")[0];
 		body.appendChild(newDivE);
 		
-		questionCounter++;
+		
                 
-                window.scrollTo(0,document.body.scrollHeight);
+                //window.scrollTo(0,document.body.scrollHeight);
+                
+                $('html, body').animate({
+                    scrollTop: $("#div"+questionCounter).offset().top
+                 }, 750);
+
+                questionCounter++;
 }
 
 function deleteQuestion(questionNum)
