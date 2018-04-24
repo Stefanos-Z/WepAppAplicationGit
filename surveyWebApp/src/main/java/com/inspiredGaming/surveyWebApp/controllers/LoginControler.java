@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- *
- * @author oneZt
+ * Controllers to handle user login.
+ * @authors     DALLOS
+ * @version     1
+ * @since       10/02/2018
  */
 @Controller
 public class LoginControler {

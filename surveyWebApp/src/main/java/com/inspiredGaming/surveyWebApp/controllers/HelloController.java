@@ -67,8 +67,8 @@ import org.xml.sax.SAXException;
 
 
 /**
- * Contains controllers to handle survey editor.
- * @authors     Levi Roque-Nunes, Stefanos Smart
+ * Contains controllers to handle HTTP requests for bulk of website.
+ * @authors     DALLOS
  * @version     1
  * @since       10/02/2018
  */

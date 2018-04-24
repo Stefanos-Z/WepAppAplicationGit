@@ -11,8 +11,10 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- *
- * @author oneZt
+ * Data Access object for SessionsDao
+ * @authors     DALLOS
+ * @version     1
+ * @since       12/04/2018
  */
 public interface SessionsDao extends CrudRepository<Sessions, String>
 {

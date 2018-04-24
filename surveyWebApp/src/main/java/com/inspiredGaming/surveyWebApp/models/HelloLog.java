@@ -14,10 +14,11 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
- *
- * @author Levi
+ * Creates an object corresponding to an HelloLog tuple in the DB.
+ * @authors     DALLOS
+ * @version     1
+ * @since       10/02/2018
  */
-
 @Entity
 @Table(name = "hellolog")
 
