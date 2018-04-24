@@ -17,10 +17,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
- *  DATA ACCESS OBJECT
- * @author Levi
- *  interface is used on the back end by hibernate, so it
- *  doesn't need to be manually implemented anywhere
+ * Data Access object for RespondentAnswersDao
+ * @authors     DALLOS
+ * @version     1
+ * @since       12/04/2018
  */
 @Repository
 @Transactional

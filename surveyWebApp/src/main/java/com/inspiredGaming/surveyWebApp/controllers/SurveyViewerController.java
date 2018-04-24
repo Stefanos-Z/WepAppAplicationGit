@@ -71,8 +71,10 @@ import org.xml.sax.SAXException;
 
 
 /**
- *
- * @author Levi
+ * Contains controllers to handle Survey Overview pages.
+ * @authors     DALLOS
+ * @version     1
+ * @since       10/02/2018
  */
 @Controller
 public class SurveyViewerController {

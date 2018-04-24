@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- *
- * @author Owain
+ * Contains a controllers to handle error pages.
+ * @author      DALLOS
+ * @version     1
+ * @since       10/02/2018
  */
 @RestController
 public class IndexController  implements ErrorController

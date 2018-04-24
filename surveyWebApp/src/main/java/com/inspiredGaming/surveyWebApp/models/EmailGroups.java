@@ -15,8 +15,10 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
- *  Database email groups
- * @author Stefan
+ * Creates an object corresponding to an EmailGroups tuple in the DB.
+ * @authors     DALLOS
+ * @version     1
+ * @since       10/02/2018
  */
 
 @Entity

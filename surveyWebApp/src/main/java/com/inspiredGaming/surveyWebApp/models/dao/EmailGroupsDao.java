@@ -10,8 +10,10 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- *
- * @author oneZt
+ * Data Access object for EmailGroups
+ * @authors     DALLOS
+ * @version     1
+ * @since       12/04/2018
  */
 public interface EmailGroupsDao extends CrudRepository<EmailGroups, Integer>
 {

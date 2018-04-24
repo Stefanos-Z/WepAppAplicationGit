@@ -14,8 +14,10 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- *
- * @author Levi
+ * Data Access object for StaffEmailsDao
+ * @authors     DALLOS
+ * @version     1
+ * @since       12/04/2018
  */
 @Repository
 @Transactional
