@@ -66,14 +66,11 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 
-
-
-
-
-
 /**
- *
- * @author Levi
+ * Contains controllers to handle survey editor.
+ * @authors     Levi Roque-Nunes, Stefanos Smart
+ * @version     1
+ * @since       10/02/2018
  */
 @Controller
 public class HelloController {
