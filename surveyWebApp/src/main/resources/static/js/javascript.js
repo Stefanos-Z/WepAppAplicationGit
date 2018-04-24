@@ -78,16 +78,18 @@ function createQuestionObj(question)
 {
     try{
 	var questionText = document.getElementById("question"+question).value;
-        console.log(questionText);
+        //console.log(questionText);
 	var answerType = document.getElementById("dropDown" + question).value;	
-	console.log(answerType);	
-	var required;
-	/*var value = document.getElementById("required" + question).value;	
-	if (value == 'yes')
-	{
-		var required = true;		
-	}
-        console.log(value);*/
+	//console.log(answerType);	
+	/*if(answerType === "RadioButtons")
+        {
+            questionText += "     (choose one)";
+        }
+        else if(answerType === "CheckBox")
+        {
+            questionText += "     (choose all that apply)";
+        }*/
+       
         var required = true;
 	var answers = document.getElementsByName("answer"+question);
 	var ansValue = new Array;
