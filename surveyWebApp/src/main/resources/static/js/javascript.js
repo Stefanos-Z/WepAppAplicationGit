@@ -352,7 +352,8 @@ function removeAllAnswers(questionNum) {
             }
         }    
     }
-    else if(element.value === "RadioButtons" || element.value === "CheckBox")
+    
+    if(element.value === "RadioButtons" || element.value === "CheckBox")
     {
         document.getElementById('createAnswer'+questionNum).style.visibility = 'visible';
     }
