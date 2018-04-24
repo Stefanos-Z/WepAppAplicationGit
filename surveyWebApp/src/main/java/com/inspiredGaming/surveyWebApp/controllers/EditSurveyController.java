@@ -133,7 +133,7 @@ public class EditSurveyController {
         toReturn += "<form id=\"submitForm\" action=\"surveyEditor\" onsubmit=\"return constructString()\" method=\"post\">";
         toReturn += "<input type=\"text\" id=\"xmlForm\" name=\"mytextform\" value=\"\" style=\"display:none\"></input>";
         toReturn += "<input type=\"text\" id=\"surveyIdVar\" name=\"surveyId\" value=\""+surveyId+"\" style=\"display:none\"></input>";
-        toReturn += "<button id=\"saveButton\" type=\"submit\"> SaveSurvey</button>";
+        toReturn += "<button id=\"saveButton\" type=\"submit\">Save Survey</button>";
         toReturn += "</form><br></br></div>";
         toReturn += "<input type=\"hidden\" id=\"questionCount\" value=\""+questionsArray.size()+"\">";
     
@@ -307,8 +307,7 @@ public class EditSurveyController {
                     for(int j = 0;j<5;j++)
                     {
                         Answers answer = new Answers(""+(j+1),question,j+1);
-                        answersDao.save(answer);
-                        System.out.println("saved apparently??");
+                        answersDao.save(answer);                        
                     }
                 }
                 else
