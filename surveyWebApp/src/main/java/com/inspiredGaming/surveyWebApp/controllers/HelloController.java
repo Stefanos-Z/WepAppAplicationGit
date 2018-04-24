@@ -595,6 +595,7 @@ public class HelloController {
         String serverMessage = "<h1>"+ "Group "+groupName +" has been deleted." +"</h1><br/>";
 
         model.addAttribute("serverMessage", serverMessage);
+        model.addAttribute("button_url", "/groupmanagement");
         return "confirmationPage";
     }
     @RequestMapping(value = "/survey_results", method = RequestMethod.GET)
