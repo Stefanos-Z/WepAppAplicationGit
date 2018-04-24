@@ -14,8 +14,10 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
- * 
- * @author Levi
+ * Creates an object corresponding to an SurveyKeys tuple in the DB.
+ * @authors     DALLOS
+ * @version     1
+ * @since       07/03/2018
  */
 
 @Entity

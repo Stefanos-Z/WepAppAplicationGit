@@ -6,8 +6,10 @@
 package com.inspiredGaming.surveyWebApp.models;
 
 /**
- *
- * @author Levi
+ * Creates an object corresponding to an HelloMesage tuple in the DB.
+ * @authors     DALLOS
+ * @version     1
+ * @since       20/03/2018
  */
 public class HelloMessage {
     public static String getMessage(String name)

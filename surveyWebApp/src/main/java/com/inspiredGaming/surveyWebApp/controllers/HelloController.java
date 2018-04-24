@@ -66,14 +66,11 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 
-
-
-
-
-
 /**
- *
- * @author Levi
+ * Contains controllers to handle HTTP requests for bulk of website.
+ * @authors     DALLOS
+ * @version     1
+ * @since       10/02/2018
  */
 @Controller
 public class HelloController {
@@ -477,7 +474,7 @@ public class HelloController {
         }
         
         //do not change!!!!
-        selectListHtml += "<option value = \""+"New Group"+"\">"+"New Group"+"</option>";
+        selectListHtml += "<option style=\"color:red;\" value = \""+"New Group"+"\">"+"New Group"+"</option>";
         //this line!!!!
         
         
@@ -595,6 +592,7 @@ public class HelloController {
         String serverMessage = "<h1>"+ "Group "+groupName +" has been deleted." +"</h1><br/>";
 
         model.addAttribute("serverMessage", serverMessage);
+        model.addAttribute("button_url","location.href = '/groupmanagement'");
         return "confirmationPage";
     }
     @RequestMapping(value = "/survey_results", method = RequestMethod.GET)

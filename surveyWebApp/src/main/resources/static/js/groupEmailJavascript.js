@@ -29,14 +29,13 @@ $(document).ready(function() {
                         console.log("ERROR: ", e);
                 }
             });
-//            $('#newGroupName').hide();
-            $('#newGroupName').val(group.groupName);
+            $('#newGroupName').val(group.groupName);//makes the value in the text field equal to the selected group name
             $('#groupEmailDelete').prop('disabled', false);// enebles delete button
             $("#saveEmails").val("Update Email Group");
         }else{
             $("#saveEmails").val("Save new Group");
-            $('#newGroupName').show();
-            $("#emailList").val('');
+            $('#newGroupName').val("");//empties the new group name
+            $("#emailList").val('');//empties the emial list
             $('#groupEmailDelete').prop('disabled', true);//disables delete button
         }
         

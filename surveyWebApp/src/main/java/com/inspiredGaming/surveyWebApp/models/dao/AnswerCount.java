@@ -6,8 +6,10 @@
 package com.inspiredGaming.surveyWebApp.models.dao;
 
 /**
- *
- * @author Levi
+ * Generates an object to hold an Answer, and its "count" value.
+ * @authors     DALLOS
+ * @version     1
+ * @since       12/04/2018
  */
 public interface AnswerCount {
     String getAnswer();
