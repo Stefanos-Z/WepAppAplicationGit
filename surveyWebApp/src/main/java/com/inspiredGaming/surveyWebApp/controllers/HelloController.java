@@ -429,7 +429,7 @@ public class HelloController {
         key.setExpired(true);
         surveyKeysDao.save(key);
         
-        return "hello";
+        return "confirmationPageSurvey";
     }
     
     @RequestMapping(value = "/getemails", method = RequestMethod.POST)

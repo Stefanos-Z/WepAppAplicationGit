@@ -48,6 +48,9 @@ public class HtmlBuilderSurvey {
     
     public void addQuestion(Questions question, List<Answers> answers,int questionNumber)
     {
+        int questionTypeId = question.getQuestionTypeId();
+        
+        
         //create div for new question
         Element div = doc.createElement("div");
         div.setAttribute("class", "question");
@@ -55,7 +58,19 @@ public class HtmlBuilderSurvey {
         //create header
         Element header = doc.createElement("h3");
         header.setAttribute("class", "question_text");
-        header.appendChild(doc.createTextNode(""+questionNumber+") "+question.getQuestion()));
+        if(questionTypeId == 5)
+        {
+            header.appendChild(doc.createTextNode(""+questionNumber+") "+question.getQuestion() + "(choose all that apply)"));
+        }
+        else if(questionTypeId == 2)
+        {
+            header.appendChild(doc.createTextNode(""+questionNumber+") "+question.getQuestion() + " (choose one)"));
+        }
+        else
+        {
+            header.appendChild(doc.createTextNode(""+questionNumber+") "+question.getQuestion()));
+        }
+        
         div.appendChild(header);
         form.appendChild(div);
         
