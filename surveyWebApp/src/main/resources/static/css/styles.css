@@ -251,7 +251,7 @@ th:last-child{
 
 select{
 	
-    width: 10em;
+    /*width: 10em;*/
     height: 3em;
 }
 
@@ -259,6 +259,29 @@ select{
     background-color:white;
     width: 50%;
     height: 3em;
+}
+
+
+
+.longLabelAndInput{	
+    width: 50%;
+    display: inline-block;
+}
+
+.labelGoLeftClass{
+    display: inline-block;
+    padding-top: 10px;
+}
+
+.inputGoLeft{
+    width: 70%;
+    background-color: white;
+    height: 3em;
+    float: right;
+}
+
+.longLabelAndInput select{
+    padding-left: 3px;
 }
 
 .comboDiv{
@@ -548,8 +571,11 @@ input, textarea{
 }
 
 #groupForm textarea {
-    width: 50%;
+    /*width: 50%;*/
     font-family: "Open Sans", Arial, Tahoma, sans-serif;
+    resize: none;
+    height: 60%;
+    display: block;
 }
 
 #errorEmails{

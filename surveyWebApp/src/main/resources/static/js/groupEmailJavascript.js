@@ -36,6 +36,7 @@ $(document).ready(function() {
         }else{
             $("#saveEmails").val("Save new Group");
             $('#newGroupName').show();
+            $('#newGroupName').val("");
             $("#emailList").val('');
             $('#groupEmailDelete').prop('disabled', true);//disables delete button
         }

@@ -477,7 +477,7 @@ public class HelloController {
         }
         
         //do not change!!!!
-        selectListHtml += "<option value = \""+"New Group"+"\">"+"New Group"+"</option>";
+        selectListHtml += "<option style=\"color:red;\" value = \""+"New Group"+"\">"+"New Group"+"</option>";
         //this line!!!!
         
         
