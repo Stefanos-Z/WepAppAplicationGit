@@ -48,8 +48,10 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
- *
- * @author Owain
+ * Contains controllers to handle survey editor.
+ * @authors     Levi Roque-Nunes, Stefanos Smart
+ * @version     1
+ * @since       10/02/2018
  */
 @Controller
 public class EditSurveyController {
@@ -88,6 +90,13 @@ public class EditSurveyController {
     private EmailGroupsDao emailGroupsDao;
     
     
+    /**
+     * Displays the edit form for a survey.
+     * @param response
+     * @param request
+     * @param model
+     * @return 
+     */
     @RequestMapping(value = "/surveyEditor", method = RequestMethod.GET)
     public String EditSurvey(HttpServletResponse response, HttpServletRequest request, Model model)
     {
@@ -205,6 +214,13 @@ public class EditSurveyController {
         return "ourSurveyEditor";
     }
 
+    /**
+     * Displays the edit form for a survey.
+     * @param response
+     * @param request
+     * @param model
+     * @return 
+     */
     @RequestMapping(value = "/surveyEditor", method = RequestMethod.POST)
     public String surveyBuilder(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException
     {
@@ -323,6 +339,12 @@ public class EditSurveyController {
         return "landingPage";
     }
     
+    /**
+     * Validates a user's login credentials and role.
+     * @param request
+     * @param role
+     * @return 
+     */
     private boolean checkValidation(HttpServletRequest request, String role)
     {
 
