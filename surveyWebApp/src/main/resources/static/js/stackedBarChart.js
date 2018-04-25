@@ -100,12 +100,12 @@ function chartBase() {
    
     line(50, 25, 50, canvasHeight - 150);
     textSize(32); text("↑",42, 40);
-    textSize(15); text("(Num of Responses)", 10, 15);
+    textSize(15); text("(Responses)", 10, 15);
 
     /* DRAW X AXIS LINE (HORIZONTAL) */
     line(50, canvasHeight - 150, canvasWidth -100, canvasHeight - 150);
     textSize(35); text("→", canvasWidth-130, canvasHeight-141);
-    textSize(15); text("(Num of Months)", canvasWidth-85, canvasHeight-145);
+    textSize(15); text("(Months)", canvasWidth-85, canvasHeight-145);
     textSize(10); //RESET TEXT SIZE
 
     /* Line Seperators variables declaration */

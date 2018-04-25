@@ -357,8 +357,8 @@ public class HtmlBuilderTable {
             table+=("<td>"+user.get(i).getPhoneNumber()+"</td>");
             table+=("<td>"+user.get(i).getRole()+"</td>");
             
-            table+=("<td class=\"actions\"><div class=\"editIcon\" ><span class=\"glyphicon glyphicon glyphicon-edit\" data-toggle=\"modal\" data-target=\"#editModal\">");
-            table+=("</span></div><div class=\"deleteIcon\" ><span class=\"glyphicon glyphicon-remove-sign\" data-toggle=\"modal\" data-target=\"#deleteModal\"></span></div></td>");
+            table+=("<td class=\"actions\"><div class=\"editIcon\" ><span class=\"glyphicon glyphicon glyphicon-edit\" data-toggle=\"modal\" data-target=\"#editModal\" title=\"Edit\">");
+            table+=("</span></div><div class=\"deleteIcon\" ><span class=\"glyphicon glyphicon-remove-sign\" data-toggle=\"modal\" data-target=\"#deleteModal\" title=\"Delete\"></span></div></td>");
             table+=("</tr>");
         }
         

@@ -22,13 +22,10 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public interface UsersDao extends CrudRepository<Users, Integer>
 {
-    
     public List<Users> findAll();
     
     public Users findByUserId(Integer userId);
     
-    
     public Users findByUsername(String username);
-    
 
 }

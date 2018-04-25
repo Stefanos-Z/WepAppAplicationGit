@@ -73,7 +73,7 @@ import org.xml.sax.SAXException;
  * @since       10/02/2018
  */
 @Controller
-public class HelloController {
+public class DallosController {
     
     @Autowired
     private UsersDao usersDao;
@@ -261,13 +261,13 @@ public class HelloController {
         }
             
         } catch (ParserConfigurationException ex) {
-            Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DallosController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SAXException ex) {
-            Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DallosController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DallosController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (XPathExpressionException ex) {
-            Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DallosController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return new ModelAndView("redirect:/survey_results");
@@ -773,7 +773,7 @@ public class HelloController {
                 Email emailObj = new Email(emailList.get(i).getEmail(),"http://localhost:8080/survey?key="+key.getKeyId());
                 emailObj.send();
             } catch (MessagingException ex) {
-                Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DallosController.class.getName()).log(Level.SEVERE, null, ex);
             }
             
         }

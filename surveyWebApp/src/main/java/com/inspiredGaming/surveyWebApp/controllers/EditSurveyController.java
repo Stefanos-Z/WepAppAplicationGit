@@ -326,13 +326,13 @@ public class EditSurveyController {
         }
             
         } catch (ParserConfigurationException ex) {
-            Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DallosController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SAXException ex) {
-            Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DallosController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DallosController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (XPathExpressionException ex) {
-            Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DallosController.class.getName()).log(Level.SEVERE, null, ex);
         }
         response.sendRedirect("/survey_results");
         return "landingPage";
