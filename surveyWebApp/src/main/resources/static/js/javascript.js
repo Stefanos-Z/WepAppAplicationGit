@@ -1,3 +1,9 @@
+/*JavaScript for creating and editing surveys,
+Author: Dallos
+Creation Date: 13/02/18
+*/
+
+
 var answerCounter = 0;
 var questionCounter;
 var questionsArray = new Array;
@@ -8,98 +14,89 @@ function onLoadInstantiate()
     console.log(questionCounter);
 }
 
-
+/**
+ * creates the answer field for a question
+ * @param {type} question
+ * @returns {undefined}
+ */
 function createAnswer(question)
 {	
-	var elementID = "dropDown" + question;
-	var answerType = document.getElementById(elementID).value;
-	
-	switch(answerType)
-	{
-		case 'CheckBox':
-                    //delete all previous answer fields
-                    var aDiv = document.createElement("div")
-                    aDiv.setAttribute('id', "ansDiv"+answerCounter);
-                    var title = document.createTextNode("Answer: ");	
-                    var ans = document.createElement("input");
-                    ans.setAttribute('type',"text");
-                    ans.setAttribute('name', "answer"+question);	
-                    ans.setAttribute('id', "ans"+question);
-                    ans.setAttribute("class","textbox");
-                    ans.setAttribute("placeholder", "Enter Answer");
-                    var div = document.getElementById("div"+question);                        
-                    var aSpan = document.createElement("span");
-                    aSpan.setAttribute('onClick', "deleteAnswer("+answerCounter+")");                        
-                    aSpan.setAttribute('id', "deleteIcon");
-                    aSpan.innerHTML = "   ×";                        
-                    aDiv.appendChild(title);
-                    aDiv.appendChild(ans);
-                    aDiv.appendChild(aSpan);
-                    div.appendChild(aDiv);
+    var elementID = "dropDown" + question;
+    var answerType = document.getElementById(elementID).value;
 
-                    answerCounter++;
+    switch(answerType)
+    {
+        case 'CheckBox':
+            //delete all previous answer fields
+            var aDiv = document.createElement("div")
+            aDiv.setAttribute('id', "ansDiv"+answerCounter);
+            var title = document.createTextNode("Answer: ");	
+            var ans = document.createElement("input");
+            ans.setAttribute('type',"text");
+            ans.setAttribute('name', "answer"+question);	
+            ans.setAttribute('id', "ans"+question);
+            ans.setAttribute("class","textbox");
+            ans.setAttribute("placeholder", "Enter Answer");
+            var div = document.getElementById("div"+question);                        
+            var aSpan = document.createElement("span");
+            aSpan.setAttribute('onClick', "deleteAnswer("+answerCounter+")");                        
+            aSpan.setAttribute('id', "deleteIcon");
+            aSpan.innerHTML = "   ×";                        
+            aDiv.appendChild(title);
+            aDiv.appendChild(ans);
+            aDiv.appendChild(aSpan);
+            div.appendChild(aDiv);
 
-                    break;			
-		case 'RadioButtons':
-                //create new answer field
-			//console.log("Radio Buttons Selected");
-                        var aDiv = document.createElement("div")
-                        aDiv.setAttribute('id', "ansDiv"+answerCounter);
-			var title = document.createTextNode("Answer: ");	
-			var ans = document.createElement("input");
-			ans.setAttribute('type',"text");
-			ans.setAttribute('name', "answer"+question);	
-			ans.setAttribute('id', "ans"+question);
-                        ans.setAttribute("class","textbox");
-                        ans.setAttribute("placeholder", "Enter Answer");
-			var div = document.getElementById("div"+question);                        
-                        var aSpan = document.createElement("span");
-                        aSpan.setAttribute('onClick', "deleteAnswer("+answerCounter+")");                        
-                        aSpan.setAttribute('id', "deleteIcon");
-                        aSpan.innerHTML = "   ×";                        
-			aDiv.appendChild(title);
-			aDiv.appendChild(ans);
-                        aDiv.appendChild(aSpan);
-                        div.appendChild(aDiv);
-                        
-                        answerCounter++;
-                        
-			break;
-		
-		case 'OpenText':
-                //delete all answer fields
-			
-			break;		
-	}	
-	answerCounter++;	
+            answerCounter++;
+
+            break;			
+        case 'RadioButtons':
+            //create new answer field
+            //console.log("Radio Buttons Selected");
+            var aDiv = document.createElement("div")
+            aDiv.setAttribute('id', "ansDiv"+answerCounter);
+            var title = document.createTextNode("Answer: ");	
+            var ans = document.createElement("input");
+            ans.setAttribute('type',"text");
+            ans.setAttribute('name', "answer"+question);	
+            ans.setAttribute('id', "ans"+question);
+            ans.setAttribute("class","textbox");
+            ans.setAttribute("placeholder", "Enter Answer");
+            var div = document.getElementById("div"+question);                        
+            var aSpan = document.createElement("span");
+            aSpan.setAttribute('onClick', "deleteAnswer("+answerCounter+")");                        
+            aSpan.setAttribute('id', "deleteIcon");
+            aSpan.innerHTML = "   ×";                        
+            aDiv.appendChild(title);
+            aDiv.appendChild(ans);
+            aDiv.appendChild(aSpan);
+            div.appendChild(aDiv);
+
+            answerCounter++;
+
+            break;        		
+    }	
+    answerCounter++;	
 }
 
+/**
+ * creates a javascript object that can be used when generating the xml
+ * @param {type} question
+ * @returns {undefined}
+ */
 function createQuestionObj(question)
 {
     try{
-	var questionText = document.getElementById("question"+question).value;
-        //console.log(questionText);
-	var answerType = document.getElementById("dropDown" + question).value;	
-	//console.log(answerType);	
-	/*if(answerType === "RadioButtons")
-        {
-            questionText += "     (choose one)";
-        }
-        else if(answerType === "CheckBox")
-        {
-            questionText += "     (choose all that apply)";
-        }*/
-       
+	var questionText = document.getElementById("question"+question).value;        
+	var answerType = document.getElementById("dropDown" + question).value;      
         var required = true;
 	var answers = document.getElementsByName("answer"+question);
 	var ansValue = new Array;
 	for(i = 0; i < answers.length; i++)
 	{
 		ansValue[i] = answers[i].value;
-	}
-	
-	var Question = {question: questionText,answers: ansValue, required: required, type: answerType};
-	
+	}	
+	var Question = {question: questionText,answers: ansValue, required: required, type: answerType};	
 	questionsArray.push(Question);  
         console.log("question added");
     }catch(e)
@@ -108,6 +105,10 @@ function createQuestionObj(question)
     }	
 }
 
+/**
+ * constructs the xml string
+ * @returns {Boolean}
+ */
 function constructString()
 {
     var allQuestionsFilled = checkQuestionText();
@@ -132,30 +133,30 @@ function constructString()
 	temp += '\t\t<questions>\n';
 	for(i = 0; i < questionsArray.length; i++)
 	{            
-		temp += '\t\t\t<question>\n';
-		temp += '\t\t\t\t<questionText>' + questionsArray[i].question +'</questionText>\n';
-		temp += '\t\t\t\t<questionType>' + questionsArray[i].type + '</questionType>\n';
-		temp += '\t\t\t\t<answers>\n';
-		if(questionsArray[i].type == 'OpenText')
-		{
-			//no answers for open text
-		}
-		else{
-			for(j = 0; j < questionsArray[i].answers.length; j++)
-			{
-                            if(questionsArray[i].answers[j] !== "")
-                            {
-				temp += '\t\t\t\t\t<answerText>' + questionsArray[i].answers[j] + '</answerText>\n';
-                            }
-                            else
-                            {
-                                console.log("Empty Answer Field");
-                            }
-			}
-		}
-		temp += '\t\t\t\t</answers>\n';		
-		temp += '\t\t\t\t<required>' + questionsArray[i].required + '</required>\n';		
-		temp += '\t\t\t</question>\n';
+            temp += '\t\t\t<question>\n';
+            temp += '\t\t\t\t<questionText>' + questionsArray[i].question +'</questionText>\n';
+            temp += '\t\t\t\t<questionType>' + questionsArray[i].type + '</questionType>\n';
+            temp += '\t\t\t\t<answers>\n';
+            if(questionsArray[i].type == 'OpenText')
+            {
+                    //no answers for open text
+            }
+            else{
+                    for(j = 0; j < questionsArray[i].answers.length; j++)
+                    {
+                        if(questionsArray[i].answers[j] !== "")
+                        {
+                            temp += '\t\t\t\t\t<answerText>' + questionsArray[i].answers[j] + '</answerText>\n';
+                        }
+                        else
+                        {
+                            console.log("Empty Answer Field");
+                        }
+                    }
+            }
+            temp += '\t\t\t\t</answers>\n';		
+            temp += '\t\t\t\t<required>' + questionsArray[i].required + '</required>\n';		
+            temp += '\t\t\t</question>\n';
 	}
 	temp += '\t\t</questions>\n';
 	temp += '</survey>';	
@@ -168,97 +169,130 @@ function constructString()
 }
 
 
-
+/**
+ * creates the question box that can be filled by the user
+ * @returns {undefined}
+ */
 function createQuestion()
 {
-	var newQ ='<br><form><input id="question'+questionCounter+'"type="text" name="questionText" class="questiontext" placeholder="Enter Question Here">';
-		newQ +='<select id="dropDown'+questionCounter+'" onchange="removeAllAnswers('+questionCounter+')" name="qType">';
-		newQ +='<option value="RadioButtons">Radio Button</option>';
-		newQ +='<option value="ScoreRange">Score Range</option>';
-		newQ +='<option value="CheckBox">Check Box</option>';
-		newQ +='<option value="OpenText">Open Text</option>';
-		/*newQ +='</select><select id="required'+questionCounter+'" name="Required">';
-		newQ +='<option value="yes">Yes</option>';
-		newQ +='<option value="no">No</option>'	;	*/	
-		newQ +='</select>';
-                newQ +='<button onclick="deleteQuestion('+questionCounter+')" type="button" name="deleteQ">Delete Question</button>';
-                newQ +='</form>';
-		newQ +='<button id="createAnswer'+questionCounter+'" onclick="createAnswer('+questionCounter+')" type="button" name="createQ">Create Answer</button>';
-		//newQ +='<button onclick="createQuestionObj('+questionCounter+')" type="button" name="saveQuestion">Save Question</button>'
-		
-		//var newDiv ='<div id="div'+(questionCounter + 1)+'"></div>'
-		var newDivE = document.createElement("div");
-		newDivE.setAttribute('id', "div"+(parseInt(questionCounter) + 1));
-                newDivE.setAttribute("class","questions");
-                newDivE.setAttribute("style","display:none");
-		
-                //insert html into empty div
-                var nextDiv = document.getElementById("div" + questionCounter);
-		nextDiv.innerHTML = newQ;
-                nextDiv.removeAttribute("style");
-		var body = document.getElementsByTagName("body")[0];
-		body.appendChild(newDivE);
-		
-		
-                
-                //window.scrollTo(0,document.body.scrollHeight);
-                
-                $('html, body').animate({
-                    scrollTop: $("#div"+questionCounter).offset().top
-                 }, 750);
+    var newQ ='<br><form><input id="question'+questionCounter+'"type="text" name="questionText" class="questiontext" placeholder="Enter Question Here">';
+    newQ +='<select id="dropDown'+questionCounter+'" onchange="removeAllAnswers('+questionCounter+')" name="qType">';
+    newQ +='<option value="RadioButtons">Radio Button</option>';
+    newQ +='<option value="ScoreRange">Score Range</option>';
+    newQ +='<option value="CheckBox">Check Box</option>';
+    newQ +='<option value="OpenText">Open Text</option>';			
+    newQ +='</select>';
+    newQ +='<button onclick="deleteQuestion('+questionCounter+')" type="button" name="deleteQ">Delete Question</button>';
+    newQ +='</form>';
+    newQ +='<button id="createAnswer'+questionCounter+'" onclick="createAnswer('+questionCounter+')" type="button" name="createQ">Create Answer</button>';
 
-                questionCounter++;
+    var newDivE = document.createElement("div");
+    newDivE.setAttribute('id', "div"+(parseInt(questionCounter) + 1));
+    newDivE.setAttribute("class","questions");
+    newDivE.setAttribute("style","display:none");
+
+    //insert html into empty div
+    var nextDiv = document.getElementById("div" + questionCounter);
+    nextDiv.innerHTML = newQ;
+    nextDiv.removeAttribute("style");
+    var body = document.getElementsByTagName("body")[0];
+    body.appendChild(newDivE);
+
+    $('html, body').animate({
+        scrollTop: $("#div"+questionCounter).offset().top
+     }, 750);
+
+    questionCounter++;
 }
 
+/**
+ * removes a question from the page
+ * @param {type} questionNum
+ * @returns {undefined}
+ */
 function deleteQuestion(questionNum)
 {
     var questionDiv = document.getElementById("div" + questionNum);
     questionDiv.parentNode.removeChild(questionDiv);
 }
 
+/**
+ * removes an answer from a uestion
+ * @param {type} ansNum
+ * @returns {undefined}
+ */
 function deleteAnswer(ansNum)
 {
     var aDiv = document.getElementById("ansDiv"+ ansNum);
     aDiv.parentNode.removeChild(aDiv);
 }
 
+/**
+ * Defines a Question object
+ * @type type
+ */
 class Question
-{	
-	
-	constructor(question, answers, required, type)
-	{
-		this.question = question;
-		for(i = 0; i < answers.length; i++)
-		{
-			this.answers[i] = answers[i];
-		}
-		this.required = required;
-		this.type = type;
-	}
-	
-	get question()
-	{
-		return this.question;
-	}
-	
-	get answers()
-	{
-		return this.answers;
-	}
-	
-	get required()
-	{
-		return this.required;
-	}
-	
-	get type()
-	{
-		return this.type;
-	}
-	
+{		
+    /**
+     * constructor for class
+     * @param {type} question
+     * @param {type} answers
+     * @param {type} required
+     * @param {type} type
+     * @returns {Question}
+     */    
+    constructor(question, answers, required, type)
+    {
+            this.question = question;
+            for(i = 0; i < answers.length; i++)
+            {
+                    this.answers[i] = answers[i];
+            }
+            this.required = required;
+            this.type = type;
+    }
+    
+    /**
+     * getter for question
+     * @type type
+     */
+    get question()
+    {
+        return this.question;
+    }
+    
+    /**
+     * getter for answers
+     * @type type
+     */
+    get answers()
+    {
+        return this.answers;
+    }
+    
+    /**
+     * getter for required
+     * @type type
+     */
+    get required()
+    {
+        return this.required;
+    }
+    
+    /**
+     * getter for type
+     * @type type
+     */
+    get type()
+    {
+        return this.type;
+    }	
 }
 
-
+/**
+ * checks that all questions field have been completed
+ * @returns {Boolean}
+ */
 function checkQuestionText()
 {    
     var toReturn = true;
@@ -320,6 +354,11 @@ function checkQuestionText()
     return toReturn;    
 }
 
+/**
+ * removes all answer fields of a given question
+ * @param {type} questionNum
+ * @returns {undefined}
+ */
 function removeAllAnswers(questionNum) {
     
     var elementVal = document.getElementsByName("answer"+questionNum);
