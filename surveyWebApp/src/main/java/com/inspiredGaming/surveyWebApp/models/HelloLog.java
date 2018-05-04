@@ -27,6 +27,10 @@ public class HelloLog {
     private Date timestamp;
     private int uid;
     
+    /**
+     * Constructor for the class
+     * @param name 
+     */
     public HelloLog(String name)
     {
         this.name = name;

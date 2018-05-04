@@ -31,6 +31,10 @@ public class EmailGroups {
     
     private Date dateCreated;
 
+    /**
+     * constuctor for the email groups.
+     * @param groupName 
+     */
     public EmailGroups(String groupName) {
         this.groupName = groupName;
         dateCreated = new Date();

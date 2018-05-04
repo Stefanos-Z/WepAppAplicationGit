@@ -65,7 +65,6 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-
 /**
  * Contains controllers to handle HTTP requests for bulk of website.
  * @authors     DALLOS
@@ -107,16 +106,15 @@ public class DallosController {
     
     @Autowired
     private EmailGroupsDao emailGroupsDao;
-    //Dependancy injection used by Spring
-    //Needed because the interface instance is not manually coded   
-    
-    
+        
     ServletContext servletContext;
     
     
-    
-    
-    
+    /**
+     * Returns the surveyBuilder page
+     * @param request
+     * @return 
+     */
     @RequestMapping(value = "/surveyBuilder", method = RequestMethod.GET)
     //@ResponseBody //just for passing a string instead of a template
     public String surveyBuilderForm(HttpServletRequest request)
@@ -126,6 +124,12 @@ public class DallosController {
         return "sLogin";
     }
     
+    /**
+     * Returns the user_admin page. 
+     * @param request
+     * @param model
+     * @return 
+     */
     @RequestMapping(value = "/user_admin", method = RequestMethod.GET)
     //@ResponseBody //just for passing a string instead of a template
     public String userAdmin(HttpServletRequest request, Model model)
@@ -144,7 +148,11 @@ public class DallosController {
     }
     
     
-    
+    /**
+     * Returns the landing page.
+     * @param request
+     * @return 
+     */
     @RequestMapping(value = "/landing", method = RequestMethod.GET)
     //@ResponseBody //just for passing a string instead of a template
     public String landingForm(HttpServletRequest request)
@@ -154,6 +162,12 @@ public class DallosController {
         return "sLogin";
     }
     
+    
+    /**
+     * Returns the landing page for admin users.
+     * @param request
+     * @return 
+     */
     @RequestMapping(value = "/landingAdmin", method = RequestMethod.GET)
     //@ResponseBody //just for passing a string instead of a template
     public String landingFormAdmin(HttpServletRequest request)
@@ -163,6 +177,12 @@ public class DallosController {
         return "sLogin";
     }
     
+    /**
+     * Handles a post request to the survey builder page & uploads new survey to database.
+     * @param request
+     * @param model
+     * @return 
+     */
     @RequestMapping(value = "/surveyBuilder", method = RequestMethod.POST)
     public ModelAndView surveyBuilder(HttpServletRequest request, Model model)
     {
@@ -271,46 +291,14 @@ public class DallosController {
         }
         
         return new ModelAndView("redirect:/survey_results");
-    }
+    }  
     
-    
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public String helloForm()
-    {
-        return "helloform";
-    }
-    
-    @RequestMapping(value = "/respondent", method = RequestMethod.GET)
-    public String respondentForm()
-    {
-        return "survey";
-    }
-    
-    
-    
-    @RequestMapping(value = "/hello", method = RequestMethod.POST)
-    //@ResponseBody //just for passing a string instead of a template
-    public String hello(HttpServletRequest request, Model model)
-    {
-        String name = request.getParameter("name");
-        
-        //handle null values
-        if(name==null)
-        {
-            name = "world";
-        }
-        
-        HelloLog log = new HelloLog(name);
-        helloLogDao.save(log);
-        
-        model.addAttribute("message", HelloMessage.getMessage(name));
-        model.addAttribute("title","Helooo Spring");
-        
-        return "hello";//"<h1>"+HelloMessage.getMessage(name)+"</h1>";
-    }
-   
-    
-    
+    /**
+     * Returns the survey for a respondent & validates unique key.
+     * @param request
+     * @param model
+     * @return 
+     */
     @RequestMapping(value = "/survey", method = RequestMethod.GET)
     //@ResponseBody //just for passing a string instead of a template
     public String survey(HttpServletRequest request, Model model)
@@ -353,6 +341,13 @@ public class DallosController {
         }
     }
     
+    /**
+     * Handles the submission of a survey by a respondent.
+     * @param request
+     * @param model
+     * @return
+     * @throws MessagingException 
+     */
     @RequestMapping(value = "/survey", method = RequestMethod.POST)
     public String surveySubmit(HttpServletRequest request, Model model) throws MessagingException
     {
@@ -429,10 +424,16 @@ public class DallosController {
         return "confirmationPageSurvey";
     }
     
+    /**
+     * Returns a list of emails according to the group name supplied.
+     * @param request
+     * @param model
+     * @return 
+     */
     @RequestMapping(value = "/getemails", method = RequestMethod.POST)
     @ResponseBody
     public String getEmails(HttpServletRequest request, Model model)
-    { 
+    {
         String emailString = "";
         
         EmailGroups group = emailGroupsDao.findByGroupName(request.getParameter("groupName"));
@@ -447,6 +448,12 @@ public class DallosController {
         return emailString;
     }
     
+    /**
+     * Presents the group management page
+     * @param request
+     * @param model
+     * @return 
+     */
     @RequestMapping(value = "/groupmanagement", method = RequestMethod.GET)
     public String manageGroupsForm(HttpServletRequest request, Model model)
     {       
@@ -483,6 +490,14 @@ public class DallosController {
         return "uploademails";
     }
     
+    
+    /**
+     * Handles the saving/updating of emails on the group management page.
+     * @param request
+     * @param response
+     * @param model
+     * @return 
+     */
     @RequestMapping(value = "/groupmanagement", method = RequestMethod.POST, params="upload")
     public String manageGroupsSubmit(HttpServletRequest request,HttpServletResponse response, Model model)
     {        
@@ -575,6 +590,13 @@ public class DallosController {
     }
     
     
+    /**
+     * Handles the deletion of groups from the groupmanagement page.
+     * @param request
+     * @param response
+     * @param model
+     * @return 
+     */
     @RequestMapping(value = "/groupmanagement", method = RequestMethod.POST, params="delete")
     public String deleteGroupsSubmit(HttpServletRequest request,HttpServletResponse response, Model model)
     {
@@ -595,6 +617,13 @@ public class DallosController {
         model.addAttribute("button_url","location.href = '/groupmanagement'");
         return "confirmationPage";
     }
+    
+    /**
+     * returns the Survey overview page.
+     * @param request
+     * @param model
+     * @return 
+     */
     @RequestMapping(value = "/survey_results", method = RequestMethod.GET)
     //@ResponseBody //just for passing a string instead of a template
     public String surveyResults(HttpServletRequest request, Model model)
@@ -621,6 +650,12 @@ public class DallosController {
         return "sLogin";
     }
     
+    /**
+     * Returns the page of responses for a specific survey.
+     * @param request
+     * @param model
+     * @return 
+     */
     @RequestMapping(value = "/survey_results/responses", method = RequestMethod.GET)
     //@ResponseBody //just for passing a string instead of a template
     public String surveyResponses(HttpServletRequest request, Model model)
@@ -647,6 +682,12 @@ public class DallosController {
         return "sLogin";
     }
     
+    /**
+     * Returns the answers given by a specific respondent.
+     * @param request
+     * @param model
+     * @return 
+     */
     @RequestMapping(value = "/survey_results/responses/user", method = RequestMethod.GET)
     //@ResponseBody //just for passing a string instead of a template
     public String surveyIndividualResponses(HttpServletRequest request, Model model)
@@ -695,6 +736,12 @@ public class DallosController {
         return "sLogin";
     }
     
+    /**
+     * Handles the deletion of a survey from the survey overview page.
+     * @param request
+     * @return
+     * @throws IOException 
+     */
     @RequestMapping(value = "/deleteSurvey", method = RequestMethod.POST)
     public String testSubmit(HttpServletRequest request) throws IOException
     {
@@ -717,6 +764,12 @@ public class DallosController {
         return "hello";
     }
     
+    /**
+     * Returns the send emails page.
+     * @param request
+     * @param model
+     * @return 
+     */
     @RequestMapping(value = "/sendemails", method = RequestMethod.GET)
     public String sendemailsForm(HttpServletRequest request, Model model)
     {
@@ -751,6 +804,12 @@ public class DallosController {
         return "sendemails";
     }
     
+    /**
+     * Handles request to send survey to a specific group.
+     * @param request
+     * @param model
+     * @return 
+     */
     @RequestMapping(value = "/sendemails", method = RequestMethod.POST)
     public String sendEmailsSubmit(HttpServletRequest request, Model model)
     {
@@ -870,6 +929,12 @@ public class DallosController {
         return valid;
     }
     
+    /**
+     * Controller to handle requests to add users.
+     * @param request
+     * @param model
+     * @return 
+     */
     @RequestMapping(value = "/add_user", method = RequestMethod.POST)
     @ResponseBody //just for passing a string instead of a template
     public String addUser(HttpServletRequest request, Model model)
@@ -904,6 +969,13 @@ public class DallosController {
         return tb.getUsersTable(userlist);
     }
     
+    
+    /**
+     * Controller to handle requests to edit users.
+     * @param request
+     * @param model
+     * @return 
+     */
     @RequestMapping(value = "/edit_user", method = RequestMethod.POST)
     @ResponseBody //just for passing a string instead of a template
     public String editUser(HttpServletRequest request, Model model)
@@ -951,10 +1023,17 @@ public class DallosController {
         return tb.getUsersTable(userlist);
     }
     
+    /**
+     * Controller to handle requests to delete users.
+     * @param request
+     * @param model
+     * @return 
+     */
     @RequestMapping(value = "/delete_user", method = RequestMethod.POST)
     @ResponseBody //just for passing a string instead of a template
     public String deleteUser(HttpServletRequest request, Model model)
     {
+        
         if(!checkValidation(request,"ADMINISTRATOR"))
         {
             return "ERROR- INVALID USER ROLE";
@@ -978,7 +1057,12 @@ public class DallosController {
         return tb.getUsersTable(userlist);
     }
     
-    
+    /**
+     * Controller to handle requests to check username uniqueness.
+     * @param request
+     * @param model
+     * @return 
+     */
     @RequestMapping(value = "/check_username_uniqueness", method = RequestMethod.POST)
     @ResponseBody //just for passing a string instead of a template
     public String checkUsernameUniqueness(HttpServletRequest request, Model model)
@@ -1002,7 +1086,6 @@ public class DallosController {
         {
             return "duplicate";
         }
-         
         
     }
     

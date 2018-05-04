@@ -22,14 +22,19 @@ import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
 
 /**
- *
- * @author Levi
+ * Contains methods to build the HTML for a survey.
+ * @author      Levi Roque-Nunes
+ * @version     1
+ * @since       07/03/2018
  */
 public class HtmlBuilderSurvey {
     
     private Document doc;
     private Element form;
     
+    /**
+     * Constructor which creates a new doc object.
+     */
     public HtmlBuilderSurvey()
     {
         try {
@@ -46,10 +51,15 @@ public class HtmlBuilderSurvey {
         }
     }
     
+    /**
+     * The HTML for a single question to the DOM.
+     * @param question
+     * @param answers
+     * @param questionNumber 
+     */
     public void addQuestion(Questions question, List<Answers> answers,int questionNumber)
     {
         int questionTypeId = question.getQuestionTypeId();
-        
         
         //create div for new question
         Element div = doc.createElement("div");
@@ -106,6 +116,11 @@ public class HtmlBuilderSurvey {
         
     }
 
+    /**
+     * Helper method to convert an integer to an input attribute.
+     * @param questionType
+     * @return 
+     */
     private String getInputAttribute(int questionType)
     {
         String inputType = "";
@@ -133,6 +148,10 @@ public class HtmlBuilderSurvey {
         return inputType;
     }
 
+    /**
+     * Prints the DOM as a string.
+     * @return 
+     */
     public String getSurveyHTML()
     {
         //append submit Button

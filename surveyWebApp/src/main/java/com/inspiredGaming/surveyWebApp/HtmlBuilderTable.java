@@ -27,8 +27,10 @@ import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
 
 /**
- *
- * @author Levi
+ * Contains methods to build the HTML for all site's tables.
+ * @author      Levi Roque-Nunes
+ * @version     1
+ * @since       22/03/2018
  */
 public class HtmlBuilderTable {
         
@@ -368,7 +370,7 @@ public class HtmlBuilderTable {
     }
 
     /**
-     * Formats a list of users as a HTML table
+     * Formats a list of questions as a HTML table
      * @param users the list of users
      * @throws SQLException 
      */
@@ -422,7 +424,7 @@ public class HtmlBuilderTable {
     }
     
     /**
-     * Formats a list of answers as a HTML table
+     * Formats a list of text answers as a HTML table
      * @param users the list of users
      * @throws SQLException 
      */

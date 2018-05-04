@@ -5,10 +5,6 @@
  */
 package com.inspiredGaming.surveyWebApp.models;
 
-/**
- *
- * @author eeu823
- */
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -44,7 +40,12 @@ public class Answers {
     
     //private Set<Answers> answers = new HashSet<>();
 
-    
+    /**
+     * Constructor for the class.
+     * @param answer
+     * @param questions
+     * @param answerWeight 
+     */
     public Answers(String answer, Questions questions, Integer answerWeight) {
         this.answer = answer;
         this.questions = questions;
@@ -52,12 +53,17 @@ public class Answers {
     }
     
     
-    
+    //empty constructor is required by hibernate
     public Answers()
     {
         
     }
-        
+       
+    
+    /**
+     * returns answer_id
+     * @return 
+     */
     @Id
     @GeneratedValue //means hibernate will generate the value
     @NotNull
@@ -67,7 +73,10 @@ public class Answers {
         return answerId;
     }
     
-    
+    /**
+     * returns the answer object
+     * @return 
+     */
     @NotNull
     @Column(name="answer")
     public String getAnswer()
@@ -75,6 +84,10 @@ public class Answers {
         return answer;
     }
 
+    /**
+     * get questions
+     * @return 
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @JoinColumn(name = "questionId", nullable = false)
@@ -82,23 +95,43 @@ public class Answers {
         return questions;
     }
 
+    /**
+     * returns the answer weight.
+     * @return 
+     */
     @Column(name="answerWeight")
     public Integer getAnswerWeight() {
         return answerWeight;
     }
 
+    /**
+     * sets the answer id
+     * @param answerId 
+     */
     public void setAnswerId(int answerId) {
         this.answerId = answerId;
     }
 
+    /**
+     * sets the answer id
+     * @param answer 
+     */
     public void setAnswer(String answer) {
         this.answer = answer;
     }
 
+    /**
+     * sets the question
+     * @param questions 
+     */
     public void setQuestions(Questions questions) {
         this.questions = questions;
     }
 
+    /**
+     * sets the answerweight
+     * @param answerWeight 
+     */
     public void setAnswerWeight(Integer answerWeight) {
         this.answerWeight = answerWeight;
     }

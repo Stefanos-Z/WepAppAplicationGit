@@ -14,14 +14,21 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 /**
- *
- * @author Levi
+ * Contains methods to send email notifications.
+ * @author      Levi Roque-Nunes
+ * @version     1
+ * @since       10/03/2018
  */
 public class Email {
         
     private String emailAddress;
     private String url;
     
+    /**
+     * Constructor to create an email object.
+     * @param emailAddress
+     * @param url 
+     */
     public Email(String emailAddress, String url)
     {
         this.emailAddress = emailAddress;
