@@ -28,6 +28,10 @@ public class SurveyKeys {
     private boolean expired;
     private int surveyId;
     
+    /**
+     * constructor for class
+     * @param surveyId 
+     */
     public SurveyKeys(int surveyId)
     {
         keyId = UUID.randomUUID().toString();
@@ -40,13 +44,20 @@ public class SurveyKeys {
         //default
     }
     
-    
+    /**
+     * getter for expired
+     * @return 
+     */
     @Column(name="expired")
     public boolean getExpired()
     {
         return expired;
     }
     
+    /**
+     * getter for keyId
+     * @return 
+     */
     @Id
     @NotNull
     @Column(name="keyId", unique = true)
@@ -55,6 +66,10 @@ public class SurveyKeys {
         return keyId;
     }
     
+    /**
+     * getter for surveyId
+     * @return 
+     */
     @NotNull
     @Column(name="surveyId", unique = true)
     public int getSurveyId()
@@ -62,14 +77,26 @@ public class SurveyKeys {
         return surveyId;
     }
 
+    /**
+     * setter for surveyId
+     * @param surveyId 
+     */
     public void setSurveyId(int surveyId) {
         this.surveyId = surveyId;
     }
 
+    /**
+     * setter for keyId
+     * @param keyId 
+     */
     public void setKeyId(String keyId) {
         this.keyId = keyId;
     }
-
+    
+    /**
+     * setter for expired
+     * @param expired 
+     */
     public void setExpired(boolean expired) {
         this.expired = expired;
     }

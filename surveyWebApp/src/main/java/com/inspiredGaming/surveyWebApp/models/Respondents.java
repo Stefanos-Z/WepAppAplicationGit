@@ -29,6 +29,10 @@ public class Respondents {
     private int respondentId;
     private int surveyId;
     
+    /**
+     * constructor for the class
+     * @param surveyId 
+     */
     public Respondents(int surveyId)
     {
         //this.name = name;
@@ -42,7 +46,10 @@ public class Respondents {
         //needs to be empty for hibernate to work?
     }
     
-        
+    /**
+     * getter for respondentId
+     * @return 
+     */    
     @Id
     @GeneratedValue //means hibernate will generate the value
     @NotNull
@@ -52,29 +59,48 @@ public class Respondents {
         return respondentId;
     }
     
+    /**
+     * getter for surveyDate
+     * @return 
+     */
     @NotNull
     @Column(name="surveyDate")
     public Date getSurveyDate()
     {
         return surveyDate;
     }
-
+    
+    /**
+     * getter for surveyId
+     * @return 
+     */
     @NotNull
     @Column(name="surveyId")
     public int getSurveyId() {
         return surveyId;
     }
-
+    
+    /**
+     * setter for surveyId
+     * @param surveyId 
+     */
     public void setSurveyId(int surveyId) {
         this.surveyId = surveyId;
     }
     
-       
+    /**
+     * setter for surveyDate
+     * @param surveyDate 
+     */ 
     public void setSurveyDate(Date surveyDate)
     {
         this.surveyDate = surveyDate;
     }
     
+    /**
+     * setter for respondentId
+     * @param respondentId 
+     */
     public void setRespondentId(int respondentId)
     {
         this.respondentId=respondentId;
