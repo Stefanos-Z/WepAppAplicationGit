@@ -22,9 +22,23 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public interface QuestionsDao extends CrudRepository<Questions, Integer>{
     
+    /**
+     * getter for questions, returns all questions
+     * @return 
+     */
     public List<Questions> findAll();
     
+    /**
+     * getter for questions, returns questions by questionId
+     * @param questionId
+     * @return 
+     */    
     public Questions findByQuestionId(Integer questionId);
     
+    /**
+     * getter for questions, returns questions by surveyId
+     * @param surveyId
+     * @return 
+     */
     public List<Questions> findBySurveyId(Integer surveyId);
 }

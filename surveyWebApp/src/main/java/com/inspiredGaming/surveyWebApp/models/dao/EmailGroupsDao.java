@@ -17,9 +17,23 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface EmailGroupsDao extends CrudRepository<EmailGroups, Integer>
 {
+    /**
+     * getter for emailGroups, return all 
+     * @return 
+     */
     public List<EmailGroups> findAll();
     
+    /**
+     * getter for emailGroups, returns emailGroup by groupId
+     * @param groupID
+     * @return 
+     */    
     public EmailGroups findByGroupID(Integer groupID);
     
+    /**
+     * getter for emailGroups, returns emailGroup by groupName
+     * @param groupName
+     * @return 
+     */
     public EmailGroups findByGroupName(String groupName);
 }

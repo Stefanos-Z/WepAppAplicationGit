@@ -12,6 +12,15 @@ package com.inspiredGaming.surveyWebApp.models.dao;
  * @since       12/04/2018
  */
 public interface AnswerCount {
+    /**
+     * getter for answer
+     * @return 
+     */
     String getAnswer();
+    
+    /**
+     * getter for count
+     * @return 
+     */
     int getCount();
 }

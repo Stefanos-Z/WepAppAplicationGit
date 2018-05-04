@@ -26,12 +26,32 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public interface RespondentAnswersDao extends CrudRepository<RespondentAnswers, Integer>{
     
+    /**
+     * getter for respondentAnswers, return all
+     * @return 
+     */
     public List<RespondentAnswers> findAll();
     
+    /**
+     * getter for respondents, returns respondents by respondentAnswerId
+     * @param respondentAnswerId
+     * @return 
+     */
     public Respondents findByRespondentAnswerId(Integer respondentAnswerId);
     
+    /**
+     * getter for respondentAnswers, returns respondentAnswers by respondentId
+     * @param respondentId
+     * @return 
+     */
     public List<RespondentAnswers> findByRespondentId(Integer respondentId);
     
+    
+    /**
+     * getter for respondentAnswers, return respondentAnswers by answers
+     * @param answer
+     * @return 
+     */
     public List<RespondentAnswers> findByAnswers(Answers answer);
     
     
