@@ -33,7 +33,12 @@ public class RespondentAnswers {
     private String answerText;
     
     private Answers answers;
-    
+    /**
+     * constructor for the class
+     * @param answers
+     * @param respondentId
+     * @param answerText 
+     */
     public RespondentAnswers(Answers answers, int respondentId, String answerText)
     {
         this.answers = answers;
@@ -47,7 +52,10 @@ public class RespondentAnswers {
         //needs to be empty for hibernate to work?
     }
     
-        
+    /**
+    *  getter for respondentAnswerId
+    * @return 
+    */  
     @Id
     @GeneratedValue //means hibernate will generate the value
     @NotNull
@@ -57,7 +65,10 @@ public class RespondentAnswers {
         return respondentAnswerId;
     }
     
-    
+    /**
+     * getter for answers
+     * @return 
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @JoinColumn(name = "answerId", nullable = false)
@@ -66,6 +77,10 @@ public class RespondentAnswers {
         return answers;
     }
     
+    /**
+     * getter for respondentId
+     * @return 
+     */
     @NotNull
     @Column(name="respondentId")
     public int getRespondentId()
@@ -73,28 +88,47 @@ public class RespondentAnswers {
         return respondentId;
     }
     
-    
+    /**
+     * getter for answerText
+     * @return 
+     */
     @Column(name="answerText")
     public String getAnswerText()
     {
         return answerText;
     }
     
+    /**
+     * setter for resondentAnswerId
+     * @param respondentAnswerId 
+     */
     public void setRespondentAnswerId(int respondentAnswerId)
     {
         this.respondentAnswerId=respondentAnswerId;
     } 
     
+    /**
+     * setter for answers
+     * @param answers 
+     */
     public void setAnswers(Answers answers)
     {
         this.answers = answers;
     }
     
+    /**
+     * setter for respondentId
+     * @param respondentId 
+     */
     public void setRespondentId(int respondentId)
     {
         this.respondentId=respondentId;
     }
     
+    /**
+     * setter for answerText
+     * @param answerText 
+     */
     public void setAnswerText(String answerText)
     {
         this.answerText=answerText;

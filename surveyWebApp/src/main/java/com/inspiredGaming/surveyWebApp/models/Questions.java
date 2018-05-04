@@ -30,6 +30,13 @@ public class Questions {
     private int questionTypeId;
     private int surveyId;
     
+    /**
+     * constructor for the class
+     * @param question
+     * @param questionTypeId
+     * @param surveyId 
+     */
+    
     public Questions(String question, int questionTypeId, int surveyId)
     {
         this.question = question;
@@ -42,7 +49,10 @@ public class Questions {
         //needs to be empty for hibernate to work
     }
     
-        
+     /**
+      * getter for questionid
+      * @return 
+      */
     @Id
     @GeneratedValue 
     @NotNull
@@ -52,7 +62,10 @@ public class Questions {
         return questionId;
     }
     
-    
+    /**
+     * getter for question
+     * @return 
+     */
     @NotNull
     @Column(name="question")
     public String getQuestion()
@@ -60,6 +73,10 @@ public class Questions {
         return question;
     }
     
+    /**
+     * getter for questionTypeId
+     * @return 
+     */
     @NotNull
     @Column(name="questionTypeId")
     public int getQuestionTypeId()
@@ -67,25 +84,44 @@ public class Questions {
         return questionTypeId;
     }
     
-    
+    /**
+     * getter for surveyId
+     * @return 
+     */
     @Column(name="surveyId")
     public int getSurveyId()
     {
         return surveyId;
     }
 
+    /**
+     * getter for questionId
+     * @param questionId 
+     */
     public void setQuestionId(int questionId) {
         this.questionId = questionId;
     }
 
+    /**
+     * setter for question
+     * @param question 
+     */
     public void setQuestion(String question) {
         this.question = question;
     }
 
+    /**
+     * setter for questionTypeId
+     * @param questionTypeId 
+     */
     public void setQuestionTypeId(int questionTypeId) {
         this.questionTypeId = questionTypeId;
     }
 
+    /**
+     * setter for surveyId
+     * @param surveyId 
+     */
     public void setSurveyId(int surveyId) {
         this.surveyId = surveyId;
     }

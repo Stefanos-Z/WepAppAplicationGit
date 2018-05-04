@@ -28,6 +28,11 @@ public class StaffEmails {
     private int staffId;
     private int groupID;
 
+    /**
+     * constructor for class
+     * @param email
+     * @param groupID 
+     */
     public StaffEmails(String email, int groupID) {
         this.email = email;
         this.groupID = groupID;
@@ -37,15 +42,23 @@ public class StaffEmails {
     
     public StaffEmails()
     {
-        //needs to be empty for hibernate to work?
+        //needs to be empty for hibernate to work
     }
     
+    /**
+     * getter for email
+     * @return 
+     */
     @Column(name="email")
     public String getEmail()
     {
         return email;
     }
     
+    /**
+     * getter for staffId
+     * @return 
+     */
     @Id
     @GeneratedValue //means hibernate will generate the value
     @NotNull
@@ -55,6 +68,10 @@ public class StaffEmails {
         return staffId;
     }
     
+    /**
+     * getter for groupId
+     * @return 
+     */
     @NotNull
     @Column(name="groupID")
     public int getGroupID()
@@ -62,14 +79,26 @@ public class StaffEmails {
         return groupID;
     }
 
+    /**
+     * setter for email
+     * @param email 
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     * setter for staffid
+     * @param staffId 
+     */
     public void setStaffId(int staffId) {
         this.staffId = staffId;
     }
 
+    /**
+     * setter for groupId
+     * @param groupID 
+     */
     public void setGroupID(int groupID) {
         this.groupID = groupID;
     }

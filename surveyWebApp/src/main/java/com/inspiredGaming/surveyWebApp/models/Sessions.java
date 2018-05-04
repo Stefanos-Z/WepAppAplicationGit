@@ -35,6 +35,10 @@ public class Sessions {
     private int userId;
 
     private Date expiryTime;
+    /**
+     * constructor for class
+     * @param userId 
+     */
     public Sessions(int userId) {
         sessionId = UUID.randomUUID().toString();
         this.userId = userId;
@@ -49,9 +53,13 @@ public class Sessions {
 
     public Sessions()
     {
-        
+        //needed for hibernate 
     }
         
+    /**
+     * getter for sessionId
+     * @return 
+     */
     @Id
     @NotNull
     @Column(name="sessionId", unique = true)
@@ -60,7 +68,10 @@ public class Sessions {
         return sessionId;
     }
     
-    
+    /**
+     * getter for userId
+     * @return 
+     */
     @NotNull
     @Column(name="userId")
     public int getUserId()
@@ -68,6 +79,10 @@ public class Sessions {
         return userId;
     }
     
+    /**
+     * getter for exiryTime
+     * @return 
+     */
     @NotNull
     @Column(name="expiryDate")
     public Date getExpiryTime()
@@ -75,14 +90,26 @@ public class Sessions {
         return expiryTime;
     }
 
+    /**
+     * setter for sessionId
+     * @param sessionId 
+     */
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }
-
+    
+    /**
+     * setter for userId
+     * @param userId 
+     */
     public void setUserId(int userId) {
         this.userId = userId;
     }
-
+    
+    /**
+     * setter for expiryTime
+     * @param expiryTime 
+     */
     public void setExpiryTime(Date expiryTime) {
         this.expiryTime = expiryTime;
     }
