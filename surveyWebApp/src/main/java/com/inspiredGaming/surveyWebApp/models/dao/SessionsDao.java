@@ -18,8 +18,17 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface SessionsDao extends CrudRepository<Sessions, String>
 {
+    /**
+     * Gets all Sessions from the database
+     * @return a list of Sessions
+     */
     public List<Sessions> findAll();
     
+    /**
+     * Gets a session base on 
+     * @param sessionId the id of the particular session
+     * @return the Sessions
+     */
     public Sessions findBySessionId(String sessionId);
 
 }

@@ -22,9 +22,23 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public interface RespondentsDao extends CrudRepository<Respondents, Integer>{
     
+    /**
+     * Gets all respondents in the database 
+     * @return a list of all respondents
+     */
     public List<Respondents> findAll();
     
+    /**
+     * Gets a respondent  on the database based on
+     * @param respondentId the id of the respondent
+     * @return a Respondents
+     */
     public Respondents findByRespondentId(Integer respondentId);
     
+    /**
+     * Gets a list of respondents from the database based 
+     * @param surveyId the surveys ID
+     * @return return a list of respondent
+     */
     public List<Respondents> findBySurveyId(Integer surveyId);
 }

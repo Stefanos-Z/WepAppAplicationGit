@@ -23,10 +23,24 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public interface StaffEmailsDao extends CrudRepository<StaffEmails, Integer>{
     
+    /**
+     * Gets all Staff emails
+     * @return a list of StaffEmails
+     */
     public List<StaffEmails> findAll();
     
+    /**
+     * Gets a Staff's email 
+     * @param staffId the staff's id
+     * @return a StaffEmails
+     */
     public StaffEmails findByStaffId(Integer staffId);
     
+    /**
+     * Gets a list of staff emails
+     * @param groupID the group id of the emails
+     * @return a list of StaffEmails
+     */
     public List<StaffEmails> findByGroupID(Integer groupID);
     
     

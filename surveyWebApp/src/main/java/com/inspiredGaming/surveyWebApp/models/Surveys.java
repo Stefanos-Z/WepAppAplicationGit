@@ -34,9 +34,9 @@ public class Surveys {
     private Date creationDate;
     
     /**
-     * 
-     * @param surveyName
-     * @param users 
+     * Main Constructor For survey 
+     * @param surveyName the name of the survey
+     * @param users the user of the survey (creator)
      */
     public Surveys(String surveyName, Users users)
     {
@@ -45,12 +45,18 @@ public class Surveys {
         this.creationDate = new Date();
     }
     
+    /**
+     * default constructor for hibernate to work
+     */
     public Surveys()
     {
         //needs to be empty for hibernate to work
     }
     
-        
+    /**
+     * Gets a Surveys id
+     * @return the id of the survey 
+     */    
     @Id
     @GeneratedValue 
     @NotNull
@@ -60,7 +66,10 @@ public class Surveys {
         return surveyId;
     }
     
-    
+    /**
+     * Gets the name of a survey
+     * @return the surveys name
+     */
     @NotNull
     @Column(name="surveyName")
     public String getSurveyName()
@@ -68,6 +77,10 @@ public class Surveys {
         return surveyName;
     }
     
+    /**
+     * Gets the user of which created this survey
+     * @return an instance of a Users
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @JoinColumn(name = "userId", nullable = false)
@@ -76,25 +89,44 @@ public class Surveys {
         return users;
     }
     
-    
+    /**
+     * Gets the creation date of a survey
+     * @return the creation date 
+     */
     @Column(name="creationDate")
     public Date getCreationDate()
     {
         return creationDate;
     }
 
+    /**
+     * Sets the surveysID to
+     * @param surveyId the new surveys ID
+     */
     public void setSurveyId(int surveyId) {
         this.surveyId = surveyId;
     }
 
+    /**
+     * Sets the survey name of the survey
+     * @param surveyName the new name of the survey
+     */
     public void setSurveyName(String surveyName) {
         this.surveyName = surveyName;
     }
 
+    /**
+     * Sets the Users(-creator) of this survey 
+     * @param users the new Users
+     */
     public void setUsers(Users users) {
         this.users = users;
     }
 
+    /**
+     * sets the creation date of this survey 
+     * @param creationDate the new creation date of this survey
+     */
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }    

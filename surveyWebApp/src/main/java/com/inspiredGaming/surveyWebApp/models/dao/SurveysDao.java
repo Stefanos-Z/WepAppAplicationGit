@@ -22,8 +22,17 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public interface SurveysDao extends CrudRepository<Surveys, Integer>{
     
+    /**
+     * Gets all surveys from the database
+     * @return a list of surveys
+     */
     public List<Surveys> findAll();
     
+    /**
+     * Gets a Survey from the database
+     * @param surveyId the survey's id 
+     * @return the Survey
+     */
     public Surveys findBySurveyId(Integer surveyId);
     
 }
